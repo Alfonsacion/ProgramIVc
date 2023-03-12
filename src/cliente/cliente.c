@@ -28,6 +28,13 @@ void generarSalaA(){
 
         int numFilas = 5; 
         int numAsientosXFila = 8;
+        int filaElegida =1;
+        char letraAsientoElegido ='a';
+
+        /*printf("Introduce tu asiento: \n");
+        scanf("%d %c", &filaElegida, &letraAsientoElegido);
+        printf("Your number is: %d", filaElegida);
+        printf("Your number is: %c", letraAsientoElegido);*/
 
         char **salaA;
         salaA = (char**)malloc(sizeof(char*)*numFilas);
@@ -53,7 +60,17 @@ void generarSalaA(){
         for (i2=0; i2<numAsientosXFila; i2++){
                 printf("   %c     ", i2 + 65 );
 
+                if (i2 == 3){
+
+                    
+
+
+                }
+
             }
+
+        
+
  
 
 
@@ -62,6 +79,16 @@ void generarSalaA(){
         //Alonso - falta liberar los mallocs al final
 
 
+
+
+}
+
+void elegirAsiento(){
+
+    int testInteger;
+    printf("Enter an integer: \n ");
+    scanf("%d", &testInteger);  
+    printf("Number = %d",testInteger);
 
 
 }
