@@ -2,7 +2,9 @@
 #define _CLIENTE_H_
 #include "cliente.c"
 
-void generarSalaA();
+void generarSalaA(int *filaElegida, char *letraAsientoElegido);
+void elegirAsiento(int *filaElegida, char *letraAsientoElegido);
+
 
 
 #endif

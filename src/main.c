@@ -6,7 +6,23 @@
 void main(void)
 {
 
-	generarSalaA();
+	int *filaElegida;
+    char *letraAsientoElegido;
+
+	elegirAsiento(filaElegida, letraAsientoElegido);
+
+	printf("\n    desde el main es:    %d       \n", &filaElegida);
+	printf("\n    desde el main es:    %d       \n", filaElegida);
+
+	
+	//printf("\n    desde el main es:    %d       \n", *filaElegida);
+	
+
+	generarSalaA(filaElegida, letraAsientoElegido);
+	elegirAsiento(filaElegida, letraAsientoElegido);
+
+
+  
 
 
 }

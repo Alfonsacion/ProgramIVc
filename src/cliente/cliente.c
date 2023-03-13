@@ -1,8 +1,9 @@
 #include "cliente.h"
 
-void generarSalaA(){
+void generarSalaA(int *filaElegida, char *letraAsientoElegido){
 
     	printf("Seleccione un asiento escribiendo su numero y letra: \n");
+        printf("\n        %d       \n", &filaElegida);
     	printf("Tenga en cuenta que los asientos marcados con 'X' no estan disponibles. \n ");
         printf("\n");
 
@@ -28,8 +29,8 @@ void generarSalaA(){
 
         int numFilas = 5; 
         int numAsientosXFila = 8;
-        int filaElegida =1;
-        char letraAsientoElegido ='a';
+        //int filaElegida =1;
+        //char letraAsientoElegido ='a';
 
         /*printf("Introduce tu asiento: \n");
         scanf("%d %c", &filaElegida, &letraAsientoElegido);
@@ -47,6 +48,7 @@ void generarSalaA(){
             printf("%c     ", *salaA[i]);
 
             for (i2=0; i2<numAsientosXFila; i2++){
+
                 salaA[i][i2] = 88;
                 printf("  [ %c ]  ", salaA[i][i2]);
 
@@ -76,19 +78,30 @@ void generarSalaA(){
 
 
 
-        //Alonso - falta liberar los mallocs al final
+        //Alonso - falta liberar los mallocs al final y los valores del asiento elegido (creo)
 
 
 
 
 }
 
-void elegirAsiento(){
+void elegirAsiento(int *filaElegida, char *letraAsientoElegido){
 
-    int testInteger;
-    printf("Enter an integer: \n ");
-    scanf("%d", &testInteger);  
-    printf("Number = %d",testInteger);
+    //int filaElegida;
+    //char letraAsientoElegido;
+
+    printf("\n");
+    printf("Introduce tu asiento: \n");
+    scanf("%d %c", &filaElegida+6, &letraAsientoElegido);
+    printf("Has elegido el asiento: %d%c", filaElegida, letraAsientoElegido);
+
+    printf("\n    desde el clt es:    %d       \n", &filaElegida+6);
+	printf("\n    desde el clt es:    %d       \n", filaElegida);
+	//printf("\n    desde el clt es:    %d       \n", *filaElegida);
+
+
+    
+
 
 
 }
