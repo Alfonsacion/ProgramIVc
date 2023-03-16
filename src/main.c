@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include "sqlite3.h"
 
 #include "cliente\cliente.h"
 
@@ -27,6 +28,13 @@ void main(void)
 
 			 }
 		}
+
+	sqlite3 *db = NULL;
+	const char *filename = ;//Ruta de la bd cuando la hagamos 
+
+	if (sqlite3_open(filename, &db) != SQLITE_OK){
+		return gestionaError(db);
+	}
 		
 }
 	
