@@ -23,10 +23,6 @@ void generarSalaA(int *filaElegida, char *letraAsientoElegido){
 
             for (i2=0; i2<numAsientosXFila; i2++){
 
-                /*printf("  [ %d ]  ", *filaElegida);
-                printf("  [ %c ]  ", *letraAsientoElegido);
-                printf("  [  ES %d ]  ", *letraAsientoElegido -64);*/
-
                 if (i2 == (int) *letraAsientoElegido -65){
                     if (i == *filaElegida -1){
                         salaA[i][i2] = 87;
