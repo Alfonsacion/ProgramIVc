@@ -26,14 +26,14 @@ void generarSalaA(AsientoElegido *arrayAsientosElegidos){
 
                 if (i2 == (int) arrayAsientosElegidos[0].letraAsientoElegido -65){
                     if (i == arrayAsientosElegidos[0].filaElegida -1){
-                        salaA[i][i2] = 87;
+                        salaA[i][i2] = 88;
 
                     }else{
-                            salaA[i][i2] = 88;
+                            salaA[i][i2] = 45;
                     }
 
                 }else{            
-                        salaA[i][i2] = 88;
+                        salaA[i][i2] = 45;
                     }
                 
 
@@ -65,12 +65,12 @@ void generarSalaA(AsientoElegido *arrayAsientosElegidos){
 
 }
 
-void elegirAsiento(AsientoElegido *arrayAsientosElegidos){
+void elegirAsiento(AsientoElegido *arrayAsientosElegidos, int numEntradasSeleccionadas){
 
     printf("\n");
     printf("Introduce tu asiento: \n");
 
-    scanf("%d %c", &arrayAsientosElegidos[0].filaElegida, &arrayAsientosElegidos[0].letraAsientoElegido);
+    scanf("%d %c", &arrayAsientosElegidos[numEntradasSeleccionadas].filaElegida, &arrayAsientosElegidos[numEntradasSeleccionadas].letraAsientoElegido);
 
     fflush(stdin);
     printf("\n      \n");

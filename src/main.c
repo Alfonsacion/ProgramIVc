@@ -5,30 +5,38 @@
 
 void main(void)
 {
+	int numEntradas = 3;
+	int numEntradasSeleccionadas = 0;	
 
 	AsientoElegido *arrayAsientosElegidos;
-	arrayAsientosElegidos = malloc(5*sizeof(AsientoElegido));
-	arrayAsientosElegidos[0].filaElegida = 3;
-    arrayAsientosElegidos[0].letraAsientoElegido = 'C';
+	arrayAsientosElegidos = malloc(numEntradas*sizeof(AsientoElegido));
 
-	printf("El valor del array es %d%c", arrayAsientosElegidos[1].filaElegida, arrayAsientosElegidos[1].letraAsientoElegido);
+	generarSalaA(arrayAsientosElegidos);
 
-	printf("\n      \n");
-	printf("\n    valor desde el main es:    %d       \n", arrayAsientosElegidos[1].filaElegida);
-	printf("\n    letra desde el main es:    %c     \n", arrayAsientosElegidos[1].letraAsientoElegido);
-	printf("\n      \n");
+	for (numEntradasSeleccionadas = 0; numEntradasSeleccionadas < numEntradas; numEntradasSeleccionadas++)
+	{
+		elegirAsiento(arrayAsientosElegidos,numEntradasSeleccionadas);
+		generarSalaA(arrayAsientosElegidos);
+
+		int loop;
+
+   			for(loop = 0; loop < numEntradasSeleccionadas+1; loop++){
+
+     		 printf(" ARRAY %d ", arrayAsientosElegidos[loop].filaElegida);
+			 printf("ARRAY %c ", arrayAsientosElegidos[loop].letraAsientoElegido);
+
+			 }
+		}
+		
+}
 	
-
-	generarSalaA(arrayAsientosElegidos);
-	elegirAsiento(arrayAsientosElegidos);
-	generarSalaA(arrayAsientosElegidos);
 
 
 
   
 
 
-}
+
 
 
 

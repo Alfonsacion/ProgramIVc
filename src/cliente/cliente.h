@@ -7,7 +7,7 @@ typedef struct{
 	} AsientoElegido;
 
 void generarSalaA(AsientoElegido *arrayAsientosElegidos);
-void elegirAsiento(AsientoElegido *arrayAsientosElegidos);
+void elegirAsiento(AsientoElegido *arrayAsientosElegidos, int numEntradasSeleccionadas);
 
 
 
