@@ -6,25 +6,12 @@
 void main(void)
 {
 
-	typedef struct{
-		int filaElegida;
-		char letraAsientoElegido;
-	} AsientoElegido;
-
 	AsientoElegido *arrayAsientosElegidos;
 	arrayAsientosElegidos = malloc(5*sizeof(AsientoElegido));
-	arrayAsientosElegidos[1].filaElegida = 1;
-    arrayAsientosElegidos[1].letraAsientoElegido = 'A';
+	arrayAsientosElegidos[0].filaElegida = 3;
+    arrayAsientosElegidos[0].letraAsientoElegido = 'C';
 
 	printf("El valor del array es %d%c", arrayAsientosElegidos[1].filaElegida, arrayAsientosElegidos[1].letraAsientoElegido);
-
-	int *filaElegida;
-	filaElegida=malloc(sizeof(int));
-	*filaElegida = 1;
-
-    char *letraAsientoElegido;
-	letraAsientoElegido=malloc(sizeof(char));
-	*letraAsientoElegido ='A';
 
 	printf("\n      \n");
 	printf("\n    valor desde el main es:    %d       \n", arrayAsientosElegidos[1].filaElegida);
@@ -32,9 +19,9 @@ void main(void)
 	printf("\n      \n");
 	
 
-	generarSalaA(filaElegida, letraAsientoElegido);
-	elegirAsiento(filaElegida, letraAsientoElegido);
-	generarSalaA(filaElegida, letraAsientoElegido);
+	generarSalaA(arrayAsientosElegidos);
+	elegirAsiento(arrayAsientosElegidos);
+	generarSalaA(arrayAsientosElegidos);
 
 
 

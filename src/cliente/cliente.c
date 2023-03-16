@@ -2,7 +2,8 @@
 #include <stdio.h>
 #include<stdlib.h>
 
-void generarSalaA(int *filaElegida, char *letraAsientoElegido){
+
+void generarSalaA(AsientoElegido *arrayAsientosElegidos){
 
     	printf("///////////////Seleccione un asiento escribiendo su numero y letra: \n");
     	printf("Tenga en cuenta que los asientos marcados con 'X' no estan disponibles. \n ");
@@ -23,8 +24,8 @@ void generarSalaA(int *filaElegida, char *letraAsientoElegido){
 
             for (i2=0; i2<numAsientosXFila; i2++){
 
-                if (i2 == (int) *letraAsientoElegido -65){
-                    if (i == *filaElegida -1){
+                if (i2 == (int) arrayAsientosElegidos[0].letraAsientoElegido -65){
+                    if (i == arrayAsientosElegidos[0].filaElegida -1){
                         salaA[i][i2] = 87;
 
                     }else{
@@ -64,18 +65,16 @@ void generarSalaA(int *filaElegida, char *letraAsientoElegido){
 
 }
 
-void elegirAsiento(int *filaElegida, char *letraAsientoElegido){
+void elegirAsiento(AsientoElegido *arrayAsientosElegidos){
 
     printf("\n");
     printf("Introduce tu asiento: \n");
-    scanf("%d %c", filaElegida, letraAsientoElegido);
+
+    scanf("%d %c", &arrayAsientosElegidos[0].filaElegida, &arrayAsientosElegidos[0].letraAsientoElegido);
+
     fflush(stdin);
     printf("\n      \n");
-    printf("Has elegido el asiento: %d%c", *filaElegida, *letraAsientoElegido);
 
-	printf("\n      \n");
-	printf("\n    valor desde el cliente es:    %d       \n", *filaElegida);
-	printf("\n    letra desde el cliente es:    %c       \n", *letraAsientoElegido);
-	printf("\n      \n");
+    printf("Has elegido el asiento: %d%c", arrayAsientosElegidos[0].filaElegida, arrayAsientosElegidos[0].letraAsientoElegido);
 
 }
