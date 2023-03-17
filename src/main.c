@@ -4,7 +4,6 @@
 #include "../struct.h"
 #include "cliente\cliente.h"
 
-int suma(int a, int b);
 void main(void)
 {
 	int numEntradas = 3;
@@ -31,7 +30,7 @@ void main(void)
 		}
 
 	sqlite3 *db = NULL;
-	const char *filename = ; //Ruta de la bd cuando la hagamos 
+	const char *filename = ""; //Ruta de la bd cuando la hagamos 
 	Usuario *lista = NULL;
 	FILE *f = fopen("DatosUsuarios.txt", "r");
 	Usuario usuario;
@@ -48,15 +47,7 @@ void main(void)
 	while (!feof(f)){
 		fscanf(f, "%s;%d");
 	}
-
-	suma(2,4);
-
-		
-}
-
-int suma(int a, int b){
-
-return a+b;
+	
 }
 	
 
