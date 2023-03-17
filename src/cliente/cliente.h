@@ -6,7 +6,7 @@ typedef struct{
 		char letraAsientoElegido;
 	} AsientoElegido;
 
-void generarSalaA(AsientoElegido *arrayAsientosElegidos);
+void generarSalaA(AsientoElegido *arrayAsientosElegidos, int numEntradasSeleccionadas);
 void elegirAsiento(AsientoElegido *arrayAsientosElegidos, int numEntradasSeleccionadas);
 
 
