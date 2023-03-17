@@ -1,11 +1,13 @@
-#define _STRUCT_H_
 #ifndef _STRUCT_H_
+#define _STRUCT_H_
 
-typedef struct Usuario Usuario;
-struct Usuario{
-    char[10] nombre;
+
+typedef struct Usuario{
+    char nombre[10];
     int contraseyna;
-    Usuario *siguiente;
-};
+    struct Usuario* siguiente;
+}Usuario;
+
+
 
 #endif
