@@ -13,12 +13,12 @@ void main(void)
 	AsientoElegido *arrayAsientosElegidos;
 	arrayAsientosElegidos = malloc(numEntradas*sizeof(AsientoElegido));
 
-	generarSalaA(arrayAsientosElegidos);
+	generarSalaA(arrayAsientosElegidos, numEntradasSeleccionadas);
 
 	for (numEntradasSeleccionadas = 0; numEntradasSeleccionadas < numEntradas; numEntradasSeleccionadas++)
 	{
 		elegirAsiento(arrayAsientosElegidos,numEntradasSeleccionadas);
-		generarSalaA(arrayAsientosElegidos);
+		generarSalaA(arrayAsientosElegidos, numEntradasSeleccionadas);
 
 		int loop;
 
