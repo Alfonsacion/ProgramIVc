@@ -25,5 +25,13 @@ void main (void) {
         fprintf(stdout, "La tabla se ha creado correctamente\n");
     }
 
+    char *sql = "CREATE TABLE usuario (nombreUsuario TEXT PRIMARY KEY, password TEXT);";
+    baseDatos = sqlite3_exec(db, sql, NULL, 0, NULL);
+    if (baseDatos != SQLITE_OK) {
+    fprintf(stderr, "Error al crear la tabla: %s\n", sqlite3_errmsg(db));
+    sqlite3_close(db);
+    return 1;
+    }
+
     sqlite3_close(db);
 }
