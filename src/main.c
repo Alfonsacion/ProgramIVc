@@ -16,9 +16,9 @@ void main(void)
  	printf("Contrasena: ");
   	scanf("%s", contraseyna);
 
-	Usuario u = leeUsuario(nombreUsuario); //CREO QUE EL ERROR ES POR COMO ESTÁ DEFINIDA LA ESTRUCTURA PERO NO LO ENTIENDO
+	Usuario u = (Usuario)leeUsuario(nombreUsuario); //CREO QUE EL ERROR ES POR COMO ESTÁ DEFINIDA LA ESTRUCTURA PERO NO LO ENTIENDO
 	 if (strcmp(u.nombreUsuario, "") == 0) {
-    agregaUsuario(nombreUsuario, contraseyna);
+    agregarUsuario(nombreUsuario, contraseyna);
     printf("Usuario registrado\n");
 	 } else {
     if (strcmp(contraseyna, u.contraseyna) == 0) {
@@ -51,8 +51,8 @@ void main(void)
 			 }
 		}
 
-	sqlite3 *db = NULL;
-	const char *filename = ""; //Ruta de la bd cuando la hagamos 
+	sqlite3 *db;
+	const char *filename = "baseDeDatosCine.sqlite"; 
 	Usuario *lista = NULL;
 	FILE *f = fopen("DatosUsuarios.txt", "r");
 	Usuario usuario;
