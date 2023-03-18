@@ -1,6 +1,7 @@
 {
     "files.associations": {
-        "cliente.h": "c"
+        "cliente.h": "c",
+        "struct.h": "c"
     },
     "C_Cpp.dimInactiveRegions": false
 }
