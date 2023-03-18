@@ -3,9 +3,31 @@
 #include "../sqlite3.h"
 #include "../struct.h"
 #include "cliente\cliente.h"
+#define MAX_USERNAME_LENGTH 20
+#define MAX_PASSWORD_LENGTH 20
 
 void main(void)
 {
+	char nombreUsuario[MAX_USERNAME_LENGTH];
+    char contraseyna[MAX_PASSWORD_LENGTH];
+
+	printf("Nombre de usuario: ");
+  	scanf("%s", nombreUsuario);
+ 	printf("Contrasena: ");
+  	scanf("%s", contraseyna);
+
+	Usuario u = leeUsuario(nombreUsuario); //CREO QUE EL ERROR ES POR COMO ESTÁ DEFINIDA LA ESTRUCTURA PERO NO LO ENTIENDO
+	 if (strcmp(u.nombreUsuario, "") == 0) {
+    agregaUsuario(nombreUsuario, contraseyna);
+    printf("Usuario registrado\n");
+	 } else {
+    if (strcmp(contraseyna, u.contraseyna) == 0) {
+      printf("Sesion iniciada\n");
+    } else {
+      printf("Contraseña incorrecta\n");
+    }
+  }
+
 	int numEntradas = 3;
 	int numEntradasSeleccionadas = 0;	
 
