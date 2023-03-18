@@ -5,6 +5,6 @@
     int gestionaError (sqlite3 *db);
     void agregarUsuario(char *username, char *password);
     Usuario *nuevoUsuario(Usuario &usuario);
-    Usuario leeUsuario();
+    Usuario leeUsuario(char *usuario);
     void iniciarSesion(char *usuario, char *password);
 #endif
