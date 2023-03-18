@@ -6,5 +6,5 @@
     void agregarUsuario(char *username, char *password);
  //   Usuario *nuevoUsuario(Usuario &usuario);
     Usuario leeUsuario(char *usuario);
-    void iniciarSesion(char *usuario, char *password);
+//    void iniciarSesion(char *usuario, char *password); 
 #endif
