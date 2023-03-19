@@ -23,7 +23,7 @@ void agregarUsuario(char *username, char *password){
 
   fprintf(f, "%s %s\n", username, password);
 
-  baseDatos = sqlite3_prepare_v2(db, "INSERT INTO usuario (nombreUsuario, password) VALUES (?, ?)", -1, &stmt, NULL);
+  char *sql = sqlite3_mprintf("INSERT INTO usuarios (nombre, contrasena) VALUES ('%d', '%u');", username, password);
 
   fclose(f);
   sqlite3_close(db);
@@ -48,13 +48,18 @@ Usuario leeUsuario(char *usuario){
     exit(1);
     }
 
-    baseDatos = sqlite3_prepare_v2(db, "SELECT * FROM usuario WHERE nombreUsuario = ?", -1, &stmt, NULL);
+   char *sql = "SELECT * FROM usuarios WHERE nombre = '%d'", usuario;
 
-    while (fscanf(f, "%s %s", u.nombreUsuario, u.contraseyna) == 2) {
-    if (strcmp(usuario, u.nombreUsuario) == 0 && strcmp(usuario, baseDatos) == 0) { //No estoy nada seguro de la segunda paerte del if
+    int count = 0;
+    while (fscanf(f, "%s %s", u.nombreUsuario, u.contraseyna) == 2 && sqlite3_step(stmt) == SQLITE_ROW) {
+      count++;
+    if (strcmp(usuario, u.nombreUsuario) == 0 && count > 0) { 
+      printf("Usuario encontrado\n");
       fclose(f);
       sqlite3_close(db);
       return u;
+    } else {
+    printf("Usuario no encontrado\n");
     }
   }
 
