@@ -8,6 +8,23 @@
 
 void main(void)
 {
+<<<<<<< HEAD
+	int opc = 0;
+	do{
+		system("cls");
+		printf("BIENVENIDO A LA SALA DE CINE. ESCOJA UNA OPCIÓN \n\n")
+		printf("1. Iniciar sesión como Administrador\n");
+		printf("2. Iniciar sesión como Cliente\n");
+		printf("3. Salir\n\n");
+		printf("Opcion a escoger: ");
+		scanf("%d", &opc);
+		switch(opc){
+			case 1;
+				system("cls");
+				
+		}
+	}while();
+=======
 	/*FILE *f = fopen("DatosUsuarios.txt", "r");
 	 sqlite3 *db;
     int baseDatos = sqlite3_open("baseDeDatosCine.sqlite", &baseDatos);
@@ -48,7 +65,7 @@ void main(void)
  	printf("Contrasena: ");
   	scanf("%s", contraseyna);
 
-	Usuario u = (Usuario)leeUsuario(nombreUsuario); //CREO QUE EL ERROR ES POR COMO ESTÁ DEFINIDA LA ESTRUCTURA PERO NO LO ENTIENDO
+	Usuario u = leeUsuario(nombreUsuario); //CREO QUE EL ERROR ES POR COMO ESTÁ DEFINIDA LA ESTRUCTURA PERO NO LO ENTIENDO
 	 if (strcmp(u.nombreUsuario, "") == 0) {
     agregarUsuario(nombreUsuario, contraseyna);
     printf("Usuario registrado\n");
@@ -58,7 +75,7 @@ void main(void)
     } else {
       printf("Contraseña incorrecta\n");
     }
-  }*/
+  }
 
 	int numEntradas = 3;
 	int numEntradasSeleccionadas = 0;	
@@ -78,13 +95,13 @@ void main(void)
 	Usuario *lista = NULL;
 	Usuario usuario;
 
-	/*if (sqlite3_open(baseDatos, &db) != SQLITE_OK){
+	if (sqlite3_open(baseDatos, &db) != SQLITE_OK){
 		return gestionaError(db);
 	}
 
 	if(f == NULL){
 		fprintf(stderr, "Error al abrir el archivo %s\n", f);
-		//return ferror;
+		 ferror(f);
 	}
 
 	while (!feof(f)){
