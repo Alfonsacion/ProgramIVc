@@ -4,7 +4,7 @@
 #define MAX_PASSWORD_LENGTH 20
 
 
-typedef struct{
+typedef struct Usuario{ 
     char nombreUsuario[MAX_USERNAME_LENGTH];
     char contraseyna[MAX_PASSWORD_LENGTH];
 }Usuario;
