@@ -31,10 +31,16 @@ void main(void)
 				printf("1. Películas\n");
 				printf("2. Fechas\n");
 				printf("3. Salir");
-
-				
+			case 3;
+				break;
+			default;
+				system("cls");
+				printf("La opción seleccionada no es correcta");
+				getch();
+				break;
 		}
-	}while();
+	}while(opc != 3);
+	return 0;
 <<<<<<< HEAD
 =======
 =======
