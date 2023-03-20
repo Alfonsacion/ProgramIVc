@@ -8,7 +8,7 @@
 
 void main(void)
 {
-/*<<<<<<< HEAD
+<<<<<<< HEAD
 	int opc = 0;
 	do{
 		system("cls");
@@ -128,8 +128,10 @@ void main(void)
     } else {
       printf("Contraseña incorrecta\n");
     }
-  }*/
+  }
 
+
+//////////////////////PARTE ALONSO, SELECCION DE ASIENTOS
 	int numEntradas = 3;
 	int numEntradasSeleccionadas = 0;	
 
@@ -148,7 +150,9 @@ void main(void)
 
 		}
 
-	/*Usuario *lista = NULL;
+////////////////////////////////////FIN PARTE ALONSO
+
+	Usuario *lista = NULL;
 	Usuario usuario;
 
 	if (sqlite3_open(baseDatos, &db) != SQLITE_OK){
@@ -166,15 +170,6 @@ void main(void)
 	
 }
 	
-
-
-
-  
-
-
-
-
-
 
 //testAlonso
 //testDelPojo
