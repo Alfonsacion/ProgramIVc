@@ -12,42 +12,97 @@ void main(void)
 	int opc = 0;
 	do{
 		system("cls");
-		printf("BIENVENIDO A LA SALA DE CINE. ESCOJA UNA OPCIÓN \n\n")
+		printf("BIENVENIDO A LA SALA DE CINE. ESCOJA UNA OPCIÓN \n\n");
 		printf("1. Iniciar sesión como Administrador\n");
 		printf("2. Iniciar sesión como Cliente\n");
-		printf("3. Salir\n\n");
+		printf("3. Salir\n");
 		printf("Opcion a escoger: ");
 		scanf("%d", &opc);
 		switch(opc){
 			case 1;
 				system("cls");
-				
+				printf("Bienvenido Administrador, ¿Qué desea gestionar?\n\n");
+				printf("1. Reservas\n"); //Si selecciona 1 tendrá otro menú. 1.Visualizar reservas realizadas y canceladas. 2.Eliminar reservas canceladas.
+				printf("2. Películas\n"); //Si selecciona 2 tendrá otro menú. 1.Añadir películas. 2.Eliminar películas
+				printf("3. Modificaciones generales\n"); //Si selecciona 3 tendrá otro menú...
+				printf("4. Salir\n");
+			case 2;
+				system("cls");
+				printf("¡Bienvenido!\n\n")
+				printf("1. Películas\n");
+				printf("2. Fechas\n");
+				printf("3. Salir");
+			case 3;
+				break;
+			default;
+				system("cls");
+				printf("La opción seleccionada no es correcta");
+				getch();
+				break;
 		}
-	}while();
+	}while(opc != 3);
+	return 0;
+<<<<<<< HEAD
+=======
 =======
 	FILE *f = fopen("DatosUsuarios.txt", "r");
-	 sqlite3 *db;
+
+////////////////////////////////////////////////BASE DE DATOS//////////////////////////////////////////////////////
+	sqlite3 *db;
+	char *error; //variable para almacenar los errores que srugen en la bd
+
     int baseDatos = sqlite3_open("baseDeDatosCine.sqlite", &baseDatos);
 
     if (baseDatos) {
-        fprintf(stderr, "No se pusdo abrir la base de datos: %s\n", sqlite3_errmsg(db));
+        fprintf(stderr, "No se pusdo abrir la base de datos: %s\n", error);
         sqlite3_close(db);
         return 1;
     } else {
         fprintf(stdout, "La base de datos se ha abierto correctamente\n");
     }
 
-    //creacion de tablas para la base de datos: acordar cuales todavia
-    char *sql = "CREATE TABLE pelicula (id_pel INT PRIMARY KEY NOT NULL, nom_pel TEXT NOT NULL, duracion INT NOT NULL)";
+    //CREACION DE LA TABLA PELICULA
+    char *sql = "CREATE TABLE Pelicula (id_pel INT PRIMARY KEY NOT NULL, nom_pel TEXT NOT NULL, genero_pel TEXT, dir_pel TEXT NOT NULL, duracion_pel TEXT NOT NULL)";
 
-    baseDatos = sqlite3_exec(db, sql, NULL, 0, sqlite3_errmsg(db)); //errmsg es como estaba con fallo
+    baseDatos = sqlite3_exec(db, sql, NULL, 0, &error);
 
     if (baseDatos != SQLITE_OK) {
-        fprintf(stderr, "Error en la creacion de la tabla: %s\n", sqlite3_errmsg(db)); //errmsg
-        sqlite3_free(sqlite3_errmsg(db)); //errmsg
+        fprintf(stderr, "Error en la creacion de la tabla: %s\n", error);
+        sqlite3_free(error);
+		sqlite3_close(db);
+		return 1;
     } else {
-        fprintf(stdout, "La tabla se ha creado correctamente\n");
+        fprintf(stdout, "La tabla de Pelicula se ha creado correctamente\n");
     }
+
+	//CREACION DE LA TABLA SALAS DE CINE
+    char *sql = "CREATE TABLE SalasCine (id_sala INT PRIMARY KEY NOT NULL, num_sala INT NOT NULL, capacidad_sala INT NOT NULL)";
+
+    baseDatos = sqlite3_exec(db, sql, NULL, 0, &error);
+
+    if (baseDatos != SQLITE_OK) {
+        fprintf(stderr, "Error en la creacion de la tabla: %s\n", error);
+        sqlite3_free(error);
+		sqlite3_close(db);
+		return 1;
+    } else {
+        fprintf(stdout, "La tabla de SalasCine se ha creado correctamente\n");
+    }
+
+	//CREACION DE LA TABLA HORARIOS
+    char *sql = "CREATE TABLE Horario (id_horario INT PRIMARY KEY NOT NULL, FechaHoraInicio TEXT NOT NULL, FechaHoraFin TEXT NOT NULL, idPelicula INT NOT NULL, FOREIGN KEY (idPelicula) REFERENCES Pelicula(id_pel), idSala INT NOT NULL, FOREIGN KEY (idSala) REFERENCES SalasCine(id_sala))";
+
+    baseDatos = sqlite3_exec(db, sql, NULL, 0, &error);
+
+    if (baseDatos != SQLITE_OK) {
+        fprintf(stderr, "Error en la creacion de la tabla: %s\n", error);
+        sqlite3_free(error);
+		sqlite3_close(db);
+		return 1;
+    } else {
+        fprintf(stdout, "La tabla de Horario se ha creado correctamente\n");
+    }
+///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     char *sql = "CREATE TABLE usuario (nombreUsuario TEXT PRIMARY KEY, password TEXT);";
     baseDatos = sqlite3_exec(db, sql, NULL, 0, NULL);
@@ -76,6 +131,7 @@ void main(void)
       printf("Contraseña incorrecta\n");
     }
   }*/
+>>>>>>> 9002b5dc0b21b597ea980e88d2bb316abbad9b59
 
 	int numEntradas = 3;
 	int numEntradasSeleccionadas = 0;	
