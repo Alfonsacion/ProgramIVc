@@ -8,6 +8,8 @@ typedef struct{
 
 void generarSalaA(AsientoElegido *arrayAsientosElegidos, int numEntradasSeleccionadas);
 void elegirAsiento(AsientoElegido *arrayAsientosElegidos, int numEntradasSeleccionadas);
+int confirmacionAsiento(int numEntradasSeleccionadas);
+void iniciarSesion();
 
 
 
