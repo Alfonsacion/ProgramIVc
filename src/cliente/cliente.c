@@ -97,3 +97,4 @@ void elegirAsiento(AsientoElegido *arrayAsientosElegidos, int numEntradasSelecci
     printf("Has elegido el asiento: %d%c \n", arrayAsientosElegidos[0].filaElegida, arrayAsientosElegidos[0].letraAsientoElegido);
 
 }
+
