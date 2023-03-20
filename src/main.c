@@ -48,7 +48,7 @@ void main(void)
  	printf("Contrasena: ");
   	scanf("%s", contraseyna);
 
-	Usuario u = (Usuario)leeUsuario(nombreUsuario); //CREO QUE EL ERROR ES POR COMO ESTÁ DEFINIDA LA ESTRUCTURA PERO NO LO ENTIENDO
+	Usuario u = leeUsuario(nombreUsuario); //CREO QUE EL ERROR ES POR COMO ESTÁ DEFINIDA LA ESTRUCTURA PERO NO LO ENTIENDO
 	 if (strcmp(u.nombreUsuario, "") == 0) {
     agregarUsuario(nombreUsuario, contraseyna);
     printf("Usuario registrado\n");
@@ -87,12 +87,12 @@ void main(void)
 	Usuario usuario;
 
 	if (sqlite3_open(baseDatos, &db) != SQLITE_OK){
-		return gestionaError(db);
+		gestionaError(db);
 	}
 
 	if(f == NULL){
 		fprintf(stderr, "Error al abrir el archivo %s\n", f);
-		//return ferror;
+		 ferror(f);
 	}
 
 	while (!feof(f)){
