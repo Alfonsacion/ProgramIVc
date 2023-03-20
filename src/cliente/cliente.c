@@ -5,7 +5,8 @@
 
 void generarSalaA(AsientoElegido *arrayAsientosElegidos, int numEntradasSeleccionadas){
 
-    	printf("///////////////Seleccione un asiento escribiendo su numero y letra: \n");
+    	printf("\n");
+        printf("///////////////Seleccione un asiento escribiendo su numero y letra: \n");
     	printf("Tenga en cuenta que los asientos marcados con 'X' no estan disponibles. \n ");
         printf("\n");
 
@@ -17,7 +18,7 @@ void generarSalaA(AsientoElegido *arrayAsientosElegidos, int numEntradasSeleccio
 
         int i;
         int i2;
-        int i3;
+        int doble =0;
 
         for (i=0; i<5; i++) {
             salaA[i] = (char*)malloc(numAsientosXFila * (sizeof(char)*3));
@@ -26,33 +27,42 @@ void generarSalaA(AsientoElegido *arrayAsientosElegidos, int numEntradasSeleccio
 
             for (i2=0; i2<numAsientosXFila; i2++){
 
-                for (int i3 = 0; i3 < numEntradasSeleccionadas+1; i3++){
+               for (int i3 = 0; i3 < numEntradasSeleccionadas+1; i3++){
 
                     if (i2 == (int) arrayAsientosElegidos[i3].letraAsientoElegido -65){
                     if (i == arrayAsientosElegidos[i3].filaElegida -1){
-                        salaA[i][i2] = 88;
-                        printf("  [ %c ]  ", salaA[i][i2]);
-
+                    salaA[i][i2] = 88;
+                    printf("  [ %c ]  ", salaA[i][i2]);
+                    doble = 1;
+                    break;
 
                     }else{
                             salaA[i][i2] = 45;
-                            printf("  [ %c ]  ", salaA[i][i2]);
-
+                            doble = 0;
                     }
 
                 }else{            
                         salaA[i][i2] = 45;
-                        printf("  [ %c ]  ", salaA[i][i2]);
-
+                        doble = 0;
                     }
-            }
+             }
+
+             if(doble == 0){
+
+              printf("  [ %c ]  ", salaA[i][i2]);
+
+             }
+
+
+        }
+                printf("\n");
+
+
+
+
+        }
+
         
-        printf("\n");
-
-        }
-
-
-        }
         printf("       ");
         for (i2=0; i2<numAsientosXFila; i2++){
                 printf("   %c     ", i2 + 65 );
@@ -76,13 +86,14 @@ void generarSalaA(AsientoElegido *arrayAsientosElegidos, int numEntradasSeleccio
 void elegirAsiento(AsientoElegido *arrayAsientosElegidos, int numEntradasSeleccionadas){
 
     printf("\n");
+    printf("\n");
     printf("Introduce tu asiento: \n");
 
     scanf("%d %c", &arrayAsientosElegidos[numEntradasSeleccionadas].filaElegida, &arrayAsientosElegidos[numEntradasSeleccionadas].letraAsientoElegido);
 
     fflush(stdin);
-    printf("\n      \n");
+    printf("\n");
 
-    printf("Has elegido el asiento: %d%c", arrayAsientosElegidos[0].filaElegida, arrayAsientosElegidos[0].letraAsientoElegido);
+    printf("Has elegido el asiento: %d%c \n", arrayAsientosElegidos[0].filaElegida, arrayAsientosElegidos[0].letraAsientoElegido);
 
 }

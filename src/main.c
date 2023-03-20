@@ -8,7 +8,7 @@
 
 void main(void)
 {
-	FILE *f = fopen("DatosUsuarios.txt", "r");
+	/*FILE *f = fopen("DatosUsuarios.txt", "r");
 	 sqlite3 *db;
     int baseDatos = sqlite3_open("baseDeDatosCine.sqlite", &baseDatos);
 
@@ -58,7 +58,7 @@ void main(void)
     } else {
       printf("Contraseña incorrecta\n");
     }
-  }
+  }*/
 
 	int numEntradas = 3;
 	int numEntradasSeleccionadas = 0;	
@@ -73,20 +73,12 @@ void main(void)
 		elegirAsiento(arrayAsientosElegidos,numEntradasSeleccionadas);
 		generarSalaA(arrayAsientosElegidos, numEntradasSeleccionadas);
 
-		int loop;
-
-   			for(loop = 0; loop < numEntradasSeleccionadas+1; loop++){
-
-     		 printf(" ARRAY %d ", arrayAsientosElegidos[loop].filaElegida);
-			 printf("ARRAY %c ", arrayAsientosElegidos[loop].letraAsientoElegido);
-
-			 }
 		}
 
 	Usuario *lista = NULL;
 	Usuario usuario;
 
-	if (sqlite3_open(baseDatos, &db) != SQLITE_OK){
+	/*if (sqlite3_open(baseDatos, &db) != SQLITE_OK){
 		return gestionaError(db);
 	}
 
@@ -97,7 +89,7 @@ void main(void)
 
 	while (!feof(f)){
 		fscanf(f, "%s;%d");
-	}
+	}*/
 	
 }
 	
