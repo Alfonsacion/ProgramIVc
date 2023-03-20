@@ -8,7 +8,7 @@
 
 void main(void)
 {
-<<<<<<< HEAD
+/*<<<<<<< HEAD
 	int opc = 0;
 	do{
 		system("cls");
@@ -25,7 +25,7 @@ void main(void)
 		}
 	}while();
 =======
-	/*FILE *f = fopen("DatosUsuarios.txt", "r");
+	FILE *f = fopen("DatosUsuarios.txt", "r");
 	 sqlite3 *db;
     int baseDatos = sqlite3_open("baseDeDatosCine.sqlite", &baseDatos);
 
@@ -75,7 +75,7 @@ void main(void)
     } else {
       printf("Contraseña incorrecta\n");
     }
-  }
+  }*/
 
 	int numEntradas = 3;
 	int numEntradasSeleccionadas = 0;	
@@ -85,14 +85,17 @@ void main(void)
 
 	generarSalaA(arrayAsientosElegidos, numEntradasSeleccionadas);
 
+
 	for (numEntradasSeleccionadas = 0; numEntradasSeleccionadas < numEntradas; numEntradasSeleccionadas++)
 	{
+
 		elegirAsiento(arrayAsientosElegidos,numEntradasSeleccionadas);
 		generarSalaA(arrayAsientosElegidos, numEntradasSeleccionadas);
+    numEntradasSeleccionadas = confirmacionAsiento(numEntradasSeleccionadas);
 
 		}
 
-	Usuario *lista = NULL;
+	/*Usuario *lista = NULL;
 	Usuario usuario;
 
 	if (sqlite3_open(baseDatos, &db) != SQLITE_OK){
