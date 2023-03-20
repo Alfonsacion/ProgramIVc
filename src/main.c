@@ -6,6 +6,22 @@
 
 void main(void)
 {
+	int opc = 0;
+	do{
+		system("cls");
+		printf("BIENVENIDO A LA SALA DE CINE. ESCOJA UNA OPCIÓN \n\n")
+		printf("1. Iniciar sesión como Administrador\n");
+		printf("2. Iniciar sesión como Cliente\n");
+		printf("3. Salir\n\n");
+		printf("Opcion a escoger: ");
+		scanf("%d", &opc);
+		switch(opc){
+			case 1;
+				system("cls");
+				
+		}
+	}while();
+
 	int numEntradas = 3;
 	int numEntradasSeleccionadas = 0;	
 
