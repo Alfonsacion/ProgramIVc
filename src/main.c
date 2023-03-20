@@ -42,8 +42,6 @@ void main(void)
 		}
 	}while(opc != 3);
 	return 0;
-<<<<<<< HEAD
-=======
 =======
 	FILE *f = fopen("DatosUsuarios.txt", "r");
 
@@ -131,7 +129,6 @@ void main(void)
       printf("Contraseña incorrecta\n");
     }
   }*/
->>>>>>> 9002b5dc0b21b597ea980e88d2bb316abbad9b59
 
 	int numEntradas = 3;
 	int numEntradasSeleccionadas = 0;	
