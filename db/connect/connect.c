@@ -35,7 +35,7 @@ void agregarUsuario(char *username, char *password){
 //   strcpy(u->nombreUsuario, usuario.nombreUsuario);
 //}
 
-Usuario leeUsuario(char* usuario){
+Usuario leeUsuario(char* user){
     Usuario u;
     FILE* f;
     f = fopen("DatosUsuarios.txt", "r");
@@ -47,12 +47,12 @@ Usuario leeUsuario(char* usuario){
     printf("Error al abrir el archivo.\n");
     }
 
-   char *sql = "SELECT * FROM usuarios WHERE nombre = '%d'", usuario;
+   char *sql = "SELECT * FROM usuarios WHERE nombre = '%s'", user;
 
     int count = 0;
     while (fscanf(f, "%s %s", u.nombreUsuario, u.contraseyna) == 2 && sqlite3_step(stmt) == SQLITE_ROW) {
       count++;
-    if (strcmp(usuario, u.nombreUsuario) == 0 && count > 0) { 
+    if (strcmp(user, u.nombreUsuario) == 0 && count > 0) { 
       printf("Usuario encontrado\n");
       fclose(f);
       sqlite3_close(db);
