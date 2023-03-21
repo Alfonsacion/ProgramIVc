@@ -3,6 +3,7 @@
 #include "../sqlite3.h"
 #include "../struct.h"
 #include "cliente\cliente.h"
+#include "db\connect\connect.h"
 #define MAX_USERNAME_LENGTH 20
 #define MAX_PASSWORD_LENGTH 20
 
