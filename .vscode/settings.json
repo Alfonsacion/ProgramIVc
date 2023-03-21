@@ -1,7 +1,10 @@
 {
     "files.associations": {
         "cliente.h": "c",
-        "struct.h": "c"
+        "struct.h": "c",
+        "connect.h": "c",
+        "string.h": "c",
+        "sqlite3.h": "c"
     },
     "C_Cpp.dimInactiveRegions": false,
     "C_Cpp.errorSquiggles": "enabled"
