@@ -1,13 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include<string.h>
 #include "../sqlite3.h"
 #include "../struct.h"
-#include "cliente\cliente.h"
-#include "db\connect\connect.h"
+#include "cliente/cliente.h"
+#include "../db/connect/connect.h"
 #define MAX_USERNAME_LENGTH 20
 #define MAX_PASSWORD_LENGTH 20
 
-void main(void)
+int main(void)
 {
 //<<<<<<<<<< HEAD
 	int opc = 0;
@@ -38,11 +39,10 @@ void main(void)
 			default:
 				system("cls");
 				printf("La opción seleccionada no es correcta");
-				getch();
+				opc=getchar();
 				break;
 		}
 	}while(opc != 3);
-	return 0;
 
 ////////////////////////////////////////////////BASE DE DATOS//////////////////////////////////////////////////////
 	sqlite3 *db;
@@ -58,7 +58,7 @@ void main(void)
         fprintf(stdout, "La base de datos se ha abierto correctamente\n");
     }
 
-    //CREACION DE LA TABLA PELICULA
+//CREACION DE LA TABLA PELICULA
     char *sql = "CREATE TABLE Pelicula (id_pel INT PRIMARY KEY NOT NULL, nom_pel TEXT NOT NULL, genero_pel TEXT, dir_pel TEXT NOT NULL, duracion_pel TEXT NOT NULL)";
 
     baseDatos = sqlite3_exec(db, sql, NULL, 0, &error);
@@ -73,9 +73,9 @@ void main(void)
     }
 
 	//CREACION DE LA TABLA SALAS DE CINE
-    char *sql = "CREATE TABLE SalasCine (id_sala INT PRIMARY KEY NOT NULL, num_sala INT NOT NULL, capacidad_sala INT NOT NULL)";
+    char *sql4 = "CREATE TABLE SalasCine (id_sala INT PRIMARY KEY NOT NULL, num_sala INT NOT NULL, capacidad_sala INT NOT NULL)";
 
-    baseDatos = sqlite3_exec(db, sql, NULL, 0, &error);
+    baseDatos = sqlite3_exec(db, sql4, NULL, 0, &error);
 
     if (baseDatos != SQLITE_OK) {
         fprintf(stderr, "Error en la creacion de la tabla: %s\n", error);
@@ -87,9 +87,9 @@ void main(void)
     }
 
 	//CREACION DE LA TABLA HORARIOS
-    char *sql = "CREATE TABLE Horario (id_horario INT PRIMARY KEY NOT NULL, FechaHoraInicio TEXT NOT NULL, FechaHoraFin TEXT NOT NULL, idPelicula INT NOT NULL, FOREIGN KEY (idPelicula) REFERENCES Pelicula(id_pel), idSala INT NOT NULL, FOREIGN KEY (idSala) REFERENCES SalasCine(id_sala))";
+    char *sql3 = "CREATE TABLE Horario (id_horario INT PRIMARY KEY NOT NULL, FechaHoraInicio TEXT NOT NULL, FechaHoraFin TEXT NOT NULL, idPelicula INT NOT NULL, FOREIGN KEY (idPelicula) REFERENCES Pelicula(id_pel), idSala INT NOT NULL, FOREIGN KEY (idSala) REFERENCES SalasCine(id_sala))";
 
-    baseDatos = sqlite3_exec(db, sql, NULL, 0, &error);
+    baseDatos = sqlite3_exec(db, sql3, NULL, 0, &error);
 
     if (baseDatos != SQLITE_OK) {
         fprintf(stderr, "Error en la creacion de la tabla: %s\n", error);
@@ -102,8 +102,8 @@ void main(void)
 /////////////////////////////////////////Parte Gon//////////////////////////////////////////////////////////////////////////
 
 	FILE* f = fopen("DatosUsuarios.txt", "r");
-    char* sql = "CREATE TABLE usuario (nombreUsuario TEXT PRIMARY KEY, password TEXT);";
-    baseDatos = sqlite3_exec(db, sql, NULL, 0, NULL);
+    char* sql2 = "CREATE TABLE usuario (nombreUsuario TEXT PRIMARY KEY, password TEXT);";
+    baseDatos = sqlite3_exec(db, sql2, NULL, 0, NULL);
     if (baseDatos != SQLITE_OK) {
     fprintf(stderr, "Error al crear la tabla: %s\n", sqlite3_errmsg(db));
     sqlite3_close(db);
@@ -118,7 +118,10 @@ void main(void)
  	printf("Contrasena: ");
   	scanf("%s", contraseyna);
 
-	Usuario u = leeUsuario(nombreUsuario); //CREO QUE EL ERROR ES POR COMO ESTÁ DEFINIDA LA ESTRUCTURA PERO NO LO ENTIENDO
+	char* a = malloc((strlen(nombreUsuario)+1)*sizeof(char));
+	a= strcpy(a,nombreUsuario);
+	a[strlen(a)]='\0';
+	Usuario u = leeUsuario(a); //CREO QUE EL ERROR ES POR COMO ESTÁ DEFINIDA LA ESTRUCTURA PERO NO LO ENTIENDO
 	 if (strcmp(u.nombreUsuario, "") == 0) {
     agregarUsuario(nombreUsuario, contraseyna);
     printf("Usuario registrado\n");
@@ -159,7 +162,7 @@ void main(void)
 
 		elegirAsiento(arrayAsientosElegidos,numEntradasSeleccionadas);
 		generarSalaA(arrayAsientosElegidos, numEntradasSeleccionadas);
-    numEntradasSeleccionadas = confirmacionAsiento(numEntradasSeleccionadas);
+    	numEntradasSeleccionadas = confirmacionAsiento(numEntradasSeleccionadas);
 
 		}
 
