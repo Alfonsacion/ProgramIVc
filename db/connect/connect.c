@@ -35,12 +35,12 @@ void agregarUsuario(char *username, char *password){
 //   strcpy(u->nombreUsuario, usuario.nombreUsuario);
 //}
 
-Usuario leeUsuario(char *usuario){
+Usuario leeUsuario(char* usuario){
     Usuario u;
     FILE* f;
     f = fopen("DatosUsuarios.txt", "r");
-    sqlite3 *db;
-    sqlite3_stmt *stmt;
+    sqlite3* db;
+    sqlite3_stmt* stmt;
     int baseDatos = sqlite3_open("baseDeDatosCine.sqlite", &baseDatos);
 
     if (f == NULL) {

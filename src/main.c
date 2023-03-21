@@ -101,8 +101,8 @@ void main(void)
     }
 /////////////////////////////////////////Parte Gon//////////////////////////////////////////////////////////////////////////
 
-	FILE *f = fopen("DatosUsuarios.txt", "r");
-    char *sql = "CREATE TABLE usuario (nombreUsuario TEXT PRIMARY KEY, password TEXT);";
+	FILE* f = fopen("DatosUsuarios.txt", "r");
+    char* sql = "CREATE TABLE usuario (nombreUsuario TEXT PRIMARY KEY, password TEXT);";
     baseDatos = sqlite3_exec(db, sql, NULL, 0, NULL);
     if (baseDatos != SQLITE_OK) {
     fprintf(stderr, "Error al crear la tabla: %s\n", sqlite3_errmsg(db));
