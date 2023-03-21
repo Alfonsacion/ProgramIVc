@@ -59,7 +59,7 @@ int main(void)
     }
 
 //CREACION DE LA TABLA PELICULA
-    char *sql = "CREATE TABLE Pelicula (id_pel INT PRIMARY KEY NOT NULL, nom_pel TEXT NOT NULL, genero_pel TEXT, dir_pel TEXT NOT NULL, duracion_pel TEXT NOT NULL)";
+    char *sql = "CREATE TABLE Pelicula (id_pel INT PRIMARY KEY NOT NULL, nom_pel TEXT NOT NULL, genero_pel TEXT, dir_pel TEXT NOT NULL, duracion_pel TEXT NOT NULL, precio INT NOT NULL)";
 
     baseDatos = sqlite3_exec(db, sql, NULL, 0, &error);
 
@@ -72,24 +72,10 @@ int main(void)
         fprintf(stdout, "La tabla de Pelicula se ha creado correctamente\n");
     }
 
-	//CREACION DE LA TABLA SALAS DE CINE
-    char *sql4 = "CREATE TABLE SalasCine (id_sala INT PRIMARY KEY NOT NULL, num_sala INT NOT NULL, capacidad_sala INT NOT NULL)";
+	//CREACION DE LA TABLA HORARIO
+    char *sql = "CREATE TABLE Horario (id_horario INT PRIMARY KEY NOT NULL, HoraInicio TEXT NOT NULL, HoraFin TEXT NOT NULL, idPelicula TEXT NOT NULL, FOREIGN KEY (idPelicula) REFERENCES Pelicula(id_pel), fechaHorario INT NOT NULL, FOREIGN KEY (fechaHorario) REFERENCES Fecha(id_sala))";
 
-    baseDatos = sqlite3_exec(db, sql4, NULL, 0, &error);
-
-    if (baseDatos != SQLITE_OK) {
-        fprintf(stderr, "Error en la creacion de la tabla: %s\n", error);
-        sqlite3_free(error);
-		sqlite3_close(db);
-		return 1;
-    } else {
-        fprintf(stdout, "La tabla de SalasCine se ha creado correctamente\n");
-    }
-
-	//CREACION DE LA TABLA HORARIOS
-    char *sql3 = "CREATE TABLE Horario (id_horario INT PRIMARY KEY NOT NULL, FechaHoraInicio TEXT NOT NULL, FechaHoraFin TEXT NOT NULL, idPelicula INT NOT NULL, FOREIGN KEY (idPelicula) REFERENCES Pelicula(id_pel), idSala INT NOT NULL, FOREIGN KEY (idSala) REFERENCES SalasCine(id_sala))";
-
-    baseDatos = sqlite3_exec(db, sql3, NULL, 0, &error);
+    baseDatos = sqlite3_exec(db, sql, NULL, 0, &error);
 
     if (baseDatos != SQLITE_OK) {
         fprintf(stderr, "Error en la creacion de la tabla: %s\n", error);
@@ -98,6 +84,20 @@ int main(void)
 		return 1;
     } else {
         fprintf(stdout, "La tabla de Horario se ha creado correctamente\n");
+    }
+
+	//CREACION DE LA TABLA FECHA
+    char *sql = "CREATE TABLE Fecha (fecha TEXT PRIMARY KEY NOT NULL, numPeliculas INT NOT NULL, idPeliculaFecha INT NOT NULL, FOREIGN KEY (idPeliculaFecha) REFERENCES Pelicula(id_pel))";
+
+    baseDatos = sqlite3_exec(db, sql, NULL, 0, &error);
+
+    if (baseDatos != SQLITE_OK) {
+        fprintf(stderr, "Error en la creacion de la tabla: %s\n", error);
+        sqlite3_free(error);
+		sqlite3_close(db);
+		return 1;
+    } else {
+        fprintf(stdout, "La tabla de Fecha se ha creado correctamente\n");
     }
 /////////////////////////////////////////Parte Gon//////////////////////////////////////////////////////////////////////////
 
