@@ -3,6 +3,7 @@
 #include <stdio.h>
 #include "../../struct.h"
 #include <string.h>
+#include <stdlib.h>
 
 int gestionaError (sqlite3 *db){
     fprintf(stderr, "Error: %s\n", sqlite3_errmsg(db));
@@ -18,7 +19,6 @@ void agregarUsuario(char *username, char *password){
 
        if (f == NULL) {
     printf("Error al abrir el fichero\n");
-    exit(1);
   }
 
   fprintf(f, "%s %s\n", username, password);
@@ -45,7 +45,6 @@ Usuario leeUsuario(char *usuario){
 
     if (f == NULL) {
     printf("Error al abrir el archivo.\n");
-    exit(1);
     }
 
    char *sql = "SELECT * FROM usuarios WHERE nombre = '%d'", usuario;
