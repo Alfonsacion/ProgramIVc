@@ -8,7 +8,7 @@
 
 void main(void)
 {
-<<<<<<< HEAD
+//<<<<<<<<<< HEAD
 	int opc = 0;
 	do{
 		system("cls");
@@ -19,22 +19,22 @@ void main(void)
 		printf("Opcion a escoger: ");
 		scanf("%d", &opc);
 		switch(opc){
-			case 1;
+			case 1:
 				system("cls");
 				printf("Bienvenido Administrador, ¿Qué desea gestionar?\n\n");
 				printf("1. Reservas\n"); //Si selecciona 1 tendrá otro menú. 1.Visualizar reservas realizadas y canceladas. 2.Eliminar reservas canceladas.
 				printf("2. Películas\n"); //Si selecciona 2 tendrá otro menú. 1.Añadir películas. 2.Eliminar películas
 				printf("3. Modificaciones generales\n"); //Si selecciona 3 tendrá otro menú...
 				printf("4. Salir\n");
-			case 2;
+			case 2:
 				system("cls");
-				printf("¡Bienvenido!\n\n")
+				printf("¡Bienvenido!\n\n");
 				printf("1. Películas\n");
 				printf("2. Fechas\n");
 				printf("3. Salir");
-			case 3;
+			case 3:
 				break;
-			default;
+			default:
 				system("cls");
 				printf("La opción seleccionada no es correcta");
 				getch();
@@ -42,8 +42,6 @@ void main(void)
 		}
 	}while(opc != 3);
 	return 0;
-=======
-	FILE *f = fopen("DatosUsuarios.txt", "r");
 
 ////////////////////////////////////////////////BASE DE DATOS//////////////////////////////////////////////////////
 	sqlite3 *db;
@@ -100,8 +98,9 @@ void main(void)
     } else {
         fprintf(stdout, "La tabla de Horario se ha creado correctamente\n");
     }
-///////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+/////////////////////////////////////////Parte Gon//////////////////////////////////////////////////////////////////////////
 
+	FILE *f = fopen("DatosUsuarios.txt", "r");
     char *sql = "CREATE TABLE usuario (nombreUsuario TEXT PRIMARY KEY, password TEXT);";
     baseDatos = sqlite3_exec(db, sql, NULL, 0, NULL);
     if (baseDatos != SQLITE_OK) {
@@ -109,7 +108,7 @@ void main(void)
     sqlite3_close(db);
     return 1;
     }
-	
+
 	char nombreUsuario[MAX_USERNAME_LENGTH];
     char contraseyna[MAX_PASSWORD_LENGTH];
 
@@ -129,6 +128,19 @@ void main(void)
       printf("Contraseña incorrecta\n");
     }
   }
+
+  	if (sqlite3_open(baseDatos, &db) != SQLITE_OK){
+		return gestionaError(db);
+	}
+
+	if(f == NULL){
+		fprintf(stderr, "Error al abrir el archivo %s\n", f);
+		 ferror(f);
+	}
+
+	while (!feof(f)){
+		fscanf(f, "%s;%d");
+	}
 
 
 //////////////////////PARTE ALONSO, SELECCION DE ASIENTOS
@@ -151,22 +163,6 @@ void main(void)
 		}
 
 ////////////////////////////////////FIN PARTE ALONSO
-
-	Usuario *lista = NULL;
-	Usuario usuario;
-
-	if (sqlite3_open(baseDatos, &db) != SQLITE_OK){
-		return gestionaError(db);
-	}
-
-	if(f == NULL){
-		fprintf(stderr, "Error al abrir el archivo %s\n", f);
-		 ferror(f);
-	}
-
-	while (!feof(f)){
-		fscanf(f, "%s;%d");
-	}*/
 	
 }
 	
