@@ -51,7 +51,7 @@ int main(void)
     int baseDatos = sqlite3_open("baseDeDatosCine.sqlite", &baseDatos);
 
     if (baseDatos) {
-        fprintf(stderr, "No se pusdo abrir la base de datos: %s\n", error);
+        fprintf(stderr, "No se pudo abrir la base de datos: %s\n", error);
         sqlite3_close(db);
         return 1;
     } else {
@@ -59,9 +59,9 @@ int main(void)
     }
 
 //CREACION DE LA TABLA PELICULA
-    char *sql = "CREATE TABLE Pelicula (id_pel INT PRIMARY KEY NOT NULL, nom_pel TEXT NOT NULL, genero_pel TEXT, dir_pel TEXT NOT NULL, duracion_pel TEXT NOT NULL, precio INT NOT NULL)";
+    char *sqla = "CREATE TABLE Pelicula (id_pel INT PRIMARY KEY NOT NULL, nom_pel TEXT NOT NULL, genero_pel TEXT, dir_pel TEXT NOT NULL, duracion_pel TEXT NOT NULL, precio INT NOT NULL)";
 
-    baseDatos = sqlite3_exec(db, sql, NULL, 0, &error);
+    baseDatos = sqlite3_exec(db, sqlite3_reset_auto_extension, NULL, 0, &error);
 
     if (baseDatos != SQLITE_OK) {
         fprintf(stderr, "Error en la creacion de la tabla: %s\n", error);
@@ -73,9 +73,9 @@ int main(void)
     }
 
 	//CREACION DE LA TABLA HORARIO
-    char *sql = "CREATE TABLE Horario (id_horario INT PRIMARY KEY NOT NULL, HoraInicio TEXT NOT NULL, HoraFin TEXT NOT NULL, idPelicula TEXT NOT NULL, FOREIGN KEY (idPelicula) REFERENCES Pelicula(id_pel), fechaHorario INT NOT NULL, FOREIGN KEY (fechaHorario) REFERENCES Fecha(id_sala))";
+    char *sqlb = "CREATE TABLE Horario (id_horario INT PRIMARY KEY NOT NULL, HoraInicio TEXT NOT NULL, HoraFin TEXT NOT NULL, idPelicula TEXT NOT NULL, FOREIGN KEY (idPelicula) REFERENCES Pelicula(id_pel), fechaHorario INT NOT NULL, FOREIGN KEY (fechaHorario) REFERENCES Fecha(id_sala))";
 
-    baseDatos = sqlite3_exec(db, sql, NULL, 0, &error);
+    baseDatos = sqlite3_exec(db, sqlb, NULL, 0, &error);
 
     if (baseDatos != SQLITE_OK) {
         fprintf(stderr, "Error en la creacion de la tabla: %s\n", error);
@@ -87,9 +87,9 @@ int main(void)
     }
 
 	//CREACION DE LA TABLA FECHA
-    char *sql = "CREATE TABLE Fecha (fecha TEXT PRIMARY KEY NOT NULL, numPeliculas INT NOT NULL, idPeliculaFecha INT NOT NULL, FOREIGN KEY (idPeliculaFecha) REFERENCES Pelicula(id_pel))";
+    char *sqlc = "CREATE TABLE Fecha (fecha TEXT PRIMARY KEY NOT NULL, numPeliculas INT NOT NULL, idPeliculaFecha INT NOT NULL, FOREIGN KEY (idPeliculaFecha) REFERENCES Pelicula(id_pel))";
 
-    baseDatos = sqlite3_exec(db, sql, NULL, 0, &error);
+    baseDatos = sqlite3_exec(db, sqlc, NULL, 0, &error);
 
     if (baseDatos != SQLITE_OK) {
         fprintf(stderr, "Error en la creacion de la tabla: %s\n", error);
@@ -102,12 +102,14 @@ int main(void)
 /////////////////////////////////////////Parte Gon//////////////////////////////////////////////////////////////////////////
 
 	FILE* f = fopen("DatosUsuarios.txt", "r");
-    char* sql2 = "CREATE TABLE usuario (nombreUsuario TEXT PRIMARY KEY, password TEXT);";
+    char* sql2 = "CREATE TABLE usuario (nombreUsuario TEXT PRIMARY KEY NOT NULL, password TEXT NOT NULL);";
     baseDatos = sqlite3_exec(db, sql2, NULL, 0, NULL);
     if (baseDatos != SQLITE_OK) {
-    fprintf(stderr, "Error al crear la tabla: %s\n", sqlite3_errmsg(db));
+    fprintf(stderr, "Error al crear la tabla: %s\n", error);
     sqlite3_close(db);
     return 1;
+    }else {
+        fprintf(stdout, "La tabla Usario se ha creado correctamente\n");
     }
 
 	char nombreUsuario[MAX_USERNAME_LENGTH];
