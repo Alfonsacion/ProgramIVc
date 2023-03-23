@@ -104,10 +104,25 @@ int main(void)
 	FILE* f = fopen("DatosUsuarios.txt", "r");
     char* sql2 = "CREATE TABLE usuario (nombreUsuario TEXT PRIMARY KEY NOT NULL, password TEXT NOT NULL);";
     baseDatos = sqlite3_exec(db, sql2, NULL, 0, NULL);
+
+	if (sqlite3_open(baseDatos, &db) != SQLITE_OK){
+		return gestionaError(db);
+	}
+
+	if(f == NULL){
+		fprintf(stderr, "Error al abrir el archivo %s\n", f);
+	 	ferror(f);
+	}
+
+	while (!feof(f)){
+		fscanf(f, "%s;%d");
+	}
+
     if (baseDatos != SQLITE_OK) {
-    fprintf(stderr, "Error al crear la tabla: %s\n", error);
-    sqlite3_close(db);
-    return 1;
+    	fprintf(stderr, "Error al crear la tabla: %s\n", error);
+   	    sqlite3_close(db);
+        return 1;
+
     }else {
         fprintf(stdout, "La tabla Usario se ha creado correctamente\n");
     }
@@ -115,17 +130,15 @@ int main(void)
 	char nombreUsuario[MAX_USERNAME_LENGTH];
     char contraseyna[MAX_PASSWORD_LENGTH];
 
-	printf("Nombre de usuario: ");
-  	scanf("%s", nombreUsuario);
- 	printf("Contrasena: ");
-  	scanf("%s", contraseyna);
+	iniciarSesion(nombreUsuario, contraseyna);
 
 	char* a = malloc((strlen(nombreUsuario)+1)*sizeof(char));
 	a= strcpy(a,nombreUsuario);
 	a[strlen(a)]='\0';
-	Usuario u = leeUsuario(a); //CREO QUE EL ERROR ES POR COMO ESTÁ DEFINIDA LA ESTRUCTURA PERO NO LO ENTIENDO
+	Usuario u = leeUsuario(a, db); 
+
 	 if (strcmp(u.nombreUsuario, "") == 0) {
-    agregarUsuario(nombreUsuario, contraseyna);
+    agregarUsuario(nombreUsuario, contraseyna, db);
     printf("Usuario registrado\n");
 	 } else {
     if (strcmp(contraseyna, u.contraseyna) == 0) {
@@ -134,20 +147,6 @@ int main(void)
       printf("Contraseña incorrecta\n");
     }
   }
-
-  	if (sqlite3_open(baseDatos, &db) != SQLITE_OK){
-		return gestionaError(db);
-	}
-
-	if(f == NULL){
-		fprintf(stderr, "Error al abrir el archivo %s\n", f);
-		 ferror(f);
-	}
-
-	while (!feof(f)){
-		fscanf(f, "%s;%d");
-	}
-
 
 //////////////////////PARTE ALONSO, SELECCION DE ASIENTOS
 	int numEntradas = 3;
