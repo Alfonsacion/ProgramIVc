@@ -3,8 +3,8 @@
 #include "../../struct.h"
 
     int gestionaError (sqlite3* db);
-    void agregarUsuario(char* username, char* password);
+    void agregarUsuario(char* username, char* password, sqlite3* db);
  //   Usuario *nuevoUsuario(Usuario &usuario);
-    Usuario leeUsuario(char* user);
-//    void iniciarSesion(char *usuario, char *password); 
+    Usuario leeUsuario(char* user, sqlite3* db);
+    void iniciarSesion(char *usuario, char *password); 
 #endif
