@@ -10,39 +10,6 @@
 
 int main(void)
 {
-//<<<<<<<<<< HEAD
-	int opc = 0;
-	do{
-		system("cls");
-		printf("BIENVENIDO A LA SALA DE CINE. ESCOJA UNA OPCIÓN \n\n");
-		printf("1. Iniciar sesión como Administrador\n");
-		printf("2. Iniciar sesión como Cliente\n");
-		printf("3. Salir\n");
-		printf("Opcion a escoger: ");
-		scanf("%d", &opc);
-		switch(opc){
-			case 1:
-				system("cls");
-				printf("Bienvenido Administrador, ¿Qué desea gestionar?\n\n");
-				printf("1. Reservas\n"); //Si selecciona 1 tendrá otro menú. 1.Visualizar reservas realizadas y canceladas. 2.Eliminar reservas canceladas.
-				printf("2. Películas\n"); //Si selecciona 2 tendrá otro menú. 1.Añadir películas. 2.Eliminar películas
-				printf("3. Modificaciones generales\n"); //Si selecciona 3 tendrá otro menú...
-				printf("4. Salir\n");
-			case 2:
-				system("cls");
-				printf("¡Bienvenido!\n\n");
-				printf("1. Películas\n");
-				printf("2. Fechas\n");
-				printf("3. Salir");
-			case 3:
-				break;
-			default:
-				system("cls");
-				printf("La opción seleccionada no es correcta");
-				opc=getchar();
-				break;
-		}
-	}while(opc != 3);
 
 ////////////////////////////////////////////////BASE DE DATOS//////////////////////////////////////////////////////
 	sqlite3 *db;
@@ -56,7 +23,7 @@ int main(void)
         return 1;
     } else {
         fprintf(stdout, "La base de datos se ha abierto correctamente\n");
-    }
+	}
 
 //CREACION DE LA TABLA PELICULA
     char *sqla = "CREATE TABLE Pelicula (id_pel INT PRIMARY KEY NOT NULL, nom_pel TEXT NOT NULL, genero_pel TEXT, dir_pel TEXT NOT NULL, duracion_pel TEXT NOT NULL, precio INT NOT NULL)";
@@ -120,11 +87,12 @@ int main(void)
 
     if (baseDatos != SQLITE_OK) {
     	fprintf(stderr, "Error al crear la tabla: %s\n", error);
+		sqlite3_free(error);
    	    sqlite3_close(db);
         return 1;
 
     }else {
-        fprintf(stdout, "La tabla Usario se ha creado correctamente\n");
+        fprintf(stdout, "La tabla Usuario se ha creado correctamente\n");
     }
 
 	char nombreUsuario[MAX_USERNAME_LENGTH];
