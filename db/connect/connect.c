@@ -132,7 +132,7 @@ void agregarUsuario(char *username, char *password, sqlite3* db){
     printf("Error al abrir el fichero\n");
   }
 
-  fprintf(f, "%s %s\n", username, password);
+  fprintf(f, "%s;%s\n", username, password);
 
   sql = sqlite3_mprintf("INSERT INTO usuarios (nombre, contrasena) VALUES ('%q', %d)", username, password);
   int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
