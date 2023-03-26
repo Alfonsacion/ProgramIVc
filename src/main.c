@@ -13,33 +13,42 @@ void main(void)
 	sqlite3 *db;
 	char* error;
 ////////////////////////////////////////////////BASE DE DATOS//////////////////////////////////////////////////////
-	int openDB(db);
-
-    int tablaPelicula(db, error);
-    int tablaHorario(db, error);
-    int tablaFecha(db, error);
-    int tablaUsuario(db, error);
-
+	int baseDedatos = openDB(db);
+    int pelicula = tablaPelicula(db, error);
+    int horario = tablaHorario(db, error);
+    int fecha = tablaFecha(db, error);
+    int usuario = tablaUsuario(db, error);
+	
 	char nombreUsuario[MAX_USERNAME_LENGTH];
     char contraseyna[MAX_PASSWORD_LENGTH];
-
-	iniciarSesion(nombreUsuario, contraseyna);
 
 	char* a = malloc((strlen(nombreUsuario)+1)*sizeof(char));
 	a = strcpy(a,nombreUsuario);
 	a[strlen(a)]='\0';
-	Usuario u = leeUsuario(a, db); 
 
-	 if (strcmp(u.nombreUsuario, "") == 0) {
-    agregarUsuario(nombreUsuario, contraseyna, db);
-    printf("Usuario registrado\n");
-	 } else {
-    if (strcmp(contraseyna, u.contraseyna) == 0) {
-      printf("Sesion iniciada\n");
-    } else {
-      printf("Contraseña incorrecta\n");
-    }
-  }
+//	Usuario u = leeUsuario(a, db); 
+
+	printf("\n");
+
+	Usuario	u = login(a, contraseyna, db);
+
+	// if (strcmp(nombreUsuario, u.nombreUsuario) && strcmp(contraseyna, u.contraseyna) == 0) {
+    //   printf("Sesion iniciada\n");
+    //  } else {
+    //    printf("Usuario o contraseña incorrectos\n");
+    //  }
+
+
+// 	 if (strcmp(u.nombreUsuario, nombreUsuario) == 0) {
+//     agregarUsuario(nombreUsuario, contraseyna, db);
+//     printf("Usuario registrado\n");
+// 	 } else {
+//     if (strcmp(nombreUsuario, u.nombreUsuario) && strcmp(contraseyna, u.contraseyna) == 0) {
+//       printf("Sesion iniciada\n");
+//     } else {
+//       printf("Usuario o contraseña incorrectos\n");
+//     }
+//   }
 
   free(a);
 
