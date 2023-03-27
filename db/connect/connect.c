@@ -121,7 +121,7 @@ void agregarUsuario(char *username, char *password, sqlite3* db){
   printf("Elige cual va ser tu contrasena: ");
   scanf("%s", password);
 
-  fprintf(f, "%s;%s\n", username, password);
+  fprintf(f, "%s %s\n", username, password);
 
   char sql[] = "insert into usuario (nombreUsuario, password) values (?, ?)";
 	int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) ;
@@ -205,11 +205,14 @@ Usuario leeUsuario(char* user, char* password, sqlite3* db){
     if (f == NULL) {
     printf("Error al abrir el archivo.\n");
     }
-
+  printf("User:%s, Pass:%s\n",user,password);
    int lectura = fgetc(f);
-   char sql[] = ("SELECT * FROM usuario WHERE nombreUsuario = '?' AND password = ?");
+   char sql[] = ("SELECT * FROM usuario WHERE nombreUsuario = ? AND password = ?");
+
 	 int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) ;
 
+  result = sqlite3_bind_text(stmt, 1, user, strlen(user), SQLITE_STATIC);
+  result = sqlite3_bind_text(stmt, 2, password, strlen(password), SQLITE_STATIC);
   if(result != SQLITE_OK){
     printf("Error al preparar la consulta\n");
     printf("%s\n", sqlite3_errmsg(db));
@@ -217,24 +220,24 @@ Usuario leeUsuario(char* user, char* password, sqlite3* db){
 
   do {
 		result = sqlite3_step(stmt) ;
+
 		if (result == SQLITE_ROW) {
-			*password = sqlite3_column_int(stmt, 0);
-			strcpy(user, (char *) sqlite3_column_text(stmt, 1));
-			printf("Usuario: %s Contrasena: %d\n", user, password);
+      password=malloc(sizeof(char)*(strlen( sqlite3_column_text(stmt, 1)+1)));
+			strcpy(password,(char *) sqlite3_column_text(stmt, 1));
+      user=malloc(sizeof(char)*(strlen( sqlite3_column_text(stmt, 0)+1)));
+			strcpy(user, (char *) sqlite3_column_text(stmt, 0));
 		}
 	} while (result == SQLITE_ROW);
    
-
-    int count = 0;
-
-       while (fscanf(f, "%s;%s", u.nombreUsuario, u.contraseyna) == 2 && result == SQLITE_ROW) {
-         count++;
-        if (strcmp(user, u.nombreUsuario) == 0 && count > 0) { 
-         printf("Usuario encontrado\n");
-         return u;
-       } else {
-         printf("Usuario no encontrado\n");
-        }
+       while (fscanf(f, "%s %s", u.nombreUsuario, u.contraseyna) !=EOF) {
+        
+          if (strcmp(user, u.nombreUsuario) == 0) { 
+            printf("Usuario encontrado\n");
+            return u;
+      //  } else {
+      //    printf("Usuario no encontrado\n");
+      //   }
+         }
       }
 
   fclose(f);
@@ -246,54 +249,27 @@ Usuario leeUsuario(char* user, char* password, sqlite3* db){
   }
 
   sqlite3_close(db);
-  strcpy(u.nombreUsuario, "");
-  strcpy(u.contraseyna, "");
+//  strcpy(u.nombreUsuario, "");
+//  strcpy(u.contraseyna, "");
   return u;
 }
 
-// Usuario* leerDeFichero (char* user, char* password){
-//    FILE* f = fopen("DatosUsuarios.txt", "r");
-//     if (f == NULL) {
-//       printf("Error al abrir el archivo.\n");
-//     }
-
-//     char line[100];
-//     while (fgets(line, sizeof(line), f)) {
-//         char *token = strtok(line, ",");
-//         if (strcmp(token, user) == 0) {
-//             *password = strtok(NULL, ",");
-//             Usuario *u = malloc(sizeof(Usuario));
-//             u->nombreUsuario = user;
-//             u->contraseyna = password;
-//             fclose(f);
-//             return (Usuario*)user;
-//         }
-//     }
-
-//     fclose(f);
-//     return NULL;
-// }
-
 
   Usuario login(char *usuario, char *password, sqlite3* db){
-
-    Usuario u = leeUsuario(usuario, password, db);
- // Usuario* ub = leerDeBase(usuario, password);
- // Usuario* uf = leerDeFichero(usuario, password);
 
   printf("Introduce tu nombre de usuario, si no tienes escribe 'n': ");
   scanf("%s", usuario);
 
   if(strcmp(usuario, "n") == 0){
 		agregarUsuario(usuario, password, db);
-		printf("Usuario registrado, felicidades, se te iniciara la sesion automaticamente\n");
+		printf("Usuario registrado, felicidades, a partir de ahora podras iniciar sesion con ese usuario\n");
 
   }else{
 
     printf("Ingresa tu contraseña: ");
     scanf("%s", password);
  }
-
+  Usuario u = leeUsuario(usuario, password, db);
   if (strcmp(usuario, u.nombreUsuario) && strcmp(password, u.contraseyna) != 0) {
     printf("Usuario o contraseña incorrectos\n");
     exit(0);

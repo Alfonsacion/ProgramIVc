@@ -1,5 +1,6 @@
-Inigo;Tobi
-Iker;gym
-Aner;Ball
-Markos;feo
-Anerralph;Roncero
+Inigo Tobi
+Iker gym
+Aner Ball
+Markos feo
+Anerralph Roncero
+Jose;Gaviria
