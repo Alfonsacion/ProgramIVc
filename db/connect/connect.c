@@ -262,13 +262,18 @@ Usuario leeUsuario(char* user, char* password, sqlite3* db){
 
   if(strcmp(usuario, "n") == 0){
 		agregarUsuario(usuario, password, db);
-		printf("Usuario registrado, felicidades, a partir de ahora podras iniciar sesion con ese usuario\n");
+		printf("Usuario registrado, felicidades, ya puedes iniciar sesion con ese usuario\n");
+    printf("Introduce tu nombre de usuario: ");
+    scanf("%s", usuario);
+     printf("Ingresa tu contraseña: ");
+    scanf("%s", password);
 
   }else{
 
     printf("Ingresa tu contraseña: ");
     scanf("%s", password);
  }
+  
   Usuario u = leeUsuario(usuario, password, db);
   if (strcmp(usuario, u.nombreUsuario) && strcmp(password, u.contraseyna) != 0) {
     printf("Usuario o contraseña incorrectos\n");
