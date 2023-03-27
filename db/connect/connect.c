@@ -231,8 +231,6 @@ Usuario leeUsuario(char* user, char* password, sqlite3* db){
          count++;
         if (strcmp(user, u.nombreUsuario) == 0 && count > 0) { 
          printf("Usuario encontrado\n");
-         fclose(f);
-         sqlite3_close(db);
          return u;
        } else {
          printf("Usuario no encontrado\n");
@@ -288,7 +286,7 @@ Usuario leeUsuario(char* user, char* password, sqlite3* db){
 
   if(strcmp(usuario, "n") == 0){
 		agregarUsuario(usuario, password, db);
-		printf("Usuario registrado\n");
+		printf("Usuario registrado, felicidades, se te iniciara la sesion automaticamente\n");
 
   }else{
 
@@ -296,32 +294,13 @@ Usuario leeUsuario(char* user, char* password, sqlite3* db){
     scanf("%s", password);
  }
 
-  if (strcmp(usuario, u.nombreUsuario) && strcmp(password, u.contraseyna) == 0) {
-    printf("Sesion iniciada\n");
-
-   } else {
+  if (strcmp(usuario, u.nombreUsuario) && strcmp(password, u.contraseyna) != 0) {
     printf("Usuario o contraseña incorrectos\n");
     exit(0);
-//       attempts--;
-   }
-//  }
+      } 
+
+    printf("Sesion iniciada\n");
 
  return u;
+
 }
-//  void iniciarSesion(char *usuario, char *password, sqlite3* db){
-//   printf("Introduce tu nombre de usuario, si no tienes escribe 'n': ");
-//   scanf("%s", usuario);
-//   if(strcmp(usuario, "n") == 0){
-// 		agregarUsuario(usuario, password, db);
-// 		printf("Usuario registrado\n");
-// 	}else{
-//   printf("Ingresa tu contraseña: ");
-//   scanf("%s", password);
-//   }
-//  }
-
-
-
-// char *sqla = "CREATE TABLE Pelicula (id_pel INT PRIMARY KEY NOT NULL, nom_pel TEXT NOT NULL, genero_pel TEXT, dir_pel TEXT NOT NULL, duracion_pel TEXT NOT NULL, precio INT NOT NULL)";
-// char *sqlb = "CREATE TABLE Horario (id_horario INT PRIMARY KEY NOT NULL, HoraInicio TEXT NOT NULL, HoraFin TEXT NOT NULL, idPelicula TEXT NOT NULL, FOREIGN KEY (idPelicula) REFERENCES Pelicula(id_pel), fechaHorario INT NOT NULL, FOREIGN KEY (fechaHorario) REFERENCES Fecha(id_sala))";
-// char *sqlc = "CREATE TABLE Fecha (fecha TEXT PRIMARY KEY NOT NULL, numPeliculas INT NOT NULL, idPeliculaFecha INT NOT NULL, FOREIGN KEY (idPeliculaFecha) REFERENCES Pelicula(id_pel));";

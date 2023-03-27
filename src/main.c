@@ -29,6 +29,8 @@ void main(void)
 //	Usuario u = leeUsuario(a, db); 
 
 	printf("\n");
+	printf("Bienvenido/a, ahora puedes iniciar sesion\n");
+	printf("\n");
 
 	Usuario	u = login(a, contraseyna, db);
 
