@@ -1,9 +1,11 @@
 #include "cliente.h"
 #include <stdio.h>
 #include<stdlib.h>
+#include <time.h>
 
 
-void generarSalaA(AsientoElegido *arrayAsientosElegidos, int numEntradasSeleccionadas){
+
+void generarSalaA(AsientoElegido *arrayAsientosElegidos, int numEntradasSeleccionadas, int numEntradas){
 
     	printf("\n");
         printf("Seleccione un asiento escribiendo su numero y letra: \n");
@@ -20,7 +22,7 @@ void generarSalaA(AsientoElegido *arrayAsientosElegidos, int numEntradasSeleccio
         int i2;
         int doble =0;
 
-        for (i=0; i<5; i++) {
+        for (i=0; i<numFilas; i++) {
             salaA[i] = (char*)malloc(numAsientosXFila * (sizeof(char)*3));
             *salaA[i] = i + 49;
             printf("%c     ", *salaA[i]);
@@ -53,15 +55,10 @@ void generarSalaA(AsientoElegido *arrayAsientosElegidos, int numEntradasSeleccio
 
              }
 
-
         }
                 printf("\n");
 
-
-
-
         }
-
         
         printf("       ");
         for (i2=0; i2<numAsientosXFila; i2++){
@@ -69,11 +66,7 @@ void generarSalaA(AsientoElegido *arrayAsientosElegidos, int numEntradasSeleccio
 
                 if (i2 == 3){
 
-                    
-
-
                 }
-
             }
 
         //Alonso - falta liberar los mallocs al final y los valores del asiento elegido (creo)
@@ -107,11 +100,6 @@ void elegirAsiento(AsientoElegido *arrayAsientosElegidos, int numEntradasSelecci
                         }
                     }
 
-
-
-
-
-
                  if (arrayAsientosElegidos[numEntradasSeleccionadas].filaElegida <= 5 && arrayAsientosElegidos[numEntradasSeleccionadas].filaElegida >= 1 && arrayAsientosElegidos[numEntradasSeleccionadas].letraAsientoElegido <= 72 && arrayAsientosElegidos[numEntradasSeleccionadas].letraAsientoElegido >= 65 ){
                                     if (presenteEnArray ==0){ 
                     fflush(stdin);
@@ -140,6 +128,7 @@ void elegirAsiento(AsientoElegido *arrayAsientosElegidos, int numEntradasSelecci
                     printf("\n"); 
 
                     } 
+                    
                 
          }
 }
@@ -150,7 +139,9 @@ int confirmacionAsiento(int numEntradasSeleccionadas){
 
     printf("\n");
     printf("\n");
-    printf("Compruebe el nuevo esquema, es el asiento elegido correcto? (S-> Si, N-> No)");
+    printf("////////////////////////////////////////////////////////////////////////////\n");
+    printf("Compruebe el nuevo esquema, es el asiento elegido correcto? (S-> Si, N-> No)\n");
+    printf("////////////////////////////////////////////////////////////////////////////");
     printf("\n");
     printf("\n");    
 
@@ -172,6 +163,168 @@ int confirmacionAsiento(int numEntradasSeleccionadas){
     }
 
     return numEntradasSeleccionadas;
+
 }
+
+
+int pantallaCartelera(const char **arrayPeliculas, int numPeliculas){
+
+    int seleccionPelicula;
+
+    typedef struct{
+		int dia;
+		int mes;
+        int anyo;
+	} Fecha;
+
+    Fecha f1;
+    f1.dia = 12;
+    f1.mes = 11;
+    f1.anyo =2023;
+
+    printf("\n");
+    printf("\n");
+    printf("/////////// Estas visualizando las peliculas para el %d / %d / %d ///////////////////", f1.dia, f1.mes, f1.anyo);
+    printf("\n");
+    printf("\n");
+    printf("Para visualizar el siguiente dia, escriba 1 y presione Enter");
+    printf("\n");
+    printf("\n");
+    printf("Para visualizar el dia anterior, escriba 2 y presione Enter");
+    printf("\n");
+    printf("\n");    
+    printf("Para elegir una pelicula, escriba su letra y presione Enter");
+    printf("\n");
+    printf("\n");  
+    
+    for (int i = 1; i <= numPeliculas; i++) {
+
+            printf("%d %s \n", i, arrayPeliculas[i]);
+
+     }
+
+    printf("\n");
+    printf("\n");
+    
+    
+    printf("Escriba aqui su seleccion: "); 
+    scanf("%1d", &seleccionPelicula);
+
+        printf("\n \n \n \n",seleccionPelicula);
+
+    
+    return seleccionPelicula;
+}
+
+
+
+int seleccionHorarios(int seleccionPelicula, const char **arrayHorarios, const char **arrayPeliculas){
+    
+    int seleccionHorario;
+    int numHorarios = 4;
+    
+    printf("\n");
+    printf("\n");
+    printf("///////////Seleccione un horario///////////");
+    printf("\n");
+    printf("\n");
+    printf("Los horarios disponibles para %s son: ", arrayPeliculas[seleccionPelicula]);
+    printf("\n");
+    printf("\n");
+
+        for (int i = 1; i < numHorarios; i++) {
+
+            printf("%d %s \n", i, arrayHorarios[i]);
+    }
+
+    printf("\n\n Indique el numero del horario que desee: ");
+    scanf("%1d", &seleccionHorario);
+    printf("\n\nEscriba 'v' y presione Enter para volver a la cartelera de peliculas.\n\n");
+
+    printf("\n \n El horario seleccionada es %s  \n \n", arrayHorarios[seleccionHorario]);
+
+    return seleccionHorario;
+}   
+
+int confirmacionTicket(int seleccionPelicula, const char **arrayPeliculas, const char **arrayHorarios, int seleccionHorario){    
+
+    int numEntradas;
+    int precio = 5;
+    
+    printf("\n \n ///////////Confirmacion de tickets///////////");
+    printf("\n \n Usted ha seleccionado: %s", arrayPeliculas[seleccionPelicula] );
+    printf("\n \n Usted ha seleccionado el horario:  %s", arrayHorarios[seleccionHorario]);
+    printf("\n\n El precio de la entrada para esta pelicula es de %d euros", precio);
+    printf("\n\n Indique el número de entradas que desea comprar: ");
+    scanf("%1d", &numEntradas);
+    printf("\n\n Has seleccionado reservar &d entradas.", numEntradas);
+    printf("\n\n Escriba 'v' y presione Enter para volver a la selección del horario");
+
+    return numEntradas;
+
+
+
+}
+
+void confirmacionDefinitiva(int seleccionPelicula, const char **arrayPeliculas, int seleccionHorario, const char **arrayHorarios, int numEntradas){ //, AsientoElegido **arrayAsientosElegidos, int numEntradasSeleccionadas
+    
+    printf("\n\n ///////////Confirmacion de tickets///////////");
+    printf("\n\n Has seleccionado: \n\n La pelicula: %s", arrayPeliculas[seleccionPelicula]);
+    printf("\n El horario: %s", arrayHorarios[seleccionHorario]);
+    printf("\n Numero de entradas: %s", numEntradas);
+    //printf("\n Los asientos seleccionados: %1d %1c", &arrayAsientosElegidos[numEntradasSeleccionadas].filaElegida, &arrayAsientosElegidos[numEntradasSeleccionadas].letraAsientoElegido);
+    
+    
+
+}
+
+
+void exportarDatos(int numEntradasSeleccionadas, int seleccionPelicula, const char **arrayPeliculas){
+
+    FILE *historial;
+
+    const char *usuario = "Iker Gonzalez";
+    time_t t = time(NULL);
+    struct tm tm = *localtime(&t);
+
+        printf("\n\n Preparando \n\n");
+
+
+    historial = fopen("../historial/historialCompras.txt", "a");
+
+    fprintf(historial, "\n El usuario %s reservo %d entradas para %s el %d-%02d-%02d", usuario, numEntradasSeleccionadas, arrayPeliculas[seleccionPelicula], tm.tm_year + 1900, tm.tm_mon + 1, tm.tm_mday);
+
+    fclose(historial);
+
+        printf("\n\n Listo \n\n");
+
+
+
+}
+
+void datosUsuario (char usuario[100], char dni[100], char correo[100], char telefono[100]){
+        printf("\n\n///////////Esta visualizando sus datos///////////\n\n");
+        printf("Usuario: %s", usuario);
+        printf("\n\nDNI: %s", dni);
+        printf("\n\nCorreo: %s", correo);
+        printf("\n\nTelefono de contacto: %s", telefono);
+}
+
+void datosPeliculas(const char **arrayPeliculas, int numPeliculas){
+        printf("\n\n///////////Esta visualizando todas las peliculas disponibles actualmente///////////\n\n");
+        for (int i = 1; i <= numPeliculas; i++) {
+
+            printf("%d %s \n", i, arrayPeliculas[i]);
+        }
+
+
+
+}
+
+
+
+
+
+
 
 
