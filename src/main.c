@@ -17,7 +17,7 @@ void main(void)
     int pelicula = tablaPelicula(db, error);
     int horario = tablaHorario(db, error);
     int fecha = tablaFecha(db, error);
-    int usuario = tablaUsuario(db, error);
+    int usuarioTest = tablaUsuario(db, error);
 	
 	char nombreUsuario[MAX_USERNAME_LENGTH];
     char contraseyna[MAX_PASSWORD_LENGTH];
@@ -36,24 +36,114 @@ void main(void)
   free(a);
 
 //////////////////////PARTE ALONSO, SELECCION DE ASIENTOS
-	int numEntradas = 3;
-	int numEntradasSeleccionadas = 0;	
+	//////////VARIABLES DESDE BD////////////
+	
+	int numPeliculas = 5;
+	char usuario[100] = "Iker";
+	char dni[100] = "75485943L.";
+	char correo[100] = "iker@gmail.com";
+	char telefono[100] = "758 748 372";
+
+
+
+	///////////////////////////////////////
+	int seleccionPelicula = 0;
+	int seleccionHorario = 0;
+	int numEntradas = 0;
+	int numEntradasSeleccionadas = 0;
 
 	AsientoElegido *arrayAsientosElegidos;
-	arrayAsientosElegidos = malloc(numEntradas*sizeof(AsientoElegido));
 
-	generarSalaA(arrayAsientosElegidos, numEntradasSeleccionadas);
+	const char *arrayPeliculas[6];
+	arrayPeliculas[1] = "Gato con botas";
+	arrayPeliculas[2] = "Vengadores";
+	arrayPeliculas[3] = "Narnia";
+	arrayPeliculas[4] = "Star Wars";
+	arrayPeliculas[5] = "Avatar";
+
+	const char *arrayHorarios[4];
+	arrayHorarios[1] = "17:00";
+	arrayHorarios[2] = "16:00";
+	arrayHorarios[3] = "18:00";
 
 
-	for (numEntradasSeleccionadas = 0; numEntradasSeleccionadas < numEntradas; numEntradasSeleccionadas++)
-	{
 
-		elegirAsiento(arrayAsientosElegidos,numEntradasSeleccionadas);
-		generarSalaA(arrayAsientosElegidos, numEntradasSeleccionadas);
-    	numEntradasSeleccionadas = confirmacionAsiento(numEntradasSeleccionadas);
 
-		}
+    int opcion =1 ;
+
+	while (opcion <= 5 && opcion >= 0){ 
+
+			printf("\n\n///////////Menu Cineplex///////////\n\n");
+
+            printf("1. Visualizar datos del usuario\n\n");
+            printf("2. Efectuar una reserva \n\n");
+            printf("3. Visualizar las peliculas disponibles \n\n");
+            printf("4. Cerrar sesion\n\n");
+
+            printf("Seleccione la opcion que desee: \n");
+            scanf("%1d", &opcion);
+            switch(opcion){
+
+                case 1:
+
+					datosUsuario ( usuario,  dni,  correo,  telefono);
+					
+					printf("\n\nPresiona cualquier tecla y enter para volver al menu: ");
+					scanf("%1d", &opcion);
+                    fflush(stdin);  
+					
+                    break;
+
+                case 2:
+                    printf("\n\n///////////Bienvido al gestor de reservas///////////\n\n");
+
+						seleccionPelicula = pantallaCartelera(arrayPeliculas, numPeliculas);
+						seleccionHorario = seleccionHorarios(seleccionPelicula, arrayHorarios, arrayPeliculas);
+						numEntradas = confirmacionTicket(seleccionPelicula, arrayPeliculas,arrayHorarios, seleccionHorario);
+						arrayAsientosElegidos = malloc(numEntradas*sizeof(AsientoElegido));
+
+
+						generarSalaA(arrayAsientosElegidos, numEntradasSeleccionadas, numEntradas);
+
+						for (numEntradasSeleccionadas = 0; numEntradasSeleccionadas < numEntradas; numEntradasSeleccionadas++){
+							elegirAsiento(arrayAsientosElegidos,numEntradasSeleccionadas);
+							generarSalaA(arrayAsientosElegidos, numEntradasSeleccionadas, numEntradas);
+    						numEntradasSeleccionadas = confirmacionAsiento(numEntradasSeleccionadas);
+						}
+
+						exportarDatos(numEntradasSeleccionadas, seleccionPelicula, arrayPeliculas);
+
+
+					printf("\n\nPresiona cualquier tecla y enter para volver al menu: ");
+					scanf("%1d", &opcion);
+                    fflush(stdin);
+                  
+                    break;
+                case 3:
+
+					datosPeliculas(arrayPeliculas, numPeliculas);
+
+					printf("\n\nPresiona cualquier tecla y enter para volver al menu: ");
+					scanf("%1d", &opcion);
+                    fflush(stdin); 					
+                
+                    break;
+                case 4:
+				    printf("\n\n///////////Has cerrado sesion, hasta pronto!///////////\n\n");
+
+					opcion =6 ;
+
+                    break;
+
+                default:
+
+                    printf("\n\n///////////La opcion seleccionada no es valida///////////\n\n");
+                    fflush(stdin);  
+
+                    break;
+			}
 
 ////////////////////////////////////FIN PARTE ALONSO
 	
 }
+ }
