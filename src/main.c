@@ -26,31 +26,12 @@ void main(void)
 	a = strcpy(a,nombreUsuario);
 	a[strlen(a)]='\0';
 
-//	Usuario u = leeUsuario(a, db); 
-
 	printf("\n");
 	printf("Bienvenido/a, ahora puedes iniciar sesion\n");
 	printf("\n");
 
 	Usuario	u = login(a, contraseyna, db);
 
-	// if (strcmp(nombreUsuario, u.nombreUsuario) && strcmp(contraseyna, u.contraseyna) == 0) {
-    //   printf("Sesion iniciada\n");
-    //  } else {
-    //    printf("Usuario o contraseña incorrectos\n");
-    //  }
-
-
-// 	 if (strcmp(u.nombreUsuario, nombreUsuario) == 0) {
-//     agregarUsuario(nombreUsuario, contraseyna, db);
-//     printf("Usuario registrado\n");
-// 	 } else {
-//     if (strcmp(nombreUsuario, u.nombreUsuario) && strcmp(contraseyna, u.contraseyna) == 0) {
-//       printf("Sesion iniciada\n");
-//     } else {
-//       printf("Usuario o contraseña incorrectos\n");
-//     }
-//   }
 
   free(a);
 
@@ -76,9 +57,3 @@ void main(void)
 ////////////////////////////////////FIN PARTE ALONSO
 	
 }
-	
-
-//testAlonso
-//testDelPojo
-//testTxingas
-//testMarkos
