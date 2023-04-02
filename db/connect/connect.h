@@ -10,7 +10,5 @@
     int tablaFecha(sqlite3* db, char* error);
     int tablaUsuario(sqlite3* db, char* error);
     int openDB(sqlite3 *db);
-//    Usuario* leerDeFichero (char* user, char* password);
-//    Usuario *leerDeBase(char *username, char *password);
 
 #endif

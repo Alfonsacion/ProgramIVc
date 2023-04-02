@@ -7,7 +7,7 @@
 
 int openDB(sqlite3 *db){
 
-	  char *error = NULL; //variable para almacenar los errores que srugen en la bd
+	  char *error = NULL;
 
     int baseDatos = sqlite3_open("baseDeDatosCine.sqlite", &db);
 
@@ -84,9 +84,6 @@ int tablaUsuario(sqlite3* db, char* error){
     char* sql2 = "CREATE TABLE IF NOT EXISTS usuario (nombreUsuario TEXT PRIMARY KEY NOT NULL, password TEXT NOT NULL)";
     result = sqlite3_exec(db, sql2, 0, 0, &error);  
 
-//    char* sql = "INSERT INTO usuario (nombreUsuario, password) VALUES ('Iker', 456);";
-//    result = sqlite3_exec(db, sql, 0, 0, &error);
-
 	if(f == NULL){
 		fprintf(stderr, "Error al abrir el archivo %s\n", f);
 	 	ferror(f);
@@ -126,9 +123,6 @@ void agregarUsuario(char *username, char *password, sqlite3* db){
   char sql[] = "insert into usuario (nombreUsuario, password) values (?, ?)";
 	int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) ;
 
-  //sql = sqlite3_mprintf("INSERT INTO usuario (nombreUsuario, password) VALUES ('%s', %d)", username, password);
-  //int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
-
   if(result != SQLITE_OK){
     printf("Error al preparar la consulta\n");
     printf("%s\n", sqlite3_errmsg(db));
@@ -163,37 +157,6 @@ void agregarUsuario(char *username, char *password, sqlite3* db){
   sqlite3_close(db);
 
 }
-
-// Usuario *leerDeBase(char *username, char *password) {
-//     sqlite3 *db;
-//     if (sqlite3_open("baseDeDatosCine.sqlite", &db) != SQLITE_OK) {
-//         return NULL;
-//     }
-
-//     char *sql = "SELECT nombreUsuario, password FROM usuario WHERE username = ? AND password = ?";
-//     sqlite3_stmt *stmt;
-//     if (sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) != SQLITE_OK) {
-//         sqlite3_close(db);
-//         return NULL;
-//     }
-
-//     sqlite3_bind_text(stmt, 1, username, -1, SQLITE_STATIC);
-//     if (sqlite3_step(stmt) != SQLITE_ROW) {
-//         sqlite3_finalize(stmt);
-//         sqlite3_close(db);
-//         return NULL;
-//     }
-
-//     sqlite3_bind_text(stmt, 2, password, -1, SQLITE_STATIC);
-
-//     *password = strdup((char*)sqlite3_column_text(stmt, 0));
-//     Usuario *user = malloc(sizeof(Usuario));
-//     user->nombreUsuario = username;
-//     user->contraseyna = password;
-//     sqlite3_finalize(stmt);
-//     sqlite3_close(db);
-//     return user;
-// }
 
 Usuario leeUsuario(char* user, char* password, sqlite3* db){
     Usuario u;
@@ -234,9 +197,6 @@ Usuario leeUsuario(char* user, char* password, sqlite3* db){
           if (strcmp(user, u.nombreUsuario) == 0) { 
             printf("Usuario encontrado\n");
             return u;
-      //  } else {
-      //    printf("Usuario no encontrado\n");
-      //   }
          }
       }
 
@@ -249,8 +209,6 @@ Usuario leeUsuario(char* user, char* password, sqlite3* db){
   }
 
   sqlite3_close(db);
-//  strcpy(u.nombreUsuario, "");
-//  strcpy(u.contraseyna, "");
   return u;
 }
 
