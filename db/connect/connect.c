@@ -81,16 +81,6 @@ int tablaUsuario(sqlite3* db, char* error){
     int result = sqlite3_open("baseDeDatosCine.sqlite", &db);
     FILE* f = fopen("DatosUsuarios.txt", "r");
 
-     char* sql = "DROP TABLE IF EXISTS usuario";
-     result = sqlite3_exec(db, sql, 0, 0, &error); 
-
-     if (result != SQLITE_OK) {
-    fprintf(stderr, "Error al eliminar la tabla: %s\n", error);
-		sqlite3_free(error);
-   	sqlite3_close(db);
-    return 1;
-     }
-
     char* sql2 = "CREATE TABLE IF NOT EXISTS usuario (nombreUsuario TEXT PRIMARY KEY NOT NULL, password TEXT NOT NULL, dni TEXT NOT NULL, correo TEXT NOT NULL, telefono INT NOT NULL)";
     result = sqlite3_exec(db, sql2, 0, 0, &error);  
 
