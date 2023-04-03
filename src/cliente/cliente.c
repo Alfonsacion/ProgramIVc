@@ -170,27 +170,24 @@ int confirmacionAsiento(int numEntradasSeleccionadas){
 int pantallaCartelera(const char **arrayPeliculas, int numPeliculas){
 
     int seleccionPelicula;
+    int cambiarDias = 1;
+    int diaActual = 0;
 
-    typedef struct{
-		int dia;
-		int mes;
-        int anyo;
-	} Fecha;
 
-    Fecha f1;
-    f1.dia = 12;
-    f1.mes = 11;
-    f1.anyo =2023;
+    while (cambiarDias == 1){
+
+    char arrDias[7][10] = {"Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"};
+
 
     printf("\n");
     printf("\n");
-    printf("/////////// Estas visualizando las peliculas para el %d / %d / %d ///////////////////", f1.dia, f1.mes, f1.anyo);
+    printf("/////////// Estas visualizando las peliculas para el %s ///////////////////", arrDias[diaActual]);
     printf("\n");
     printf("\n");
     printf("Para visualizar el siguiente dia, escriba 1 y presione Enter");
     printf("\n");
     printf("\n");
-    printf("Para visualizar el dia anterior, escriba 2 y presione Enter");
+    printf("Para visualizar el dia anterior, escriba 0 y presione Enter");
     printf("\n");
     printf("\n");    
     printf("Para elegir una pelicula, escriba su letra y presione Enter");
@@ -199,7 +196,7 @@ int pantallaCartelera(const char **arrayPeliculas, int numPeliculas){
     
     for (int i = 1; i <= numPeliculas; i++) {
 
-            printf("%d %s \n", i, arrayPeliculas[i]);
+            printf("%d %s \n", i+1, arrayPeliculas[i]); ///////////Acuerdate que aqui pone +1 para el 0-1
 
      }
 
@@ -210,8 +207,27 @@ int pantallaCartelera(const char **arrayPeliculas, int numPeliculas){
     printf("Escriba aqui su seleccion: "); 
     scanf("%1d", &seleccionPelicula);
 
-        printf("\n \n \n \n",seleccionPelicula);
+    if (seleccionPelicula == 0){
+        if (diaActual == 0){
+            diaActual =6;
+        }else
+        {
+            --diaActual;
+        }
+        
 
+    }else if (seleccionPelicula == 1){
+         if (diaActual == 6){
+            diaActual =0;
+        }else
+        {
+            ++diaActual;
+        }
+
+    }else{
+        cambiarDias = 0;
+    }
+        }
     
     return seleccionPelicula;
 }
@@ -228,7 +244,7 @@ int seleccionHorarios(int seleccionPelicula, const char **arrayHorarios, const c
     printf("///////////Seleccione un horario///////////");
     printf("\n");
     printf("\n");
-    printf("Los horarios disponibles para %s son: ", arrayPeliculas[seleccionPelicula]);
+    printf("Los horarios disponibles para %s son: ", arrayPeliculas[seleccionPelicula-1]);
     printf("\n");
     printf("\n");
 
