@@ -43,7 +43,7 @@ int tablaPelicula(sqlite3* db, char* error){
 int tablaHorario(sqlite3* db, char* error){
 
   int result = sqlite3_open("baseDeDatosCine.sqlite", &db);
-  char *sql = "CREATE TABLE IF NOT EXISTS Horario (id_horario INT PRIMARY KEY NOT NULL, HoraInicio TEXT NOT NULL, HoraFin TEXT NOT NULL, idPelicula TEXT NOT NULL, FOREIGN KEY (idPelicula) REFERENCES Pelicula(id_pel), fechaHorario INT NOT NULL, FOREIGN KEY (fechaHorario) REFERENCES Fecha(id_fecha))";
+  char *sql = "CREATE TABLE IF NOT EXISTS Horario (id_horario INT PRIMARY KEY NOT NULL, HoraInicio TEXT NOT NULL, HoraFin TEXT NOT NULL, idPelicula TEXT NOT NULL, FOREIGN KEY (idPelicula) REFERENCES Pelicula(id_pel), fechaHorario TEXT NOT NULL, FOREIGN KEY (fechaHorario) REFERENCES Fecha(fecha))";
   result = sqlite3_exec(db, sql, 0, 0, &error);
   
   if (result != SQLITE_OK) {
@@ -81,7 +81,7 @@ int tablaUsuario(sqlite3* db, char* error){
     int result = sqlite3_open("baseDeDatosCine.sqlite", &db);
     FILE* f = fopen("DatosUsuarios.txt", "r");
 
-    char* sql2 = "CREATE TABLE IF NOT EXISTS usuario (nombreUsuario TEXT PRIMARY KEY NOT NULL, password TEXT NOT NULL)";
+    char* sql2 = "CREATE TABLE IF NOT EXISTS usuario (nombreUsuario TEXT PRIMARY KEY NOT NULL, password TEXT NOT NULL, dni TEXT NOT NULL, correo TEXT NOT NULL, telefono INT NOT NULL)";
     result = sqlite3_exec(db, sql2, 0, 0, &error);  
 
 	if(f == NULL){
