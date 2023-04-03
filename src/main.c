@@ -21,8 +21,8 @@ void main(void)
 	
 	char nombreUsuario[MAX_USERNAME_LENGTH];
     char contraseyna[MAX_PASSWORD_LENGTH];
-	char dni[MAX_PASSWORD_LENGTH];
-	char correo[MAX_PASSWORD_LENGTH];
+	char dniUsuario[MAX_PASSWORD_LENGTH];
+	char correoUsuario[MAX_PASSWORD_LENGTH];
 	char tlf[MAX_PASSWORD_LENGTH];
 
 	char* a = malloc((strlen(nombreUsuario)+1)*sizeof(char));
@@ -33,7 +33,7 @@ void main(void)
 	printf("Bienvenido/a, ahora puedes iniciar sesion\n");
 	printf("\n");
 
-	Usuario	u = login(a, contraseyna, dni, correo, tlf, db);
+	Usuario	u = login(a, contraseyna, dniUsuario, correoUsuario, tlf, db);
 
 
   free(a);

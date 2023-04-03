@@ -81,6 +81,16 @@ int tablaUsuario(sqlite3* db, char* error){
     int result = sqlite3_open("baseDeDatosCine.sqlite", &db);
     FILE* f = fopen("DatosUsuarios.txt", "r");
 
+     char* sql = "DROP TABLE IF EXISTS usuario";
+     result = sqlite3_exec(db, sql, 0, 0, &error); 
+
+     if (result != SQLITE_OK) {
+    fprintf(stderr, "Error al eliminar la tabla: %s\n", error);
+		sqlite3_free(error);
+   	sqlite3_close(db);
+    return 1;
+     }
+
     char* sql2 = "CREATE TABLE IF NOT EXISTS usuario (nombreUsuario TEXT PRIMARY KEY NOT NULL, password TEXT NOT NULL, dni TEXT NOT NULL, correo TEXT NOT NULL, telefono INT NOT NULL)";
     result = sqlite3_exec(db, sql2, 0, 0, &error);  
 
@@ -127,7 +137,7 @@ void agregarUsuario(char *username, char *password, char *dni, char *correo, cha
 
   fprintf(f, "%s %s\n", username, password);
 
-  char sql[] = "insert into usuario (nombreUsuario, password) values (?, ?)";
+  char sql[] = "insert into usuario (nombreUsuario, password, dni, correo, telefono) values (?, ?, ?, ?, ?)";
 	int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL) ;
 
   if(result != SQLITE_OK){
@@ -148,6 +158,22 @@ void agregarUsuario(char *username, char *password, char *dni, char *correo, cha
 		printf("Error binding parameters\n");
 		printf("%s\n", sqlite3_errmsg(db));
 	}
+
+  result = sqlite3_bind_text(stmt, 3, dni, strlen(password), SQLITE_STATIC);
+
+  if (result != SQLITE_OK) {
+		printf("Error binding parameters\n");
+		printf("%s\n", sqlite3_errmsg(db));
+	}
+
+  result = sqlite3_bind_text(stmt, 4, correo, strlen(password), SQLITE_STATIC);
+
+  if (result != SQLITE_OK) {
+		printf("Error binding parameters\n");
+		printf("%s\n", sqlite3_errmsg(db));
+	}
+
+  result = sqlite3_bind_text(stmt, 5, tlf, strlen(password), SQLITE_STATIC);
 
 	result = sqlite3_step(stmt);
 	if (result != SQLITE_DONE) {
