@@ -103,7 +103,8 @@ int tablaUsuario(sqlite3* db, char* error){
   return 0;
 }
 
-void agregarUsuario(char *username, char *password, sqlite3* db){
+void agregarUsuario(char *username, char *password, char *dni, char *correo, char *tlf, sqlite3* db){
+
       FILE* f;
       f = fopen("DatosUsuarios.txt", "a");
       int rc = sqlite3_open("baseDeDatosCine.sqlite", &db);
@@ -117,6 +118,12 @@ void agregarUsuario(char *username, char *password, sqlite3* db){
   scanf("%s", username);
   printf("Elige cual va ser tu contrasena: ");
   scanf("%s", password);
+  printf("Ingresa tu dni: ");
+  scanf("%s", dni);
+  printf("Ingresa tu correo: ");
+  scanf("%s", correo);
+  printf("Ingresa tu numero de tlf: ");
+  scanf("%s", tlf);
 
   fprintf(f, "%s %s\n", username, password);
 
@@ -213,17 +220,20 @@ Usuario leeUsuario(char* user, char* password, sqlite3* db){
 }
 
 
-  Usuario login(char *usuario, char *password, sqlite3* db){
+  Usuario login(char *usuario, char *password, char *dni, char *correo, char *tlf, sqlite3* db){
+
+  Usuario u;
 
   printf("Introduce tu nombre de usuario, si no tienes escribe 'n': ");
   scanf("%s", usuario);
 
   if(strcmp(usuario, "n") == 0){
-		agregarUsuario(usuario, password, db);
+
+		agregarUsuario(usuario, password, dni, correo, tlf, db);
 		printf("Usuario registrado, felicidades, ya puedes iniciar sesion con ese usuario\n");
     printf("Introduce tu nombre de usuario: ");
     scanf("%s", usuario);
-     printf("Ingresa tu contraseña: ");
+    printf("Ingresa tu contraseña: ");
     scanf("%s", password);
 
   }else{
@@ -232,7 +242,7 @@ Usuario leeUsuario(char* user, char* password, sqlite3* db){
     scanf("%s", password);
  }
   
-  Usuario u = leeUsuario(usuario, password, db);
+  u = leeUsuario(usuario, password, db);
   if (strcmp(usuario, u.nombreUsuario) && strcmp(password, u.contraseyna) != 0) {
     printf("Usuario o contraseña incorrectos\n");
     exit(0);
