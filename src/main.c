@@ -25,6 +25,11 @@ void main(void)
 	char correoUsuario[MAX_PASSWORD_LENGTH];
 	char tlf[MAX_PASSWORD_LENGTH];
 
+	char nom_pel_fecha[MAX_PASSWORD_LENGTH];
+    char nom_pel_horario[MAX_PASSWORD_LENGTH];
+	char HoraInicio[MAX_PASSWORD_LENGTH];
+	char HoraFin[MAX_PASSWORD_LENGTH];
+
 	char* a = malloc((strlen(nombreUsuario)+1)*sizeof(char));
 	a = strcpy(a,nombreUsuario);
 	a[strlen(a)]='\0';
@@ -34,6 +39,18 @@ void main(void)
 	printf("\n");
 
 	Usuario	u = login(a, contraseyna, dniUsuario, correoUsuario, tlf, db);
+
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+////////////////////////////////////////// METODO A LO TXINGAS //////////////////////////////////////////
+//	usuarioDatos ud = usuarioDatos(nombreUsuario, dniUsuario, correoUsuario, tlf, db);
+//	Pelicula p = verPeliculas(nom_pel_fecha, fecha, db);
+//	Horario h = verHorarios(nom_pel_horario, HoraInicio, HoraFin, db);
+
+////////////////////////////////////////// METODO A LA GAVIRIA //////////////////////////////////////////
+//	usuarioDatos(db);
+//	verPeliculas(db);
+//	verHorarios(db);
+//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 
   free(a);
@@ -98,7 +115,7 @@ void main(void)
                     break;
 
                 case 2:
-                    printf("\n\n///////////Bienvido al gestor de reservas///////////\n\n");
+                    printf("\n\n///////////Bienvenido al gestor de reservas///////////\n\n");
 
 						seleccionPelicula = pantallaCartelera(arrayPeliculas, numPeliculas);
 						seleccionHorario = seleccionHorarios(seleccionPelicula, arrayHorarios, arrayPeliculas);

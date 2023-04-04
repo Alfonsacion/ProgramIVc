@@ -43,7 +43,7 @@ int tablaPelicula(sqlite3* db, char* error){
 int tablaHorario(sqlite3* db, char* error){
 
   int result = sqlite3_open("baseDeDatosCine.sqlite", &db);
-  char *sql = "CREATE TABLE IF NOT EXISTS Horario (id_horario INT PRIMARY KEY NOT NULL, HoraInicio TEXT NOT NULL, HoraFin TEXT NOT NULL, idPelicula TEXT NOT NULL, FOREIGN KEY (idPelicula) REFERENCES Pelicula(id_pel), fechaHorario TEXT NOT NULL, FOREIGN KEY (fechaHorario) REFERENCES Fecha(fecha))";
+  char *sql = "CREATE TABLE IF NOT EXISTS Horario (id_horario INT PRIMARY KEY NOT NULL, HoraInicio TEXT NOT NULL, HoraFin TEXT NOT NULL, nom_pel_horario TEXT NOT NULL, fechaHorario TEXT NOT NULL, FOREIGN KEY (nom_pel_horario) REFERENCES Pelicula(nom_pel), FOREIGN KEY (fechaHorario) REFERENCES Fecha(fecha))";
   result = sqlite3_exec(db, sql, 0, 0, &error);
   
   if (result != SQLITE_OK) {
@@ -61,7 +61,7 @@ int tablaHorario(sqlite3* db, char* error){
 int tablaFecha(sqlite3* db, char* error){
   
   int result = sqlite3_open("baseDeDatosCine.sqlite", &db);
-  char *sql = "CREATE TABLE IF NOT EXISTS Fecha (fecha TEXT PRIMARY KEY NOT NULL, numPeliculas INT NOT NULL, idPeliculaFecha INT NOT NULL, FOREIGN KEY (idPeliculaFecha) REFERENCES Pelicula(id_pel))";
+  char *sql = "CREATE TABLE IF NOT EXISTS Fecha (fecha TEXT PRIMARY KEY NOT NULL, numPeliculas INT NOT NULL, nom_pel_fecha INT NOT NULL, FOREIGN KEY (nom_pel_fecha) REFERENCES Pelicula(nom_pel))";
   result = sqlite3_exec(db, sql, 0, 0, &error);
   
   if (result != SQLITE_OK) {
@@ -269,3 +269,258 @@ Usuario leeUsuario(char* user, char* password, sqlite3* db){
  return u;
 
 }
+
+//////////////////////////////////////////// INTENTO DE SELECTS ////////////////////////////////////////////
+
+////////////////////////////////////////// METODO A LO TXINGAS //////////////////////////////////////////
+/*
+UsuarioDatos usuarioDatos(char *nombreUsuario, char *dni, char *correo, char *telefono, sqlite3* db) {
+  UsuarioDatos ud;
+
+  int rc1 = sqlite3_open("baseDeDatosCine.sqlite", &db);
+	sqlite3_stmt *stmt1;
+  printf("[Nombre: %s]\n [DNI: %s]\n [Correo: %s]\n [Telefono: %i]\n", nombreUsuario, dni, correo, telefono);
+
+	const char *sql1 = "SELECT nombreUsuario, dni, correo, telefono FROM usuario WHERE nombreUsuario = ?";
+	int result = sqlite3_prepare_v2(db, sql1, -1, &stmt1, NULL);
+	result = sqlite3_bind_text(stmt1, 1, nombreUsuario, strlen(nombreUsuario), SQLITE_STATIC);
+//	result = sqlite3_bind_text(stmt1, 2, dni, strlen(dni), SQLITE_STATIC);
+//	result = sqlite3_bind_text(stmt1, 3, correo, strlen(correo), SQLITE_STATIC);
+//	result = sqlite3_bind_text(stmt1, 4, telefono, strlen(telefono), SQLITE_STATIC);
+	
+	if (rc1 != SQLITE_OK) {
+		printf("Error al preparar la consulta\n");
+		printf("%s\n", sqlite3_errmsg(db));
+	}
+
+	do {
+		result = sqlite3_step(stmt1);
+
+		if(result == SQLITE_ROW) {
+//			telefono=malloc(sizeof(char)*(strlen( sqlite3_column_text(stmt1, 4)+1)));
+//			strcpy(telefono, (char *) sqlite3_column_text(stmt1, 4));
+
+//			correo=malloc(sizeof(char)*(strlen( sqlite3_column_text(stmt1, 3)+1)));
+//			strcpy(correo, (char *) sqlite3_column_text(stmt1, 3));
+
+//			dni=malloc(sizeof(char)*(strlen( sqlite3_column_text(stmt1, 2)+1)));
+//			strcpy(dni, (char *) sqlite3_column_text(stmt1, 2));
+
+			nombreUsuario=malloc(sizeof(char)*(strlen(sqlite3_column_text(stmt1, 0)+1)));
+			strcpy(nombreUsuario,(char *) sqlite3_column_text(stmt1, 0));
+		}
+	}
+
+	while (result == SQLITE_ROW);
+	result = sqlite3_finalize(stmt1);
+
+	if(result != SQLITE_OK) {
+    	printf("Error al cerrar la consulta\n");
+    	printf("%s\n", sqlite3_errmsg(db));
+  	}
+	
+	sqlite3_close(db);
+  return ud;
+}
+
+
+Pelicula verPeliculas(char *nom_pel_fecha, char *fecha, sqlite3* db) {
+  Pelicula p;
+
+  int rc2 = sqlite3_open("baseDeDatosCine.sqlite", &db);
+	sqlite3_stmt *stmt2;
+  printf("%s", nom_pel_fecha);
+
+	const char *sql2 = "SELECT nom_pel_fecha FROM Fecha WHERE fecha = ?";
+	int result = sqlite3_prepare_v2(db, sql2, -1, &stmt2, NULL);
+//	result = sqlite3_bind_text(stmt2, 1, nom_pel_fecha, strlen(nom_pel_fecha), SQLITE_STATIC);
+	result = sqlite3_bind_text(stmt2, 2, fecha, strlen(fecha), SQLITE_STATIC);
+
+	if (rc2 != SQLITE_OK) {
+		printf("Error al preparar la consulta\n");
+		printf("%s\n", sqlite3_errmsg(db));
+	}
+
+	do {
+		result = sqlite3_step(stmt2);
+
+		if(result == SQLITE_ROW) {
+//			nom_pel_fecha=malloc(sizeof(char)*(strlen( sqlite3_column_text(stmt2, 2)+1)));
+//			strcpy(nom_pel_fecha, (char *) sqlite3_column_text(stmt2, 2));
+
+			fecha=malloc(sizeof(char)*(strlen( sqlite3_column_text(stmt2, 0)+1)));
+			strcpy(fecha, (char *) sqlite3_column_text(stmt2, 0));
+		}
+	}
+
+	while (result == SQLITE_ROW);
+	result = sqlite3_finalize(stmt2);
+
+	if(result != SQLITE_OK) {
+    	printf("Error al cerrar la consulta\n");
+    	printf("%s\n", sqlite3_errmsg(db));
+  	}
+	
+	sqlite3_close(db);
+  return p;
+}
+
+
+Horario verHorarios(char *nom_pel_horario, char *HoraInicio, char *HoraFin, sqlite3* db) {
+  Horario h;
+
+  int rc3 = sqlite3_open("baseDeDatosCine.sqlite", &db);
+	sqlite3_stmt *stmt3;
+  printf("%s - %s\n",HoraInicio,HoraFin);
+
+	const char sql3[] = "SELECT HoraInicio, HoraFin FROM Horario WHERE nom_pel_horario = ?";
+	int result = sqlite3_prepare_v2(db, sql3, -1, &stmt3, NULL);
+//	result = sqlite3_bind_text(stmt3, 0, nom_pel_horario, strlen(nom_pel_horario), SQLITE_STATIC);
+	result = sqlite3_bind_text(stmt3, 1, HoraInicio, strlen(HoraInicio), SQLITE_STATIC);
+  result = sqlite3_bind_text(stmt3, 2, HoraFin, strlen(HoraFin), SQLITE_STATIC);
+	
+	if (result != SQLITE_OK) {
+		printf("Error al preparar la consulta\n");
+		printf("%s\n", sqlite3_errmsg(db));
+	}
+
+	do {
+		result = sqlite3_step(stmt3);
+
+		if(result == SQLITE_ROW) {
+//      nom_pel_horario=malloc(sizeof(char)*(strlen( sqlite3_column_text(stmt3, 3)+1)));
+//			strcpy(nom_pel_horario, (char *) sqlite3_column_text(stmt3, 3));
+			
+      HoraFin=malloc(sizeof(char)*(strlen( sqlite3_column_text(stmt3, 2)+1)));
+			strcpy(HoraFin, (char *) sqlite3_column_text(stmt3, 2));
+
+			HoraInicio=malloc(sizeof(char)*(strlen( sqlite3_column_text(stmt3, 1)+1)));
+			strcpy(HoraInicio, (char *) sqlite3_column_text(stmt3, 1));
+		}
+	}
+
+	while (result == SQLITE_ROW);
+	result = sqlite3_finalize(stmt3);
+
+	if(result != SQLITE_OK) {
+    	printf("Error al cerrar la consulta\n");
+    	printf("%s\n", sqlite3_errmsg(db));
+  	}
+	
+	sqlite3_close(db);
+  return h;
+}
+*/
+
+
+////////////////////////////////////////// METODO A LA GAVIRIA //////////////////////////////////////////
+/*
+int usuariosDatos(sqlite3 *db) {
+	sqlite3_stmt *stmt1;
+  char sql1[] = "select nombreUsaurio, dni, correo, telefono from usuario";
+
+	int result = sqlite3_prepare_v2(db, sql1, -1, &stmt1, NULL) ;
+	if (result != SQLITE_OK) {
+		printf("Error preparing statement (SELECT)\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+
+	printf("SQL query prepared (SELECT)\n");
+	char nombreUsuario[100];
+  char dni[100];
+  char correo[100];
+  int telefono;
+	printf("Showing names:\n");
+	do {
+		result = sqlite3_step(stmt1) ;
+		if (result == SQLITE_ROW) {
+			strcpy(nombreUsuario, (char *) sqlite3_column_text(stmt1, 0));
+      strcpy(dni, (char *) sqlite3_column_text(stmt1, 2));
+      strcpy(correo, (char *) sqlite3_column_text(stmt1, 3));
+      telefono = sqlite3_column_int(stmt1, 4);
+			printf("[Nombre: %s]\n [DNI: %s]\n [Correo: %s]\n [Telefono: %i]\n", nombreUsuario, dni, correo, telefono);
+		}
+	} while (result == SQLITE_ROW);
+
+	result = sqlite3_finalize(stmt1);
+	if (result != SQLITE_OK) {
+		printf("Error finalizing statement (SELECT)\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+
+	printf("Prepared statement finalized (SELECT)\n");
+	return SQLITE_OK;
+}
+
+
+int verPeliculas(sqlite3 *db) {
+	sqlite3_stmt *stmt2;
+  char sql2[] = "select nom_pel_fecha from Fecha";
+
+	int result = sqlite3_prepare_v2(db, sql2, -1, &stmt2, NULL) ;
+	if (result != SQLITE_OK) {
+		printf("Error preparing statement (SELECT)\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+
+	printf("SQL query prepared (SELECT)\n");
+	char nom_pel_fecha[100];
+	printf("Showing names:\n");
+	do {
+		result = sqlite3_step(stmt2) ;
+		if (result == SQLITE_ROW) {
+			strcpy(nom_pel_fecha, (char *) sqlite3_column_text(stmt2, 2));
+			printf("Pelicula: %d\n", nom_pel_fecha);
+		}
+	} while (result == SQLITE_ROW);
+
+	result = sqlite3_finalize(stmt2);
+	if (result != SQLITE_OK) {
+		printf("Error finalizing statement (SELECT)\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+
+	printf("Prepared statement finalized (SELECT)\n");
+	return SQLITE_OK;
+}
+
+
+int verHorarios(sqlite3 *db) {
+	sqlite3_stmt *stmt3;
+  char sql3[] = "select HoraInicio, HoraFin from Horario";
+
+	int result = sqlite3_prepare_v2(db, sql3, -1, &stmt3, NULL) ;
+	if (result != SQLITE_OK) {
+		printf("Error preparing statement (SELECT)\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+
+	printf("SQL query prepared (SELECT)\n");
+	char HoraInicio[100];
+  char HoraFin[100];
+	printf("Showing names:\n");
+	do {
+		result = sqlite3_step(stmt3) ;
+		if (result == SQLITE_ROW) {
+			strcpy(HoraInicio, (char *) sqlite3_column_text(stmt3, 1));
+      strcpy(HoraFin, (char *) sqlite3_column_text(stmt3, 2));
+			printf("%s - %s\n", HoraInicio, HoraFin);
+		}
+	} while (result == SQLITE_ROW);
+
+	result = sqlite3_finalize(stmt3);
+	if (result != SQLITE_OK) {
+		printf("Error finalizing statement (SELECT)\n");
+		printf("%s\n", sqlite3_errmsg(db));
+		return result;
+	}
+
+	printf("Prepared statement finalized (SELECT)\n");
+	return SQLITE_OK;
+}
+*/
