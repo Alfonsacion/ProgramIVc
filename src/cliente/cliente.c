@@ -200,12 +200,16 @@ int pantallaCartelera(const char **arrayPeliculas, int numPeliculas){
 
      }
 
+    
+
     printf("\n");
     printf("\n");
     
     
     printf("Escriba aqui su seleccion: "); 
     scanf("%1d", &seleccionPelicula);
+
+    
 
     if (seleccionPelicula == 0){
         if (diaActual == 0){
@@ -282,7 +286,7 @@ int confirmacionTicket(int seleccionPelicula, const char **arrayPeliculas, const
 
 }
 
-void confirmacionDefinitiva(int seleccionPelicula, const char **arrayPeliculas, int seleccionHorario, const char **arrayHorarios, int numEntradas){ //, AsientoElegido **arrayAsientosElegidos, int numEntradasSeleccionadas
+void confirmacionDefinitiva(int seleccionPelicula, const char **arrayPeliculas, int seleccionHorario, const char **arrayHorarios, int numEntradas, AsientoElegido **arrayAsientosElegidos, int numEntradasSeleccionadas){
     
     printf("\n\n ///////////Confirmacion de tickets///////////");
     printf("\n\n Has seleccionado: \n\n La pelicula: %s", arrayPeliculas[seleccionPelicula]);

@@ -137,6 +137,7 @@ void main(void)
 						}
 
 						exportarDatos(numEntradasSeleccionadas, seleccionPelicula, arrayPeliculas);
+						//confirmacionDefinitiva(seleccionPelicula, arrayPeliculas, seleccionHorario, arrayHorarios, numEntradas, arrayAsientosElegidos, numEntradasSeleccionadas);
 
 
 					printf("\n\nPresiona cualquier tecla y enter para volver al menu: ");
