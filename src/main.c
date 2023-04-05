@@ -19,7 +19,7 @@ void main(void)
 	int fecha = tablaFecha(db, error);
 	int usuarioTest = tablaUsuario(db, error);
 
-	char nombreUsuario[MAX_USERNAME_LENGTH];
+	char nombreUsuario[MAX_PASSWORD_LENGTH];
 	char contraseyna[MAX_PASSWORD_LENGTH];
 	char dniUsuario[MAX_PASSWORD_LENGTH];
 	char correoUsuario[MAX_PASSWORD_LENGTH];
@@ -43,6 +43,7 @@ void main(void)
 
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////// METODO A LO TXINGAS //////////////////////////////////////////
+
 		UsuarioDatos ud = usuarioDatos(nombreUsuario, dniUsuario, correoUsuario, db);
 		Pelicula p = verPeliculas(nom_pel_fecha, fecha_peli, db);
 		Horario h = verHorarios(nom_pel_horario, HoraInicio, HoraFin, db);

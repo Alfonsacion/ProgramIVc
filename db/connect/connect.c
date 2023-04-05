@@ -276,6 +276,7 @@ Usuario leeUsuario(char* user, char* password, sqlite3* db){
 UsuarioDatos usuarioDatos(char *nombreUsuario, char *dni, char *correo, sqlite3* db) {
   UsuarioDatos ud;
 
+
   int rc1 = sqlite3_open("baseDeDatosCine.sqlite", &db);
 	sqlite3_stmt *stmt1;
 
@@ -293,22 +294,29 @@ UsuarioDatos usuarioDatos(char *nombreUsuario, char *dni, char *correo, sqlite3*
 
 	do {
 		result = sqlite3_step(stmt1);
+    // printf("%s", (char *) sqlite3_column_text(stmt1, 3));
 
 		if(result == SQLITE_ROW) {
 		//	telefono=malloc(sizeof(char)*(strlen( sqlite3_column_text(stmt1, 4)+1)));
 		//	strcpy(telefono, (char *) sqlite3_column_text(stmt1, 4));
 
-			correo=malloc(sizeof(char)*(strlen( sqlite3_column_text(stmt1, 3))+1));
-			strcpy(correo, (char *) sqlite3_column_text(stmt1, 3));
+      
+			// correo=malloc(sizeof(char)*(strlen( sqlite3_column_text(stmt1, 3)+1)));
+			// strcpy(correo, (char *) sqlite3_column_text(stmt1, 3));
+      	strcpy(ud.correo, (char *) sqlite3_column_text(stmt1, 3));
 
-			dni=malloc(sizeof(char)*(strlen( sqlite3_column_text(stmt1, 2))+1));
-  		strcpy(dni, (char *) sqlite3_column_text(stmt1, 2));
 
-			nombreUsuario=malloc(sizeof(char)*(strlen(sqlite3_column_text(stmt1, 0))+1));
-			strcpy(nombreUsuario,(char *) sqlite3_column_text(stmt1, 0));		}
+			// dni=malloc(sizeof(char)*(strlen( sqlite3_column_text(stmt1, 2)+1)));
+  		// strcpy(dni, (char *) sqlite3_column_text(stmt1, 2));
+      strcpy(ud.dni, (char *) sqlite3_column_text(stmt1, 2));
+
+			// nombreUsuario=malloc(sizeof(char)*(strlen(sqlite3_column_text(stmt1, 0)+1)));
+			// strcpy(nombreUsuario,(char *) sqlite3_column_text(stmt1, 0));	
+      strcpy(ud.nombreUsuario,(char *) sqlite3_column_text(stmt1, 0));	
+      }
+
 	}	while (result == SQLITE_ROW);
-
-   printf("[Nombre: %s]\n [DNI: %s]\n [Correo: %s]\n\n", nombreUsuario, dni, correo);
+   printf(" [Nombre: %s]\n [DNI: %s]\n [Correo: %s]\n\n", ud.nombreUsuario, ud.dni, ud.correo);
 	result = sqlite3_finalize(stmt1);
 
 	if(result != SQLITE_OK) {
