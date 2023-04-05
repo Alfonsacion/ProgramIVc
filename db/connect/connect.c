@@ -273,22 +273,20 @@ Usuario leeUsuario(char* user, char* password, sqlite3* db){
 //////////////////////////////////////////// INTENTO DE SELECTS ////////////////////////////////////////////
 
 ////////////////////////////////////////// METODO A LO TXINGAS //////////////////////////////////////////
-/*
-UsuarioDatos usuarioDatos(char *nombreUsuario, char *dni, char *correo, char *telefono, sqlite3* db) {
+UsuarioDatos usuarioDatos(char *nombreUsuario, char *dni, char *correo, sqlite3* db) {
   UsuarioDatos ud;
 
   int rc1 = sqlite3_open("baseDeDatosCine.sqlite", &db);
 	sqlite3_stmt *stmt1;
-  printf("[Nombre: %s]\n [DNI: %s]\n [Correo: %s]\n [Telefono: %i]\n", nombreUsuario, dni, correo, telefono);
 
-	const char *sql1 = "SELECT nombreUsuario, dni, correo, telefono FROM usuario WHERE nombreUsuario = ?";
+	const char *sql1 = "SELECT nombreUsuario, dni, correo FROM usuario WHERE nombreUsuario = ? AND dni = ? AND correo = ? ";
 	int result = sqlite3_prepare_v2(db, sql1, -1, &stmt1, NULL);
 	result = sqlite3_bind_text(stmt1, 1, nombreUsuario, strlen(nombreUsuario), SQLITE_STATIC);
-//	result = sqlite3_bind_text(stmt1, 2, dni, strlen(dni), SQLITE_STATIC);
-//	result = sqlite3_bind_text(stmt1, 3, correo, strlen(correo), SQLITE_STATIC);
-//	result = sqlite3_bind_text(stmt1, 4, telefono, strlen(telefono), SQLITE_STATIC);
+	result = sqlite3_bind_text(stmt1, 2, dni, strlen(dni), SQLITE_STATIC);
+	result = sqlite3_bind_text(stmt1, 3, correo, strlen(correo), SQLITE_STATIC);
+	//result = sqlite3_bind_text(stmt1, 4, telefono, strlen(telefono), SQLITE_STATIC);
 	
-	if (rc1 != SQLITE_OK) {
+	if (result != SQLITE_OK) {
 		printf("Error al preparar la consulta\n");
 		printf("%s\n", sqlite3_errmsg(db));
 	}
@@ -297,21 +295,20 @@ UsuarioDatos usuarioDatos(char *nombreUsuario, char *dni, char *correo, char *te
 		result = sqlite3_step(stmt1);
 
 		if(result == SQLITE_ROW) {
-//			telefono=malloc(sizeof(char)*(strlen( sqlite3_column_text(stmt1, 4)+1)));
-//			strcpy(telefono, (char *) sqlite3_column_text(stmt1, 4));
+		//	telefono=malloc(sizeof(char)*(strlen( sqlite3_column_text(stmt1, 4)+1)));
+		//	strcpy(telefono, (char *) sqlite3_column_text(stmt1, 4));
 
-//			correo=malloc(sizeof(char)*(strlen( sqlite3_column_text(stmt1, 3)+1)));
-//			strcpy(correo, (char *) sqlite3_column_text(stmt1, 3));
+			correo=malloc(sizeof(char)*(strlen( sqlite3_column_text(stmt1, 3))+1));
+			strcpy(correo, (char *) sqlite3_column_text(stmt1, 3));
 
-//			dni=malloc(sizeof(char)*(strlen( sqlite3_column_text(stmt1, 2)+1)));
-//			strcpy(dni, (char *) sqlite3_column_text(stmt1, 2));
+			dni=malloc(sizeof(char)*(strlen( sqlite3_column_text(stmt1, 2))+1));
+  		strcpy(dni, (char *) sqlite3_column_text(stmt1, 2));
 
-			nombreUsuario=malloc(sizeof(char)*(strlen(sqlite3_column_text(stmt1, 0)+1)));
-			strcpy(nombreUsuario,(char *) sqlite3_column_text(stmt1, 0));
-		}
-	}
+			nombreUsuario=malloc(sizeof(char)*(strlen(sqlite3_column_text(stmt1, 0))+1));
+			strcpy(nombreUsuario,(char *) sqlite3_column_text(stmt1, 0));		}
+	}	while (result == SQLITE_ROW);
 
-	while (result == SQLITE_ROW);
+   printf("[Nombre: %s]\n [DNI: %s]\n [Correo: %s]\n\n", nombreUsuario, dni, correo);
 	result = sqlite3_finalize(stmt1);
 
 	if(result != SQLITE_OK) {
@@ -331,12 +328,12 @@ Pelicula verPeliculas(char *nom_pel_fecha, char *fecha, sqlite3* db) {
 	sqlite3_stmt *stmt2;
   printf("%s", nom_pel_fecha);
 
-	const char *sql2 = "SELECT nom_pel_fecha FROM Fecha WHERE fecha = ?";
+	const char *sql2 = "SELECT idPeliculaFecha FROM fecha WHERE fecha = ?";
 	int result = sqlite3_prepare_v2(db, sql2, -1, &stmt2, NULL);
 //	result = sqlite3_bind_text(stmt2, 1, nom_pel_fecha, strlen(nom_pel_fecha), SQLITE_STATIC);
-	result = sqlite3_bind_text(stmt2, 2, fecha, strlen(fecha), SQLITE_STATIC);
+	result = sqlite3_bind_text(stmt2, 1, fecha, strlen(fecha), SQLITE_STATIC);
 
-	if (rc2 != SQLITE_OK) {
+	if (result != SQLITE_OK) {
 		printf("Error al preparar la consulta\n");
 		printf("%s\n", sqlite3_errmsg(db));
 	}
@@ -351,9 +348,8 @@ Pelicula verPeliculas(char *nom_pel_fecha, char *fecha, sqlite3* db) {
 			fecha=malloc(sizeof(char)*(strlen( sqlite3_column_text(stmt2, 0)+1)));
 			strcpy(fecha, (char *) sqlite3_column_text(stmt2, 0));
 		}
-	}
+	}while (result == SQLITE_ROW);
 
-	while (result == SQLITE_ROW);
 	result = sqlite3_finalize(stmt2);
 
 	if(result != SQLITE_OK) {
@@ -375,9 +371,9 @@ Horario verHorarios(char *nom_pel_horario, char *HoraInicio, char *HoraFin, sqli
 
 	const char sql3[] = "SELECT HoraInicio, HoraFin FROM Horario WHERE nom_pel_horario = ?";
 	int result = sqlite3_prepare_v2(db, sql3, -1, &stmt3, NULL);
-//	result = sqlite3_bind_text(stmt3, 0, nom_pel_horario, strlen(nom_pel_horario), SQLITE_STATIC);
-	result = sqlite3_bind_text(stmt3, 1, HoraInicio, strlen(HoraInicio), SQLITE_STATIC);
-  result = sqlite3_bind_text(stmt3, 2, HoraFin, strlen(HoraFin), SQLITE_STATIC);
+	result = sqlite3_bind_text(stmt3, 1, nom_pel_horario, strlen(nom_pel_horario), SQLITE_STATIC);
+	// result = sqlite3_bind_text(stmt3, 2, HoraInicio, strlen(HoraInicio), SQLITE_STATIC);
+  // result = sqlite3_bind_text(stmt3, 3, HoraFin, strlen(HoraFin), SQLITE_STATIC);
 	
 	if (result != SQLITE_OK) {
 		printf("Error al preparar la consulta\n");
@@ -388,14 +384,14 @@ Horario verHorarios(char *nom_pel_horario, char *HoraInicio, char *HoraFin, sqli
 		result = sqlite3_step(stmt3);
 
 		if(result == SQLITE_ROW) {
-//      nom_pel_horario=malloc(sizeof(char)*(strlen( sqlite3_column_text(stmt3, 3)+1)));
-//			strcpy(nom_pel_horario, (char *) sqlite3_column_text(stmt3, 3));
+      nom_pel_horario=malloc(sizeof(char)*(strlen( sqlite3_column_text(stmt3, 3)+1)));
+			strcpy(nom_pel_horario, (char *) sqlite3_column_text(stmt3, 3));
 			
-      HoraFin=malloc(sizeof(char)*(strlen( sqlite3_column_text(stmt3, 2)+1)));
-			strcpy(HoraFin, (char *) sqlite3_column_text(stmt3, 2));
+      // HoraFin=malloc(sizeof(char)*(strlen( sqlite3_column_text(stmt3, 2)+1)));
+			// strcpy(HoraFin, (char *) sqlite3_column_text(stmt3, 2));
 
-			HoraInicio=malloc(sizeof(char)*(strlen( sqlite3_column_text(stmt3, 1)+1)));
-			strcpy(HoraInicio, (char *) sqlite3_column_text(stmt3, 1));
+			// HoraInicio=malloc(sizeof(char)*(strlen( sqlite3_column_text(stmt3, 1)+1)));
+			// strcpy(HoraInicio, (char *) sqlite3_column_text(stmt3, 1));
 		}
 	}
 
@@ -410,7 +406,6 @@ Horario verHorarios(char *nom_pel_horario, char *HoraInicio, char *HoraFin, sqli
 	sqlite3_close(db);
   return h;
 }
-*/
 
 
 ////////////////////////////////////////// METODO A LA GAVIRIA //////////////////////////////////////////
