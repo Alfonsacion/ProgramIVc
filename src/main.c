@@ -91,6 +91,11 @@ void main(void)
 
     int opcion =1 ;
 
+	
+
+	void menu(){
+
+	
 	while (opcion <= 5 && opcion >= 0){ 
 
 			printf("\n\n///////////Menu Cineplex///////////\n\n");
@@ -111,7 +116,7 @@ void main(void)
 					printf("\n\nPresiona cualquier tecla y enter para volver al menu: ");
 					scanf("%1d", &opcion);
                     fflush(stdin);  
-					
+					menu();
                     //LLamar al menu de nuevo??¿¿¿¿??
 
                 case 2:
@@ -138,7 +143,7 @@ void main(void)
 					scanf("%1d", &opcion);
                     fflush(stdin);
                   
-				  //LLamar al menu de nuevo??¿¿¿¿??
+				  	menu();
                     
                 case 3:
 
@@ -148,35 +153,40 @@ void main(void)
 					scanf("%1d", &opcion);
                     fflush(stdin); 					
                 
-                    //LLamar al menu de nuevo??¿¿¿¿??
+                    menu();
 
                 case 4:
 				    printf("\n\n///////////Has cerrado sesion, hasta pronto!///////////\n\n");
 
 					opcion =6 ;
 
-                    //LLamar al menu de nuevo??¿¿¿¿??
+                    menu();
 
                 default:
 
                     printf("\n\n///////////La opcion seleccionada no es valida///////////\n\n");
                     fflush(stdin);  
 
-                    //LLamar al menu de nuevo??¿¿¿¿??
+                    menu();
 			}
 			
 			/*while ((opcion = getchar()) != '\n'){
 				if(opcion == 'v'){
 					printf("Has seleccionado volver hacia atras.\n");
+					menu();
 					
 					
-				}
-			continue;*/
+				}*/
+			
 			}
+			
+	}
+
+	menu();
 
 			
 
 ////////////////////////////////////FIN PARTE ALONSO
 	
 }
- }
+ 
