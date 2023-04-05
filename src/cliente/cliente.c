@@ -288,7 +288,7 @@ void confirmacionDefinitiva(int seleccionPelicula, const char **arrayPeliculas, 
     printf("\n\n Has seleccionado: \n\n La pelicula: %s", arrayPeliculas[seleccionPelicula]);
     printf("\n El horario: %s", arrayHorarios[seleccionHorario]);
     printf("\n Numero de entradas: %s", numEntradas);
-    //printf("\n Los asientos seleccionados: %1d %1c", &arrayAsientosElegidos[numEntradasSeleccionadas].filaElegida, &arrayAsientosElegidos[numEntradasSeleccionadas].letraAsientoElegido);
+    //printf("\n Los asientos seleccionados: %1d %1c", arrayAsientosElegidos[numEntradasSeleccionadas].filaElegida, arrayAsientosElegidos[numEntradasSeleccionadas].letraAsientoElegido);
     
     
 

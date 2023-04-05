@@ -162,6 +162,15 @@ void main(void)
 
                     break;
 			}
+			
+			while ((opcion = getchar()) != '\n'){
+				if(opcion == 'v'){
+					printf("Has seleccionado volver hacia atras.\n");
+					break;
+				}
+			}
+
+			
 
 ////////////////////////////////////FIN PARTE ALONSO
 	
