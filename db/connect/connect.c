@@ -524,3 +524,95 @@ int verHorarios(sqlite3 *db) {
 	return SQLITE_OK;
 }
 */
+
+
+///////////////////////////////////////////////// METODO CHATGTP /////////////////////////////////////////////////
+/*
+int verPeliculas(sqlite3 *db) {
+    sqlite3 *db;
+    sqlite3_stmt *stmt;
+    const char *query = "SELECT nom_pel FROM Pelicula";
+    char results[MAX_ROWS][MAX_COLS][100]; // Arreglo para almacenar los resultados
+    int row_count = 0;
+
+    if (sqlite3_open("baseDeDatosCine.db", &db) != SQLITE_OK) {
+        printf("Error opening database\n");
+        return 1;
+    }
+
+    if (sqlite3_prepare_v2(db, query, -1, &stmt, NULL) != SQLITE_OK) {
+        printf("Error preparing statement\n");
+        return 1;
+    }
+
+    while (sqlite3_step(stmt) == SQLITE_ROW && row_count < MAX_ROWS) {
+        int column_count = sqlite3_column_count(stmt);
+        for (int i = 0; i < column_count && i < MAX_COLS; i++) {
+            const unsigned char *value = sqlite3_column_text(stmt, i);
+            if (value != NULL) {
+                snprintf(results[row_count][i], sizeof(results[row_count][i]), "%s", value);
+            } else {
+                snprintf(results[row_count][i], sizeof(results[row_count][i]), "%s", "");
+            }
+        }
+        row_count++;
+    }
+
+    sqlite3_finalize(stmt);
+    sqlite3_close(db);
+
+    // Imprimir los resultados
+    for (int i = 0; i < row_count; i++) {
+        for (int j = 0; j < MAX_COLS; j++) {
+            printf("%s\t", results[i][j]);
+        }
+        printf("\n");
+    }
+
+    return 0;
+}
+
+int verHorarios(sqlite3 *db) {
+    sqlite3 *db;
+    sqlite3_stmt *stmt;
+    const char *query = "SELECT HoraInicio FROM Horario";
+    char results[MAX_ROWS][MAX_COLS][100]; // Arreglo para almacenar los resultados
+    int row_count = 0;
+
+    if (sqlite3_open("baseDeDatosCine.db", &db) != SQLITE_OK) {
+        printf("Error opening database\n");
+        return 1;
+    }
+
+    if (sqlite3_prepare_v2(db, query, -1, &stmt, NULL) != SQLITE_OK) {
+        printf("Error preparing statement\n");
+        return 1;
+    }
+
+    while (sqlite3_step(stmt) == SQLITE_ROW && row_count < MAX_ROWS) {
+        int column_count = sqlite3_column_count(stmt);
+        for (int i = 0; i < column_count && i < MAX_COLS; i++) {
+            const unsigned char *value = sqlite3_column_text(stmt, i);
+            if (value != NULL) {
+                snprintf(results[row_count][i], sizeof(results[row_count][i]), "%s", value);
+            } else {
+                snprintf(results[row_count][i], sizeof(results[row_count][i]), "%s", "");
+            }
+        }
+        row_count++;
+    }
+
+    sqlite3_finalize(stmt);
+    sqlite3_close(db);
+
+    // Imprimir los resultados
+    for (int i = 0; i < row_count; i++) {
+        for (int j = 0; j < MAX_COLS; j++) {
+            printf("%s\t", results[i][j]);
+        }
+        printf("\n");
+    }
+
+    return 0;
+}
+*/
