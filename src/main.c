@@ -112,7 +112,7 @@ void main(void)
 					scanf("%1d", &opcion);
                     fflush(stdin);  
 					
-                    break;
+                    //LLamar al menu de nuevo??¿¿¿¿??
 
                 case 2:
                     printf("\n\n///////////Bienvenido al gestor de reservas///////////\n\n");
@@ -138,7 +138,8 @@ void main(void)
 					scanf("%1d", &opcion);
                     fflush(stdin);
                   
-                    break;
+				  //LLamar al menu de nuevo??¿¿¿¿??
+                    
                 case 3:
 
 					datosPeliculas(arrayPeliculas, numPeliculas);
@@ -147,27 +148,30 @@ void main(void)
 					scanf("%1d", &opcion);
                     fflush(stdin); 					
                 
-                    break;
+                    //LLamar al menu de nuevo??¿¿¿¿??
+
                 case 4:
 				    printf("\n\n///////////Has cerrado sesion, hasta pronto!///////////\n\n");
 
 					opcion =6 ;
 
-                    break;
+                    //LLamar al menu de nuevo??¿¿¿¿??
 
                 default:
 
                     printf("\n\n///////////La opcion seleccionada no es valida///////////\n\n");
                     fflush(stdin);  
 
-                    break;
+                    //LLamar al menu de nuevo??¿¿¿¿??
 			}
 			
-			while ((opcion = getchar()) != '\n'){
+			/*while ((opcion = getchar()) != '\n'){
 				if(opcion == 'v'){
 					printf("Has seleccionado volver hacia atras.\n");
-					break;
+					
+					
 				}
+			continue;*/
 			}
 
 			
