@@ -4,31 +4,28 @@
 #define MAX_PASSWORD_LENGTH 20
 
 
-class Usuario {
-public:
+typedef struct Usuario {
     char nombreUsuario[MAX_USERNAME_LENGTH];
     char contraseyna[MAX_PASSWORD_LENGTH];
-};
+    
+}Usuario;
 
-class UsuarioDatos {
-public:
-    char nombreUsuario[MAX_USERNAME_LENGTH];
-    char dni[MAX_PASSWORD_LENGTH];
-    char correo[MAX_PASSWORD_LENGTH];
-    char telefono[MAX_PASSWORD_LENGTH];
-};
-
+typedef struct {
+  char *nombreUsuario;
+  char *dni;
+  char *correo;
+} UsuarioDatos;
 
 
-class Pelicula{
+typedef struct Pelicula{
     char nom_pel_fecha[MAX_PASSWORD_LENGTH];
     char fecha[MAX_PASSWORD_LENGTH];
-};
+}Pelicula;
 
-class Horario{
+typedef struct Horario{
     char nom_pel_horario[MAX_PASSWORD_LENGTH];
     char HoraInicio[MAX_PASSWORD_LENGTH];
     char HoraFin[MAX_PASSWORD_LENGTH];
-};
+}Horario;
 
 #endif

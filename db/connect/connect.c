@@ -274,48 +274,43 @@ Usuario leeUsuario(char* user, char* password, sqlite3* db){
 
 ////////////////////////////////////////// METODO A LO TXINGAS //////////////////////////////////////////
 UsuarioDatos usuarioDatos(char *nombreUsuario, char *dni, char *correo, sqlite3* db) {
-  UsuarioDatos ud;
-
+  UsuarioDatos ud = {NULL, NULL, NULL};
 
   int rc1 = sqlite3_open("baseDeDatosCine.sqlite", &db);
 	sqlite3_stmt *stmt1;
 
-	const char *sql1 = "SELECT nombreUsuario, dni, correo FROM usuario WHERE nombreUsuario = ? AND dni = ? AND correo = ? ";
+	const char *sql1 = "SELECT nombreUsuario, dni, correo FROM usuario WHERE nombreUsuario = ? AND dni = ? AND correo = ?";
 	int result = sqlite3_prepare_v2(db, sql1, -1, &stmt1, NULL);
 	result = sqlite3_bind_text(stmt1, 1, nombreUsuario, strlen(nombreUsuario), SQLITE_STATIC);
 	result = sqlite3_bind_text(stmt1, 2, dni, strlen(dni), SQLITE_STATIC);
 	result = sqlite3_bind_text(stmt1, 3, correo, strlen(correo), SQLITE_STATIC);
-	//result = sqlite3_bind_text(stmt1, 4, telefono, strlen(telefono), SQLITE_STATIC);
 	
 	if (result != SQLITE_OK) {
 		printf("Error al preparar la consulta\n");
 		printf("%s\n", sqlite3_errmsg(db));
 	}
 
-	do {
+  const char *nombreUsuarioConsulta;
+  const char *dniConsulta;
+  const char *correoConsulta;
+
 		result = sqlite3_step(stmt1);
-    // printf("%s", (char *) sqlite3_column_text(stmt1, 3));
+    printf("Resultado de la consulta: %d\n", result);
 
-		if(result == SQLITE_ROW) {
-		//	telefono=malloc(sizeof(char)*(strlen( sqlite3_column_text(stmt1, 4)+1)));
-		//	strcpy(telefono, (char *) sqlite3_column_text(stmt1, 4));
+while (result == SQLITE_ROW) {
+    nombreUsuarioConsulta = (const char*) sqlite3_column_text(stmt1, 0);
+    dniConsulta = (const char*) sqlite3_column_text(stmt1, 1);
+    correoConsulta = (const char*) sqlite3_column_text(stmt1, 2);
 
-      
-			// correo=malloc(sizeof(char)*(strlen( sqlite3_column_text(stmt1, 3)+1)));
-			// strcpy(correo, (char *) sqlite3_column_text(stmt1, 3));
-      	strcpy(ud.correo, (char *) sqlite3_column_text(stmt1, 3));
+    ud.nombreUsuario = strdup(nombreUsuarioConsulta);
+    ud.dni = strdup(dniConsulta);
+    ud.correo = strdup(correoConsulta);
+}
 
-
-			// dni=malloc(sizeof(char)*(strlen( sqlite3_column_text(stmt1, 2)+1)));
-  		// strcpy(dni, (char *) sqlite3_column_text(stmt1, 2));
-      strcpy(ud.dni, (char *) sqlite3_column_text(stmt1, 2));
-
-			// nombreUsuario=malloc(sizeof(char)*(strlen(sqlite3_column_text(stmt1, 0)+1)));
-			// strcpy(nombreUsuario,(char *) sqlite3_column_text(stmt1, 0));	
-      strcpy(ud.nombreUsuario,(char *) sqlite3_column_text(stmt1, 0));	
-      }
-
-	}	while (result == SQLITE_ROW);
+  if (result == SQLITE_ERROR) {
+    printf("Error al ejecutar la consulta: %s\n", sqlite3_errmsg(db));
+}
+  
    printf(" [Nombre: %s]\n [DNI: %s]\n [Correo: %s]\n\n", ud.nombreUsuario, ud.dni, ud.correo);
 	result = sqlite3_finalize(stmt1);
 
