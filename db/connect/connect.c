@@ -314,6 +314,8 @@ UsuarioDatos usuarioDatos(char *nombreUsuario, sqlite3 *db)
 {
   UsuarioDatos ud;
 
+  printf("\n\n///////////Esta visualizando sus datos///////////\n\n");
+
   int rc1 = sqlite3_open("baseDeDatosCine.sqlite", &db);
   sqlite3_stmt *stmt1;
 

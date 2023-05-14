@@ -148,7 +148,7 @@ int main(void)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////// METODO A LO TXINGAS //////////////////////////////////////////
 
-		UsuarioDatos ud = usuarioDatos(u.nombreUsuario, db);
+		//UsuarioDatos ud = usuarioDatos(u.nombreUsuario, db);
 		// UsuarioDatos* ud = usuarioDatos(nombreUsuario, dniUsuario, correoUsuario, db);
 		Pelicula p = verPeliculas(nom_pel_fecha, fecha_peli, db);
 		Horario h = verHorarios(nom_pel_horario, HoraInicio, HoraFin, db);
@@ -217,8 +217,8 @@ int main(void)
 			{
 
 			case 1:
-
-				datosUsuario(usuario, dni, correo, telefono);
+				
+				usuarioDatos(u.nombreUsuario, db);
 
 				printf("\n\nPresiona cualquier tecla y enter para volver al menu: ");
 				scanf("%1d", &opcion);
