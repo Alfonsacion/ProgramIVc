@@ -97,9 +97,47 @@ int main(void)
 	char HoraInicio[MAX_PASSWORD_LENGTH];
 	char HoraFin[MAX_PASSWORD_LENGTH];
 
-	char *a = malloc((strlen(nombreUsuario) + 1) * sizeof(char));
+		char *a = malloc((strlen(nombreUsuario) + 1) * sizeof(char));
 	a = strcpy(a, nombreUsuario);
 	a[strlen(a)] = '\0';
+
+	// char** a = (char**)malloc((strlen(nombreUsuario) + 1) * sizeof(char*));
+	// for(int i = 0; i < MAX_USERNAME_LENGTH; i++){
+	// 	a[i] = (char*) malloc((strlen(nombreUsuario) + 1) * sizeof(char));
+	// 	strcpy(a[i], nombreUsuario);
+	// 	a[i][strlen(nombreUsuario)] = '\0';
+
+	// }
+
+	// char **b = (char**)malloc((strlen(contraseyna) + 1) * sizeof(char*));
+	// for(int i = 0; i < MAX_USERNAME_LENGTH; i++){
+	// 	b[i] = (char*) malloc((strlen(contraseyna) + 1) * sizeof(char));
+	// 	strcpy(b[i], contraseyna);
+	// 	b[i][strlen(contraseyna)] = '\0';
+	// }
+
+	// char **c = (char**)malloc((strlen(dniUsuario) + 1) * sizeof(char*));
+	// for(int i = 0; i < MAX_USERNAME_LENGTH; i++){
+	// 	c[i] = (char*) malloc((strlen(dniUsuario) + 1) * sizeof(char));
+	// 	strcpy(c[i], dniUsuario);
+	// 	c[i][strlen(dniUsuario)] = '\0';
+	// }
+
+	// char **d = (char**)malloc((strlen(correoUsuario) + 1) * sizeof(char*));
+	// for(int i = 0; i < MAX_USERNAME_LENGTH; i++){
+	// 	d[i] = (char*) malloc((strlen(correoUsuario) + 1) * sizeof(char));
+	// 	strcpy(d[i], correoUsuario);
+	// 	d[i][strlen(correoUsuario)] = '\0';
+	// }
+
+	// char **e = (char**)malloc((strlen(tlf) + 1) * sizeof(char*));
+	// for(int i = 0; i < MAX_USERNAME_LENGTH; i++){
+	// 	d[i] = (char*) malloc((strlen(tlf) + 1) * sizeof(char));
+	// 	strcpy(d[i], tlf);
+	// 	d[i][strlen(tlf)] = '\0';
+	// }
+
+
 
 	printf("\n");
 	printf("Bienvenido/a, ahora puedes iniciar sesion\n");
@@ -110,7 +148,8 @@ int main(void)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 	////////////////////////////////////////// METODO A LO TXINGAS //////////////////////////////////////////
 
-		UsuarioDatos ud = usuarioDatos(nombreUsuario, dniUsuario, correoUsuario, db);
+		UsuarioDatos ud = usuarioDatos(u.nombreUsuario, db);
+		// UsuarioDatos* ud = usuarioDatos(nombreUsuario, dniUsuario, correoUsuario, db);
 		Pelicula p = verPeliculas(nom_pel_fecha, fecha_peli, db);
 		Horario h = verHorarios(nom_pel_horario, HoraInicio, HoraFin, db);
 
@@ -125,6 +164,10 @@ int main(void)
 	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 	free(a);
+	// free(b);
+	// free(c);
+	// free(d);
+	//free(e);
 
 	//////////////////////PARTE ALONSO, SELECCION DE ASIENTOS
 	//////////VARIABLES DESDE BD////////////
