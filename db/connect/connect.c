@@ -173,7 +173,7 @@ void agregarUsuario(char *username, char *password, char *dni, char *correo, cha
     printf("%s\n", sqlite3_errmsg(db));
   }
 
-  result = sqlite3_bind_text(stmt, 3, dni, strlen(password), SQLITE_STATIC);
+  result = sqlite3_bind_text(stmt, 3, dni, 20, SQLITE_STATIC);
 
   if (result != SQLITE_OK)
   {
@@ -181,7 +181,7 @@ void agregarUsuario(char *username, char *password, char *dni, char *correo, cha
     printf("%s\n", sqlite3_errmsg(db));
   }
 
-  result = sqlite3_bind_text(stmt, 4, correo, strlen(password), SQLITE_STATIC);
+  result = sqlite3_bind_text(stmt, 4, correo, 20, SQLITE_STATIC);
 
   if (result != SQLITE_OK)
   {
@@ -189,7 +189,7 @@ void agregarUsuario(char *username, char *password, char *dni, char *correo, cha
     printf("%s\n", sqlite3_errmsg(db));
   }
 
-  result = sqlite3_bind_text(stmt, 5, tlf, strlen(password), SQLITE_STATIC);
+  result = sqlite3_bind_text(stmt, 5, tlf, 20, SQLITE_STATIC);
 
   result = sqlite3_step(stmt);
   if (result != SQLITE_DONE)
