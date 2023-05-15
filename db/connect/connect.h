@@ -2,9 +2,9 @@
 #define _CONNECT_H_
 #include "../../struct.h"
 
-    void agregarUsuario(char* username, char* password, char *dni, char *correo, char *tlf, sqlite3* db);
+    void agregarUsuario(char* username, char* password, char *dni, char *correo, int tlf, sqlite3* db);
     Usuario leeUsuario(char* user, char* password, sqlite3* db);
-    Usuario login(char *usuario, char *password, char *dni, char *correo, char* tlf, sqlite3* db); 
+    Usuario login(char *usuario, char *password, char *dni, char *correo, int tlf, sqlite3* db); 
 
 //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 ////////////////////////////////////////// METODO A LO TXINGAS //////////////////////////////////////////

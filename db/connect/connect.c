@@ -122,7 +122,7 @@ int tablaUsuario(sqlite3 *db, char *error)
   return 0;
 }
 
-void agregarUsuario(char *username, char *password, char *dni, char *correo, char *tlf, sqlite3 *db)
+void agregarUsuario(char *username, char *password, char *dni, char *correo, int tlf, sqlite3 *db)
 {
 
   FILE *f;
@@ -189,7 +189,7 @@ void agregarUsuario(char *username, char *password, char *dni, char *correo, cha
     printf("%s\n", sqlite3_errmsg(db));
   }
 
-  result = sqlite3_bind_text(stmt, 5, tlf, 20, SQLITE_STATIC);
+  result = sqlite3_bind_int(stmt, 5, tlf);
 
   result = sqlite3_step(stmt);
   if (result != SQLITE_DONE)
@@ -270,7 +270,7 @@ Usuario leeUsuario(char *user, char *password, sqlite3 *db)
   return u;
 }
 
-Usuario login(char *usuario, char *password, char *dni, char *correo, char *tlf, sqlite3 *db)
+Usuario login(char *usuario, char *password, char *dni, char *correo, int tlf, sqlite3 *db)
 {
 
   int usuarioValido = 0;
@@ -322,7 +322,7 @@ UsuarioDatos usuarioDatos(char *nombreUsuario, sqlite3 *db)
   int rc1 = sqlite3_open("baseDeDatosCine.sqlite", &db);
   sqlite3_stmt *stmt1;
 
-  const char *sql1 = "SELECT nombreUsuario, dni, correo FROM usuario WHERE nombreUsuario = ?";
+  const char *sql1 = "SELECT nombreUsuario, dni, correo, telefono FROM usuario WHERE nombreUsuario = ?";
   int result = sqlite3_prepare_v2(db, sql1, -1, &stmt1, NULL);
   result = sqlite3_bind_text(stmt1, 1, nombreUsuario, strlen(nombreUsuario), SQLITE_STATIC);
 
@@ -344,6 +344,7 @@ UsuarioDatos usuarioDatos(char *nombreUsuario, sqlite3 *db)
     strcpy(ud.dni, (char *)sqlite3_column_text(stmt1, 1));
     ud.correo = malloc(sizeof(char) * (strlen(sqlite3_column_text(stmt1, 2))+1));
     strcpy(ud.correo, (char *)sqlite3_column_text(stmt1, 2));
+    ud.tlf = sqlite3_column_int(stmt1, 3);
   }
     }while (result == SQLITE_ROW);
 
@@ -353,7 +354,7 @@ UsuarioDatos usuarioDatos(char *nombreUsuario, sqlite3 *db)
   }
 
   result = sqlite3_finalize(stmt1);
-  printf(" [Nombre: %s]\n [DNI: %s]\n [Correo: %s]\n\n", ud.nombreUsuario, ud.dni, ud.correo);
+  printf(" [Nombre: %s]\n [DNI: %s]\n [Correo: %s]\n [Telefono: %i]\n\n", ud.nombreUsuario, ud.dni, ud.correo, ud.tlf);
 
   if (result != SQLITE_OK)
   {
