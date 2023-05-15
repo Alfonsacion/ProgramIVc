@@ -223,7 +223,7 @@ int main(void)
 				printf("\n\nPresiona cualquier tecla y enter para volver al menu: ");
 				scanf("%1d", &opcion);
 				fflush(stdin);
-				opcion = 1;
+				break;
 
 
 			case 2:
@@ -249,7 +249,7 @@ int main(void)
 				printf("\n\nPresiona cualquier tecla y enter para volver al menu: ");
 				scanf("%1d", &opcion);
 				fflush(stdin);
-				opcion = 1;
+				break;
 
 			case 3:
 
@@ -260,17 +260,19 @@ int main(void)
 				printf("\n\nPresiona cualquier tecla y enter para volver al menu: ");
 				scanf("%1d", &opcion);
 				fflush(stdin);
-				opcion = 1;
+				break;
 
 			case 4:
 				printf("\n\n///////////Has cerrado sesion, hasta pronto!///////////\n\n");
 
 				opcion = 6;
+				break;
 				
 			default:
 
 				printf("\n\n///////////La opcion seleccionada no es valida///////////\n\n");
 				fflush(stdin);
+				break;
 
 			}
 		}
