@@ -14,7 +14,7 @@ typedef struct {
   char *nombreUsuario;
   char *dni;
   char *correo;
-  int tlf;
+  char *tlf;
 } UsuarioDatos;
 
 

@@ -89,7 +89,7 @@ int main(void)
 	char contraseyna[MAX_PASSWORD_LENGTH];
 	char dniUsuario[MAX_PASSWORD_LENGTH];
 	char correoUsuario[MAX_PASSWORD_LENGTH];
-	int tlf;
+	char tlf[MAX_PASSWORD_LENGTH];
 
 	char nom_pel_fecha[MAX_PASSWORD_LENGTH];
 	char fecha_peli[MAX_PASSWORD_LENGTH];
