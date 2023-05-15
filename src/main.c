@@ -150,7 +150,7 @@ int main(void)
 
 		//UsuarioDatos ud = usuarioDatos(u.nombreUsuario, db);
 		// UsuarioDatos* ud = usuarioDatos(nombreUsuario, dniUsuario, correoUsuario, db);
-		Pelicula p = verPeliculas(nom_pel_fecha, fecha_peli, db);
+	//	Pelicula p = verPeliculas(nom_pel_fecha, fecha_peli, db);
 		Horario h = verHorarios(nom_pel_horario, HoraInicio, HoraFin, db);
 
 	////////////////////////////////////////// METODO A LA GAVIRIA //////////////////////////////////////////
@@ -203,7 +203,6 @@ int main(void)
 
 		while (opcion <= 5 && opcion >= 0)
 		{
-
 			printf("\n\n///////////Menu Cineplex///////////\n\n");
 
 			printf("1. Visualizar datos del usuario\n\n");
@@ -214,6 +213,7 @@ int main(void)
 			printf("Seleccione la opcion que desee: \n");
 			scanf("%1d", &opcion);
 			switch (opcion)
+
 			{
 
 			case 1:
@@ -253,6 +253,8 @@ int main(void)
 
 			case 3:
 
+				Pelicula p = verPeliculas(db);
+
 				datosPeliculas(arrayPeliculas, numPeliculas);
 
 				printf("\n\nPresiona cualquier tecla y enter para volver al menu: ");
@@ -270,16 +272,7 @@ int main(void)
 				printf("\n\n///////////La opcion seleccionada no es valida///////////\n\n");
 				fflush(stdin);
 
-//				menu();
 			}
-
-			/*while ((opcion = getchar()) != '\n'){
-				if(opcion == 'v'){
-					printf("Has seleccionado volver hacia atras.\n");
-					menu();
-
-
-				}*/
 		}
 		return 0;
 }

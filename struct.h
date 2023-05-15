@@ -18,15 +18,20 @@ typedef struct {
 } UsuarioDatos;
 
 
-typedef struct Pelicula{
-    char nom_pel_fecha[MAX_PASSWORD_LENGTH];
-    char fecha[MAX_PASSWORD_LENGTH];
+typedef struct{
+    char *nom_pel_fecha;
+    char *fecha;
+}PeliculaFecha;
+
+typedef struct{
+    char *id_pel;
+    char *nom_pel;
 }Pelicula;
 
 typedef struct Horario{
-    char nom_pel_horario[MAX_PASSWORD_LENGTH];
-    char HoraInicio[MAX_PASSWORD_LENGTH];
-    char HoraFin[MAX_PASSWORD_LENGTH];
+    char *nom_pel_horario;
+    char *HoraInicio;
+    char *HoraFin;
 }Horario;
 
 #endif
