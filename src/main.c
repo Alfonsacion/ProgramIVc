@@ -223,8 +223,8 @@ int main(void)
 				printf("\n\nPresiona cualquier tecla y enter para volver al menu: ");
 				scanf("%1d", &opcion);
 				fflush(stdin);
-//				menu();
-				// LLamar al menu de nuevo??¿¿¿¿??
+				opcion = 1;
+
 
 			case 2:
 				printf("\n\n///////////Bienvenido al gestor de reservas///////////\n\n");
@@ -249,8 +249,7 @@ int main(void)
 				printf("\n\nPresiona cualquier tecla y enter para volver al menu: ");
 				scanf("%1d", &opcion);
 				fflush(stdin);
-
-//				menu();
+				opcion = 1;
 
 			case 3:
 
@@ -259,16 +258,13 @@ int main(void)
 				printf("\n\nPresiona cualquier tecla y enter para volver al menu: ");
 				scanf("%1d", &opcion);
 				fflush(stdin);
-
-//				menu();
+				opcion = 1;
 
 			case 4:
 				printf("\n\n///////////Has cerrado sesion, hasta pronto!///////////\n\n");
 
 				opcion = 6;
-
-//				menu();
-
+				
 			default:
 
 				printf("\n\n///////////La opcion seleccionada no es valida///////////\n\n");
