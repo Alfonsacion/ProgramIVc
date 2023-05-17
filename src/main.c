@@ -97,46 +97,9 @@ int main(void)
 	char HoraInicio[MAX_PASSWORD_LENGTH];
 	char HoraFin[MAX_PASSWORD_LENGTH];
 
-		char *a = malloc((strlen(nombreUsuario) + 1) * sizeof(char));
+	char *a = malloc((strlen(nombreUsuario) + 1) * sizeof(char));
 	a = strcpy(a, nombreUsuario);
 	a[strlen(a)] = '\0';
-
-	// char** a = (char**)malloc((strlen(nombreUsuario) + 1) * sizeof(char*));
-	// for(int i = 0; i < MAX_USERNAME_LENGTH; i++){
-	// 	a[i] = (char*) malloc((strlen(nombreUsuario) + 1) * sizeof(char));
-	// 	strcpy(a[i], nombreUsuario);
-	// 	a[i][strlen(nombreUsuario)] = '\0';
-
-	// }
-
-	// char **b = (char**)malloc((strlen(contraseyna) + 1) * sizeof(char*));
-	// for(int i = 0; i < MAX_USERNAME_LENGTH; i++){
-	// 	b[i] = (char*) malloc((strlen(contraseyna) + 1) * sizeof(char));
-	// 	strcpy(b[i], contraseyna);
-	// 	b[i][strlen(contraseyna)] = '\0';
-	// }
-
-	// char **c = (char**)malloc((strlen(dniUsuario) + 1) * sizeof(char*));
-	// for(int i = 0; i < MAX_USERNAME_LENGTH; i++){
-	// 	c[i] = (char*) malloc((strlen(dniUsuario) + 1) * sizeof(char));
-	// 	strcpy(c[i], dniUsuario);
-	// 	c[i][strlen(dniUsuario)] = '\0';
-	// }
-
-	// char **d = (char**)malloc((strlen(correoUsuario) + 1) * sizeof(char*));
-	// for(int i = 0; i < MAX_USERNAME_LENGTH; i++){
-	// 	d[i] = (char*) malloc((strlen(correoUsuario) + 1) * sizeof(char));
-	// 	strcpy(d[i], correoUsuario);
-	// 	d[i][strlen(correoUsuario)] = '\0';
-	// }
-
-	// char **e = (char**)malloc((strlen(tlf) + 1) * sizeof(char*));
-	// for(int i = 0; i < MAX_USERNAME_LENGTH; i++){
-	// 	d[i] = (char*) malloc((strlen(tlf) + 1) * sizeof(char));
-	// 	strcpy(d[i], tlf);
-	// 	d[i][strlen(tlf)] = '\0';
-	// }
-
 
 
 	printf("\n");
@@ -144,14 +107,6 @@ int main(void)
 	printf("\n");
 
 	Usuario u = login(a, contraseyna, dniUsuario, correoUsuario, tlf, db);
-
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-	////////////////////////////////////////// METODO A LO TXINGAS //////////////////////////////////////////
-
-		//UsuarioDatos ud = usuarioDatos(u.nombreUsuario, db);
-		// UsuarioDatos* ud = usuarioDatos(nombreUsuario, dniUsuario, correoUsuario, db);
-	//	Pelicula p = verPeliculas(nom_pel_fecha, fecha_peli, db);
-		Horario h = verHorarios(nom_pel_horario, HoraInicio, HoraFin, db);
 
 	////////////////////////////////////////// METODO A LA GAVIRIA //////////////////////////////////////////
 	//	usuarioDatos(db);
@@ -199,7 +154,9 @@ int main(void)
 	arrayHorarios[3] = "18:00";
 
 	int opcion = 1;
-
+	Pelicula p;
+	UsuarioDatos ud;
+	Horario h;
 
 		while (opcion <= 5 && opcion >= 0)
 		{
@@ -218,7 +175,7 @@ int main(void)
 
 			case 1:
 				
-				usuarioDatos(u.nombreUsuario, db);
+				ud = usuarioDatos(u.nombreUsuario, db);
 
 				printf("\n\nPresiona cualquier tecla y enter para volver al menu: ");
 				scanf("%1d", &opcion);
@@ -253,12 +210,9 @@ int main(void)
 
 			case 3:
 
-				Pelicula p = verPeliculas(db);
-
-				datosPeliculas(arrayPeliculas, numPeliculas);
-
+				p = verPeliculas(db);
 				printf("\n\nPresiona cualquier tecla y enter para volver al menu: ");
-				scanf("%1d", &opcion);
+				scanf("%d", &opcion);
 				fflush(stdin);
 				break;
 

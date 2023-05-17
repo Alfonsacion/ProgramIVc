@@ -24,8 +24,9 @@ typedef struct{
 }PeliculaFecha;
 
 typedef struct{
-    char *id_pel;
     char *nom_pel;
+    char *genero_pel;
+    char *duracion;
 }Pelicula;
 
 typedef struct Horario{

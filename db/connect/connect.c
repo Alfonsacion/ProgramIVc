@@ -373,12 +373,9 @@ Pelicula verPeliculas(sqlite3 *db)
 
   int rc2 = sqlite3_open("baseDeDatosCine.sqlite", &db);
   sqlite3_stmt *stmt2;
-  // printf("%s", nom_pel_fecha);
 
-  const char *sql2 = "SELECT nom_pel FROM pelicula";
+  const char *sql2 = "SELECT nom_pel, genero_pel, duracion_pel FROM pelicula";
   int result = sqlite3_prepare_v2(db, sql2, -1, &stmt2, NULL);
-  //	result = sqlite3_bind_text(stmt2, 1, nom_pel_fecha, strlen(nom_pel_fecha), SQLITE_STATIC);
-  // result = sqlite3_bind_text(stmt2, 1, fecha, strlen(fecha), SQLITE_STATIC);
 
   if (result != SQLITE_OK)
   {
@@ -394,6 +391,13 @@ Pelicula verPeliculas(sqlite3 *db)
     {
     p.nom_pel = malloc(sizeof(char) * (strlen(sqlite3_column_text(stmt2, 0))+1));
     strcpy(p.nom_pel, (char *)sqlite3_column_text(stmt2, 0));
+
+    p.genero_pel = malloc(sizeof(char) * (strlen(sqlite3_column_text(stmt2, 1))+1));
+    strcpy(p.genero_pel, (char *)sqlite3_column_text(stmt2, 1));
+
+    p.duracion = malloc(sizeof(char) * (strlen(sqlite3_column_text(stmt2, 2))+1));
+    strcpy(p.duracion, (char *)sqlite3_column_text(stmt2, 2));
+    printf(" [Pelicula: %s] [Genero: %s] [Duracion: %s]\n", p.nom_pel, p.genero_pel, p.duracion);
     }
   } while (result == SQLITE_ROW);
 
@@ -409,19 +413,16 @@ Pelicula verPeliculas(sqlite3 *db)
   return p;
 }
 
-Horario verHorarios(char *nom_pel_horario, char *HoraInicio, char *HoraFin, sqlite3 *db)
+Horario verHorarios(char *nom_pel_horario, sqlite3 *db)
 {
   Horario h;
 
   int rc3 = sqlite3_open("baseDeDatosCine.sqlite", &db);
   sqlite3_stmt *stmt3;
-  printf("%s - %s\n", HoraInicio, HoraFin);
 
   const char sql3[] = "SELECT HoraInicio, HoraFin, nom_pel_horario FROM Horario WHERE nom_pel_horario = ?";
   int result = sqlite3_prepare_v2(db, sql3, -1, &stmt3, NULL);
-  result = sqlite3_bind_text(stmt3, 3, nom_pel_horario, strlen(nom_pel_horario), SQLITE_STATIC);
-  result = sqlite3_bind_text(stmt3, 1, HoraInicio, strlen(HoraInicio), SQLITE_STATIC);
-  result = sqlite3_bind_text(stmt3, 1, HoraFin, strlen(HoraFin), SQLITE_STATIC);
+  result = sqlite3_bind_text(stmt3, 1, nom_pel_horario, strlen(nom_pel_horario), SQLITE_STATIC);
 
   if (result != SQLITE_OK)
   {
@@ -454,7 +455,7 @@ Horario verHorarios(char *nom_pel_horario, char *HoraInicio, char *HoraFin, sqli
   }
 
   result = sqlite3_finalize(stmt3);
-  printf("[Hora de inicio: %s]\n [Hora de finalizacion: %s]\n", h.HoraInicio, h.HoraFin);
+  printf("[Pelicula:: %s]\n [Hora de inicio: %s]\n [Hora de finalizacion: %s]\n", h.nom_pel_horario, h.HoraInicio, h.HoraFin);
 
   if (result != SQLITE_OK)
   {

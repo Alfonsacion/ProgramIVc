@@ -2,8 +2,9 @@
 #include <stdio.h>
 #include<stdlib.h>
 #include <time.h>
-
-
+#include "../../struct.h"
+#include "../../db/connect/connect.h"
+#include "../../sqlite3.h"
 
 void generarSalaA(AsientoElegido *arrayAsientosElegidos, int numEntradasSeleccionadas, int numEntradas){
 
@@ -193,14 +194,16 @@ int pantallaCartelera(const char **arrayPeliculas, int numPeliculas){
     printf("Para elegir una pelicula, escriba su letra y presione Enter");
     printf("\n");
     printf("\n");  
+
+    sqlite3 *db;
+
+    Pelicula p = verPeliculas(db);
     
     for (int i = 1; i <= numPeliculas; i++) {
 
             printf("%d %s \n", i+1, arrayPeliculas[i]); ///////////Acuerdate que aqui pone +1 para el 0-1
 
      }
-
-    
 
     printf("\n");
     printf("\n");
@@ -252,10 +255,13 @@ int seleccionHorarios(int seleccionPelicula, const char **arrayHorarios, const c
     printf("\n");
     printf("\n");
 
-        for (int i = 1; i < numHorarios; i++) {
+    //     for (int i = 1; i < numHorarios; i++) {
 
-            printf("%d %s \n", i, arrayHorarios[i]);
-    }
+    //         printf("%d %s \n", i, arrayHorarios[i]);
+    // }
+    sqlite3 *db;
+
+    Horario h = verHorarios(h.nom_pel_horario, db);
 
     printf("\n\n Indique el numero del horario que desee: ");
     scanf("%1d", &seleccionHorario);
