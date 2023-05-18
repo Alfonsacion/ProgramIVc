@@ -186,7 +186,7 @@ int main(void)
 			case 2:
 				printf("\n\n///////////Bienvenido al gestor de reservas///////////\n\n");
 
-				seleccionPelicula = pantallaCartelera(arrayPeliculas, numPeliculas);
+				seleccionPelicula = pantallaCartelera(arrayPeliculas, numPeliculas, db);
 				seleccionHorario = seleccionHorarios(seleccionPelicula, arrayHorarios, arrayPeliculas);
 				numEntradas = confirmacionTicket(seleccionPelicula, arrayPeliculas, arrayHorarios, seleccionHorario);
 				arrayAsientosElegidos = malloc(numEntradas * sizeof(AsientoElegido));

@@ -168,9 +168,10 @@ int confirmacionAsiento(int numEntradasSeleccionadas){
 }
 
 
-int pantallaCartelera(const char **arrayPeliculas, int numPeliculas){
+int pantallaCartelera(const char **arrayPeliculas, int numPeliculas, sqlite3 *db){
 
     int seleccionPelicula;
+    char* pelicula;
     int cambiarDias = 1;
     int diaActual = 0;
 
@@ -191,28 +192,24 @@ int pantallaCartelera(const char **arrayPeliculas, int numPeliculas){
     printf("Para visualizar el dia anterior, escriba 0 y presione Enter");
     printf("\n");
     printf("\n");    
-    printf("Para elegir una pelicula, escriba su letra y presione Enter");
+    printf("Para elegir una pelicula, escriba su numero y presione Enter");
     printf("\n");
     printf("\n");  
 
-    sqlite3 *db;
-
     Pelicula p = verPeliculas(db);
     
-    for (int i = 1; i <= numPeliculas; i++) {
+    // for (int i = 1; i <= numPeliculas; i++) {
 
-            printf("%d %s \n", i+1, arrayPeliculas[i]); ///////////Acuerdate que aqui pone +1 para el 0-1
+    //         printf("%d %s \n", i+1, arrayPeliculas[i]); ///////////Acuerdate que aqui pone +1 para el 0-1
 
-     }
+    //  }
 
     printf("\n");
     printf("\n");
     
     
-    printf("Escriba aqui su seleccion: "); 
+    printf("Escriba aqui su seleccion mediante el numero correspondiente: "); 
     scanf("%1d", &seleccionPelicula);
-
-    
 
     if (seleccionPelicula == 0){
         if (diaActual == 0){
@@ -240,28 +237,31 @@ int pantallaCartelera(const char **arrayPeliculas, int numPeliculas){
 }
 
 
-
 int seleccionHorarios(int seleccionPelicula, const char **arrayHorarios, const char **arrayPeliculas){
     
     int seleccionHorario;
     int numHorarios = 4;
+    Pelicula p;
+    Horario h;
+    sqlite3 *db;
     
     printf("\n");
     printf("\n");
     printf("///////////Seleccione un horario///////////");
     printf("\n");
     printf("\n");
-    printf("Los horarios disponibles para %s son: ", arrayPeliculas[seleccionPelicula-1]);
+    int rc = sqlite3_open("baseDeDatosCine.sqlite", &db);
+    if (rc != SQLITE_OK) {
+        printf("Error al abrir la base de datos: %s\n", sqlite3_errmsg(db));
+        return -1; 
+    }
+
+    p = obtenerPeliculaPorId(seleccionPelicula, db);
+    printf("Los horarios disponibles para %s son: ", p.nom_pel);
     printf("\n");
     printf("\n");
 
-    //     for (int i = 1; i < numHorarios; i++) {
-
-    //         printf("%d %s \n", i, arrayHorarios[i]);
-    // }
-    sqlite3 *db;
-
-    Horario h = verHorarios(h.nom_pel_horario, db);
+    h = verHorarios(p.nom_pel, db);
 
     printf("\n\n Indique el numero del horario que desee: ");
     scanf("%1d", &seleccionHorario);
@@ -287,8 +287,6 @@ int confirmacionTicket(int seleccionPelicula, const char **arrayPeliculas, const
     printf("\n\n Escriba 'v' y presione Enter para volver a la selección del horario");
 
     return numEntradas;
-
-
 
 }
 

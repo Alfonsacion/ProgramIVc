@@ -374,7 +374,7 @@ Pelicula verPeliculas(sqlite3 *db)
   int rc2 = sqlite3_open("baseDeDatosCine.sqlite", &db);
   sqlite3_stmt *stmt2;
 
-  const char *sql2 = "SELECT nom_pel, genero_pel, duracion_pel FROM pelicula";
+  const char *sql2 = "SELECT id_pel, nom_pel, genero_pel, duracion_pel FROM pelicula";
   int result = sqlite3_prepare_v2(db, sql2, -1, &stmt2, NULL);
 
   if (result != SQLITE_OK)
@@ -389,15 +389,17 @@ Pelicula verPeliculas(sqlite3 *db)
 
     if (result == SQLITE_ROW)
     {
-    p.nom_pel = malloc(sizeof(char) * (strlen(sqlite3_column_text(stmt2, 0))+1));
-    strcpy(p.nom_pel, (char *)sqlite3_column_text(stmt2, 0));
 
-    p.genero_pel = malloc(sizeof(char) * (strlen(sqlite3_column_text(stmt2, 1))+1));
-    strcpy(p.genero_pel, (char *)sqlite3_column_text(stmt2, 1));
+    p.id = sqlite3_column_int(stmt2, 0); 
+    p.nom_pel = malloc(sizeof(char) * (strlen(sqlite3_column_text(stmt2, 1))+1));
+    strcpy(p.nom_pel, (char *)sqlite3_column_text(stmt2, 1));
 
-    p.duracion = malloc(sizeof(char) * (strlen(sqlite3_column_text(stmt2, 2))+1));
-    strcpy(p.duracion, (char *)sqlite3_column_text(stmt2, 2));
-    printf(" [Pelicula: %s] [Genero: %s] [Duracion: %s]\n", p.nom_pel, p.genero_pel, p.duracion);
+    p.genero_pel = malloc(sizeof(char) * (strlen(sqlite3_column_text(stmt2, 2))+1));
+    strcpy(p.genero_pel, (char *)sqlite3_column_text(stmt2, 2));
+
+    p.duracion = malloc(sizeof(char) * (strlen(sqlite3_column_text(stmt2, 3))+1));
+    strcpy(p.duracion, (char *)sqlite3_column_text(stmt2, 3));
+    printf(" %d [Pelicula: %s] [Genero: %s] [Duracion: %s]\n", p.id, p.nom_pel, p.genero_pel, p.duracion);
     }
   } while (result == SQLITE_ROW);
 
@@ -410,8 +412,65 @@ Pelicula verPeliculas(sqlite3 *db)
   }
 
   sqlite3_close(db);
+
   return p;
 }
+
+Pelicula obtenerPeliculaPorId(int id, sqlite3 *db)
+{
+  Pelicula p;
+  sqlite3_stmt *stmt;
+  const char *sql = "SELECT nom_pel, genero_pel, duracion_pel FROM pelicula WHERE id_pel = ?";
+  
+  int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+    sqlite3_bind_int(stmt, 1, id);
+
+  if (result != SQLITE_OK)
+  {
+    printf("Error al preparar la consulta\n");
+    printf("%s\n", sqlite3_errmsg(db));
+    return p;
+  }
+
+  result = sqlite3_step(stmt);
+
+  if (result == SQLITE_ROW)
+  {
+    p.id = id;
+
+    if(p.nom_pel != NULL){
+      free(p.nom_pel);
+      p.nom_pel = NULL;
+    }
+    p.nom_pel = malloc(sizeof(char) * (strlen(sqlite3_column_text(stmt, 0)) + 1));
+    strcpy(p.nom_pel, (char *)sqlite3_column_text(stmt, 0));
+
+    if(p.genero_pel != NULL){
+      free(p.genero_pel);
+      p.genero_pel = NULL;
+    }
+    p.genero_pel = malloc(sizeof(char) * (strlen(sqlite3_column_text(stmt, 1)) + 1));
+    strcpy(p.genero_pel, (char *)sqlite3_column_text(stmt, 1));
+
+    if(p.duracion != NULL){
+      free(p.duracion);
+      p.duracion = NULL;
+    }
+    p.duracion = malloc(sizeof(char) * (strlen(sqlite3_column_text(stmt, 2)) + 1));
+    strcpy(p.duracion, (char *)sqlite3_column_text(stmt, 2));
+  }
+
+  result = sqlite3_finalize(stmt);
+
+  if (result != SQLITE_OK)
+  {
+    printf("Error al cerrar la consulta\n");
+    printf("%s\n", sqlite3_errmsg(db));
+  }
+
+  return p;
+}
+
 
 Horario verHorarios(char *nom_pel_horario, sqlite3 *db)
 {
@@ -420,7 +479,7 @@ Horario verHorarios(char *nom_pel_horario, sqlite3 *db)
   int rc3 = sqlite3_open("baseDeDatosCine.sqlite", &db);
   sqlite3_stmt *stmt3;
 
-  const char sql3[] = "SELECT HoraInicio, HoraFin, nom_pel_horario FROM Horario WHERE nom_pel_horario = ?";
+  const char *sql3 = "SELECT HoraInicio, HoraFin, nom_pel_horario FROM Horario WHERE nom_pel_horario = ?";
   int result = sqlite3_prepare_v2(db, sql3, -1, &stmt3, NULL);
   result = sqlite3_bind_text(stmt3, 1, nom_pel_horario, strlen(nom_pel_horario), SQLITE_STATIC);
 
@@ -455,7 +514,7 @@ Horario verHorarios(char *nom_pel_horario, sqlite3 *db)
   }
 
   result = sqlite3_finalize(stmt3);
-  printf("[Pelicula:: %s]\n [Hora de inicio: %s]\n [Hora de finalizacion: %s]\n", h.nom_pel_horario, h.HoraInicio, h.HoraFin);
+  printf("[Pelicula: %s]\n [Hora de inicio: %s]\n [Hora de finalizacion: %s]\n", h.nom_pel_horario, h.HoraInicio, h.HoraFin);
 
   if (result != SQLITE_OK)
   {
@@ -467,205 +526,3 @@ Horario verHorarios(char *nom_pel_horario, sqlite3 *db)
   return h;
 }
 
-////////////////////////////////////////// METODO A LA GAVIRIA //////////////////////////////////////////
-/*
-int usuariosDatos(sqlite3 *db) {
-  sqlite3_stmt *stmt1;
-  char sql1[] = "select nombreUsaurio, dni, correo, telefono from usuario";
-
-  int result = sqlite3_prepare_v2(db, sql1, -1, &stmt1, NULL) ;
-  if (result != SQLITE_OK) {
-    printf("Error preparing statement (SELECT)\n");
-    printf("%s\n", sqlite3_errmsg(db));
-    return result;
-  }
-
-  printf("SQL query prepared (SELECT)\n");
-  char nombreUsuario[100];
-  char dni[100];
-  char correo[100];
-  int telefono;
-  printf("Showing names:\n");
-  do {
-    result = sqlite3_step(stmt1) ;
-    if (result == SQLITE_ROW) {
-      strcpy(nombreUsuario, (char *) sqlite3_column_text(stmt1, 0));
-      strcpy(dni, (char *) sqlite3_column_text(stmt1, 2));
-      strcpy(correo, (char *) sqlite3_column_text(stmt1, 3));
-      telefono = sqlite3_column_int(stmt1, 4);
-      printf("[Nombre: %s]\n [DNI: %s]\n [Correo: %s]\n [Telefono: %i]\n", nombreUsuario, dni, correo, telefono);
-    }
-  } while (result == SQLITE_ROW);
-
-  result = sqlite3_finalize(stmt1);
-  if (result != SQLITE_OK) {
-    printf("Error finalizing statement (SELECT)\n");
-    printf("%s\n", sqlite3_errmsg(db));
-    return result;
-  }
-
-  printf("Prepared statement finalized (SELECT)\n");
-  return SQLITE_OK;
-}
-
-
-int verPeliculas(sqlite3 *db) {
-  sqlite3_stmt *stmt2;
-  char sql2[] = "select nom_pel_fecha from Fecha";
-
-  int result = sqlite3_prepare_v2(db, sql2, -1, &stmt2, NULL) ;
-  if (result != SQLITE_OK) {
-    printf("Error preparing statement (SELECT)\n");
-    printf("%s\n", sqlite3_errmsg(db));
-    return result;
-  }
-
-  printf("SQL query prepared (SELECT)\n");
-  char nom_pel_fecha[100];
-  printf("Showing names:\n");
-  do {
-    result = sqlite3_step(stmt2) ;
-    if (result == SQLITE_ROW) {
-      strcpy(nom_pel_fecha, (char *) sqlite3_column_text(stmt2, 2));
-      printf("Pelicula: %d\n", nom_pel_fecha);
-    }
-  } while (result == SQLITE_ROW);
-
-  result = sqlite3_finalize(stmt2);
-  if (result != SQLITE_OK) {
-    printf("Error finalizing statement (SELECT)\n");
-    printf("%s\n", sqlite3_errmsg(db));
-    return result;
-  }
-
-  printf("Prepared statement finalized (SELECT)\n");
-  return SQLITE_OK;
-}
-
-
-int verHorarios(sqlite3 *db) {
-  sqlite3_stmt *stmt3;
-  char sql3[] = "select HoraInicio, HoraFin from Horario";
-
-  int result = sqlite3_prepare_v2(db, sql3, -1, &stmt3, NULL) ;
-  if (result != SQLITE_OK) {
-    printf("Error preparing statement (SELECT)\n");
-    printf("%s\n", sqlite3_errmsg(db));
-    return result;
-  }
-
-  printf("SQL query prepared (SELECT)\n");
-  char HoraInicio[100];
-  char HoraFin[100];
-  printf("Showing names:\n");
-  do {
-    result = sqlite3_step(stmt3) ;
-    if (result == SQLITE_ROW) {
-      strcpy(HoraInicio, (char *) sqlite3_column_text(stmt3, 1));
-      strcpy(HoraFin, (char *) sqlite3_column_text(stmt3, 2));
-      printf("%s - %s\n", HoraInicio, HoraFin);
-    }
-  } while (result == SQLITE_ROW);
-
-  result = sqlite3_finalize(stmt3);
-  if (result != SQLITE_OK) {
-    printf("Error finalizing statement (SELECT)\n");
-    printf("%s\n", sqlite3_errmsg(db));
-    return result;
-  }
-
-  printf("Prepared statement finalized (SELECT)\n");
-  return SQLITE_OK;
-}
-*/
-
-///////////////////////////////////////////////// METODO CHATGTP /////////////////////////////////////////////////
-/*
-int verPeliculas(sqlite3 *db) {
-    sqlite3 *db;
-    sqlite3_stmt *stmt;
-    const char *query = "SELECT nom_pel FROM Pelicula";
-    char results[MAX_ROWS][MAX_COLS][100]; // Arreglo para almacenar los resultados
-    int row_count = 0;
-
-    if (sqlite3_open("baseDeDatosCine.db", &db) != SQLITE_OK) {
-        printf("Error opening database\n");
-        return 1;
-    }
-
-    if (sqlite3_prepare_v2(db, query, -1, &stmt, NULL) != SQLITE_OK) {
-        printf("Error preparing statement\n");
-        return 1;
-    }
-
-    while (sqlite3_step(stmt) == SQLITE_ROW && row_count < MAX_ROWS) {
-        int column_count = sqlite3_column_count(stmt);
-        for (int i = 0; i < column_count && i < MAX_COLS; i++) {
-            const unsigned char *value = sqlite3_column_text(stmt, i);
-            if (value != NULL) {
-                snprintf(results[row_count][i], sizeof(results[row_count][i]), "%s", value);
-            } else {
-                snprintf(results[row_count][i], sizeof(results[row_count][i]), "%s", "");
-            }
-        }
-        row_count++;
-    }
-
-    sqlite3_finalize(stmt);
-    sqlite3_close(db);
-
-    // Imprimir los resultados
-    for (int i = 0; i < row_count; i++) {
-        for (int j = 0; j < MAX_COLS; j++) {
-            printf("%s\t", results[i][j]);
-        }
-        printf("\n");
-    }
-
-    return 0;
-}
-
-int verHorarios(sqlite3 *db) {
-    sqlite3 *db;
-    sqlite3_stmt *stmt;
-    const char *query = "SELECT HoraInicio FROM Horario";
-    char results[MAX_ROWS][MAX_COLS][100]; // Arreglo para almacenar los resultados
-    int row_count = 0;
-
-    if (sqlite3_open("baseDeDatosCine.db", &db) != SQLITE_OK) {
-        printf("Error opening database\n");
-        return 1;
-    }
-
-    if (sqlite3_prepare_v2(db, query, -1, &stmt, NULL) != SQLITE_OK) {
-        printf("Error preparing statement\n");
-        return 1;
-    }
-
-    while (sqlite3_step(stmt) == SQLITE_ROW && row_count < MAX_ROWS) {
-        int column_count = sqlite3_column_count(stmt);
-        for (int i = 0; i < column_count && i < MAX_COLS; i++) {
-            const unsigned char *value = sqlite3_column_text(stmt, i);
-            if (value != NULL) {
-                snprintf(results[row_count][i], sizeof(results[row_count][i]), "%s", value);
-            } else {
-                snprintf(results[row_count][i], sizeof(results[row_count][i]), "%s", "");
-            }
-        }
-        row_count++;
-    }
-
-    sqlite3_finalize(stmt);
-    sqlite3_close(db);
-
-    // Imprimir los resultados
-    for (int i = 0; i < row_count; i++) {
-        for (int j = 0; j < MAX_COLS; j++) {
-            printf("%s\t", results[i][j]);
-        }
-        printf("\n");
-    }
-
-    return 0;
-}
-*/
