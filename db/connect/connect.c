@@ -472,16 +472,17 @@ Pelicula obtenerPeliculaPorId(int id, sqlite3 *db)
 }
 
 
-Horario verHorarios(char *nom_pel_horario, sqlite3 *db)
+Horario verHorarios(char *nom_pel_horario, char *dia, sqlite3 *db)
 {
   Horario h;
 
   int rc3 = sqlite3_open("baseDeDatosCine.sqlite", &db);
   sqlite3_stmt *stmt3;
 
-  const char *sql3 = "SELECT HoraInicio, HoraFin, nom_pel_horario FROM Horario WHERE nom_pel_horario = ?";
+  const char *sql3 = "SELECT HoraInicio, HoraFin, nom_pel_horario FROM Horario WHERE nom_pel_horario = ? and diaSemana = ?";
   int result = sqlite3_prepare_v2(db, sql3, -1, &stmt3, NULL);
   result = sqlite3_bind_text(stmt3, 1, nom_pel_horario, strlen(nom_pel_horario), SQLITE_STATIC);
+  result = sqlite3_bind_text(stmt3, 2, dia, strlen(dia), SQLITE_STATIC);
 
   if (result != SQLITE_OK)
   {

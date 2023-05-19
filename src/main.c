@@ -157,6 +157,7 @@ int main(void)
 	Pelicula p;
 	UsuarioDatos ud;
 	Horario h;
+	Seleccion s;
 
 		while (opcion <= 5 && opcion >= 0)
 		{
@@ -186,8 +187,8 @@ int main(void)
 			case 2:
 				printf("\n\n///////////Bienvenido al gestor de reservas///////////\n\n");
 
-				seleccionPelicula = pantallaCartelera(arrayPeliculas, numPeliculas, db);
-				seleccionHorario = seleccionHorarios(seleccionPelicula, arrayHorarios, arrayPeliculas);
+				s = pantallaCartelera(arrayPeliculas, numPeliculas, db);
+				seleccionHorario = seleccionHorarios(s.seleccion, s.dia, arrayHorarios, arrayPeliculas);
 				numEntradas = confirmacionTicket(seleccionPelicula, arrayPeliculas, arrayHorarios, seleccionHorario);
 				arrayAsientosElegidos = malloc(numEntradas * sizeof(AsientoElegido));
 

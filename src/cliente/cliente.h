@@ -10,8 +10,8 @@ typedef struct{
 void generarSalaA(AsientoElegido *arrayAsientosElegidos, int numEntradasSeleccionadas, int numEntradas);
 void elegirAsiento(AsientoElegido *arrayAsientosElegidos, int numEntradasSeleccionadas);
 int confirmacionAsiento(int numEntradasSeleccionadas);
-int pantallaCartelera(const char **arrayPeliculas, int numPeliculas, sqlite3* db);
-int seleccionHorarios(int seleccionPelicula, const char **arrayHorarios, const char **arrayPeliculas);
+Seleccion pantallaCartelera(const char **arrayPeliculas, int numPeliculas, sqlite3* db);
+int seleccionHorarios(int seleccionPelicula, char* dia, const char **arrayHorarios, const char **arrayPeliculas);
 int confirmacionTicket(int seleccionPelicula, const char **arrayPeliculas, const char **arrayHorarios, int seleccionHorario);
 void confirmacionDefinitiva(int seleccionPelicula, const char **arrayPeliculas, int seleccionHorario, const char **arrayHorarios, int numEntradas, AsientoElegido **arrayAsientosElegidos, int numEntradasSeleccionadas);
 void exportarDatos(int numEntradasSeleccionadas, int seleccionPelicula, const char **arrayPeliculas);

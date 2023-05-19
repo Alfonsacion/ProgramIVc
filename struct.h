@@ -36,4 +36,9 @@ typedef struct Horario{
     char *HoraFin;
 }Horario;
 
+typedef struct{
+    char *dia;
+    int seleccion;
+}Seleccion;
+
 #endif
