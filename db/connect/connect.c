@@ -420,7 +420,7 @@ Pelicula obtenerPeliculaPorId(int id, sqlite3 *db)
 {
   Pelicula p;
   sqlite3_stmt *stmt;
-  const char *sql = "SELECT nom_pel, genero_pel, duracion_pel FROM pelicula WHERE id_pel = ?";
+  const char *sql = "SELECT nom_pel, genero_pel, duracion_pel, precio FROM pelicula WHERE id_pel = ?";
   
   int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
     sqlite3_bind_int(stmt, 1, id);
@@ -458,6 +458,8 @@ Pelicula obtenerPeliculaPorId(int id, sqlite3 *db)
     }
     p.duracion = malloc(sizeof(char) * (strlen(sqlite3_column_text(stmt, 2)) + 1));
     strcpy(p.duracion, (char *)sqlite3_column_text(stmt, 2));
+
+    p.precio = sqlite3_column_int(stmt, 3);
   }
 
   result = sqlite3_finalize(stmt);
@@ -469,6 +471,42 @@ Pelicula obtenerPeliculaPorId(int id, sqlite3 *db)
   }
 
   return p;
+}
+
+Pelicula obtenerPrecioPorId(int id, sqlite3 *db)
+{
+  Pelicula p;
+  sqlite3_stmt *stmt;
+  const char *sql = "SELECT precio FROM pelicula WHERE id_pel = ?";
+  
+  int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+    sqlite3_bind_int(stmt, 1, id);
+
+  if (result != SQLITE_OK)
+  {
+    printf("Error al preparar la consulta\n");
+    printf("%s\n", sqlite3_errmsg(db));
+    return p;
+  }
+
+  result = sqlite3_step(stmt);
+
+  if (result == SQLITE_ROW)
+  {
+    p.id = id;
+
+    p.precio = sqlite3_column_int(stmt, 0);
+
+  result = sqlite3_finalize(stmt);
+
+  if (result != SQLITE_OK)
+  {
+    printf("Error al cerrar la consulta\n");
+    printf("%s\n", sqlite3_errmsg(db));
+  }
+
+  return p;
+}
 }
 
 
@@ -507,7 +545,7 @@ Horario verHorarios(char *nom_pel_horario, sqlite3 *db)
       h.HoraInicio=malloc(sizeof(char)*(strlen( sqlite3_column_text(stmt3, 1))+1));
       strcpy(h.HoraInicio, (char *) sqlite3_column_text(stmt3, 1));
 
-      printf("%d [Hora de inicio: %s]\n [Hora de finalizacion: %s]\n\n", h.id, h.HoraInicio, h.HoraFin);
+      printf("%d [Hora de inicio: %s]\n  [Hora de finalizacion: %s]\n\n", h.id, h.HoraInicio, h.HoraFin);
     }
   }
 
@@ -528,6 +566,47 @@ Horario verHorarios(char *nom_pel_horario, sqlite3 *db)
   }
 
   sqlite3_close(db);
+  return h;
+}
+
+Horario obtenerHorarioPorId(int id, sqlite3 *db)
+{
+  Horario h;
+  sqlite3_stmt *stmt;
+  const char *sql = "SELECT HoraInicio FROM horario WHERE id_horario = ?";
+  
+  int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
+    sqlite3_bind_int(stmt, 1, id);
+
+  if (result != SQLITE_OK)
+  {
+    printf("Error al preparar la consulta\n");
+    printf("%s\n", sqlite3_errmsg(db));
+    return h;
+  }
+
+  result = sqlite3_step(stmt);
+
+  if (result == SQLITE_ROW)
+  {
+    h.id = id;
+
+    if(h.HoraInicio != NULL){
+      free(h.HoraInicio);
+      h.HoraInicio = NULL;
+    }
+    h.HoraInicio = malloc(sizeof(char) * (strlen(sqlite3_column_text(stmt, 0)) + 1));
+    strcpy(h.HoraInicio, (char *)sqlite3_column_text(stmt, 0));
+  }
+
+  result = sqlite3_finalize(stmt);
+
+  if (result != SQLITE_OK)
+  {
+    printf("Error al cerrar la consulta\n");
+    printf("%s\n", sqlite3_errmsg(db));
+  }
+
   return h;
 }
 

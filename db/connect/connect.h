@@ -8,6 +8,8 @@
     UsuarioDatos usuarioDatos(char *nombreUsuario,  sqlite3* db);
     Pelicula verPeliculas(sqlite3* db);
     Pelicula obtenerPeliculaPorId(int id, sqlite3 * db);
+    Pelicula obtenerPrecioPorId(int id, sqlite3 *db);
+    Horario obtenerHorarioPorId(int id, sqlite3 *db);
     Horario verHorarios(char *nom_pel_horario, sqlite3* db);    
     int tablaPelicula(sqlite3* db, char* error);
     int tablaHorario(sqlite3* db, char* error);
