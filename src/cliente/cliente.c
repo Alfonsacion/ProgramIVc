@@ -261,23 +261,34 @@ int seleccionHorarios(int seleccionPelicula, char* dia, const char **arrayHorari
     scanf("%1d", &seleccionHorario);
     printf("\n\nEscriba 'v' y presione Enter para volver a la cartelera de peliculas.\n\n");
 
-    printf("\n \n El horario seleccionada es %s  \n \n", arrayHorarios[seleccionHorario]);
-
     return seleccionHorario;
 }   
 
 int confirmacionTicket(int seleccionPelicula, const char **arrayPeliculas, const char **arrayHorarios, int seleccionHorario){    
 
     int numEntradas;
-    int precio = 5;
+    Horario h;
+    Pelicula p;
+    sqlite3* db;
+
+     int rc = sqlite3_open("baseDeDatosCine.sqlite", &db);
+    if (rc != SQLITE_OK) {
+        printf("Error al abrir la base de datos: %s\n", sqlite3_errmsg(db));
+        return -1; 
+    }
     
+     p = obtenerPeliculaPorId(seleccionPelicula, db);
+     h = obtenerHorarioPorId(seleccionHorario, db);
     printf("\n \n ///////////Confirmacion de tickets///////////");
-    printf("\n \n Usted ha seleccionado: %s", arrayPeliculas[seleccionPelicula] );
-    printf("\n \n Usted ha seleccionado el horario:  %s", arrayHorarios[seleccionHorario]);
-    printf("\n\n El precio de la entrada para esta pelicula es de %d euros", precio);
+     printf("\n \n Usted ha seleccionado: %s", p.nom_pel);
+     printf("\n \n Usted ha seleccionado el horario:  %s", h.HoraInicio);
+    // p = obtenerPrecioPorId(seleccionPelicula, db);
+    printf("\n\n El precio de la entrada para esta pelicula es de %d euros", p.precio);
     printf("\n\n Indique el número de entradas que desea comprar: ");
     scanf("%1d", &numEntradas);
-    printf("\n\n Has seleccionado reservar &d entradas.", numEntradas);
+    printf("\n\n Has seleccionado reservar %d entradas.", numEntradas);
+    int preciototal = p.precio*numEntradas;
+    printf("Precio total : %d", preciototal);
     printf("\n\n Escriba 'v' y presione Enter para volver a la selección del horario");
 
     return numEntradas;
