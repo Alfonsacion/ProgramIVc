@@ -472,17 +472,16 @@ Pelicula obtenerPeliculaPorId(int id, sqlite3 *db)
 }
 
 
-Horario verHorarios(char *nom_pel_horario, char *dia, sqlite3 *db)
+Horario verHorarios(char *nom_pel_horario, sqlite3 *db)
 {
   Horario h;
 
   int rc3 = sqlite3_open("baseDeDatosCine.sqlite", &db);
   sqlite3_stmt *stmt3;
 
-  const char *sql3 = "SELECT HoraInicio, HoraFin, nom_pel_horario FROM Horario WHERE nom_pel_horario = ? and diaSemana = ?";
+  const char *sql3 = "SELECT id_horario, HoraInicio, HoraFin, nom_pel_horario FROM Horario WHERE nom_pel_horario = ?";
   int result = sqlite3_prepare_v2(db, sql3, -1, &stmt3, NULL);
   result = sqlite3_bind_text(stmt3, 1, nom_pel_horario, strlen(nom_pel_horario), SQLITE_STATIC);
-  result = sqlite3_bind_text(stmt3, 2, dia, strlen(dia), SQLITE_STATIC);
 
   if (result != SQLITE_OK)
   {
@@ -496,14 +495,19 @@ Horario verHorarios(char *nom_pel_horario, char *dia, sqlite3 *db)
 
     if (result == SQLITE_ROW)
     {
-      h.nom_pel_horario = malloc(sizeof(char) * (strlen(sqlite3_column_text(stmt3, 2))+1));
-      strcpy(h.nom_pel_horario, (char *)sqlite3_column_text(stmt3, 2));
 
-      h.HoraFin=malloc(sizeof(char)*(strlen( sqlite3_column_text(stmt3, 1))+1));
-      strcpy(h.HoraFin, (char *) sqlite3_column_text(stmt3, 1));
+      h.id = sqlite3_column_int(stmt3, 0);
 
-      h.HoraInicio=malloc(sizeof(char)*(strlen( sqlite3_column_text(stmt3, 0))+1));
-      strcpy(h.HoraInicio, (char *) sqlite3_column_text(stmt3, 0));
+      h.nom_pel_horario = malloc(sizeof(char) * (strlen(sqlite3_column_text(stmt3, 3))+1));
+      strcpy(h.nom_pel_horario, (char *)sqlite3_column_text(stmt3, 3));
+
+      h.HoraFin=malloc(sizeof(char)*(strlen( sqlite3_column_text(stmt3, 2))+1));
+      strcpy(h.HoraFin, (char *) sqlite3_column_text(stmt3, 2));
+
+      h.HoraInicio=malloc(sizeof(char)*(strlen( sqlite3_column_text(stmt3, 1))+1));
+      strcpy(h.HoraInicio, (char *) sqlite3_column_text(stmt3, 1));
+
+      printf("%d [Hora de inicio: %s]\n [Hora de finalizacion: %s]\n\n", h.id, h.HoraInicio, h.HoraFin);
     }
   }
 
@@ -515,7 +519,7 @@ Horario verHorarios(char *nom_pel_horario, char *dia, sqlite3 *db)
   }
 
   result = sqlite3_finalize(stmt3);
-  printf("[Pelicula: %s]\n [Hora de inicio: %s]\n [Hora de finalizacion: %s]\n", h.nom_pel_horario, h.HoraInicio, h.HoraFin);
+
 
   if (result != SQLITE_OK)
   {

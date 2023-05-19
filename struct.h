@@ -31,6 +31,7 @@ typedef struct{
 }Pelicula;
 
 typedef struct Horario{
+    int id;
     char *nom_pel_horario;
     char *HoraInicio;
     char *HoraFin;

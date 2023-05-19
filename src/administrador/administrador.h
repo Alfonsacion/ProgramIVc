@@ -11,6 +11,7 @@ class Administrador: public Persona
         unsigned int sueldo;
 
 
+
     public:
         Administrador();
         Administrador(const char * nombre, unsigned int sueldo);
@@ -19,6 +20,7 @@ class Administrador: public Persona
 
 
         virtual void consultarDatos();
+        void modificarDatosUsuario();//adasfs
 
 
 

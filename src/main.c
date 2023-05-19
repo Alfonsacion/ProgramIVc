@@ -108,16 +108,6 @@ int main(void)
 
 	Usuario u = login(a, contraseyna, dniUsuario, correoUsuario, tlf, db);
 
-	////////////////////////////////////////// METODO A LA GAVIRIA //////////////////////////////////////////
-	//	usuarioDatos(db);
-	//	verPeliculas(db);
-	//	verHorarios(db);
-
-	///////////////////////////////////////////////// METODO CHATGTP /////////////////////////////////////////////////
-	//	verPeliculas(db);
-	//	verHorarios(db);
-	//////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
 	free(a);
 	// free(b);
 	// free(c);
@@ -187,8 +177,8 @@ int main(void)
 			case 2:
 				printf("\n\n///////////Bienvenido al gestor de reservas///////////\n\n");
 
-				s = pantallaCartelera(arrayPeliculas, numPeliculas, db);
-				seleccionHorario = seleccionHorarios(s.seleccion, s.dia, arrayHorarios, arrayPeliculas);
+				seleccionPelicula = pantallaCartelera(arrayPeliculas, numPeliculas, db);
+				seleccionHorario = seleccionHorarios(seleccionPelicula, s.dia, arrayHorarios, arrayPeliculas);
 				numEntradas = confirmacionTicket(seleccionPelicula, arrayPeliculas, arrayHorarios, seleccionHorario);
 				arrayAsientosElegidos = malloc(numEntradas * sizeof(AsientoElegido));
 

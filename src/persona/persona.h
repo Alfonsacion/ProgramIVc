@@ -6,12 +6,15 @@ class Persona
 {
 private:
     const char * nombre;
+    char * mail;
+    char * tlfn;
+    char * contrasenya;
+    char * dni;
     static int numPersonas;
-
 
 public:
     Persona();
-    Persona(const char * nombre);
+    Persona(const char * nombre, char * mail, char * tlfn, char * contrasenya, char * dni);
     Persona(const Persona& p);
     virtual ~Persona();
 

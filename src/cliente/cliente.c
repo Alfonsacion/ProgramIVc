@@ -168,8 +168,9 @@ int confirmacionAsiento(int numEntradasSeleccionadas){
 }
 
 
-Seleccion pantallaCartelera(const char **arrayPeliculas, int numPeliculas, sqlite3 *db){
+int pantallaCartelera(const char **arrayPeliculas, int numPeliculas, sqlite3 *db){
 
+    int seleccion;
     int cambiarDias = 1;
     int diaActual = 0;
     Seleccion s;
@@ -185,10 +186,10 @@ Seleccion pantallaCartelera(const char **arrayPeliculas, int numPeliculas, sqlit
     printf("/////////// Estas visualizando las peliculas para el %s ///////////////////", arrDias[diaActual]);
     printf("\n");
     printf("\n");
-    printf("Para visualizar el siguiente dia, escriba 1 y presione Enter");
+    printf("Para visualizar el siguiente dia, escriba 8 y presione Enter");
     printf("\n");
     printf("\n");
-    printf("Para visualizar el dia anterior, escriba 0 y presione Enter");
+    printf("Para visualizar el dia anterior, escriba 9 y presione Enter");
     printf("\n");
     printf("\n");    
     printf("Para elegir una pelicula, escriba su numero y presione Enter");
@@ -202,9 +203,9 @@ Seleccion pantallaCartelera(const char **arrayPeliculas, int numPeliculas, sqlit
     
     
     printf("Escriba aqui su seleccion mediante el numero correspondiente: "); 
-    scanf("%1d", s.seleccion);
+    scanf("%1d", &seleccion);
 
-    if (s.seleccion == 0){
+    if (seleccion == 8){
         if (diaActual == 0){
             diaActual =6;
         }else
@@ -213,7 +214,7 @@ Seleccion pantallaCartelera(const char **arrayPeliculas, int numPeliculas, sqlit
         }
         
 
-    }else if (s.seleccion == 1){
+    }else if (seleccion == 9){
          if (diaActual == 6){
             diaActual =0;
         }else
@@ -226,7 +227,7 @@ Seleccion pantallaCartelera(const char **arrayPeliculas, int numPeliculas, sqlit
     }
         }
     
-    return s;
+    return seleccion;
 }
 
 
@@ -254,7 +255,7 @@ int seleccionHorarios(int seleccionPelicula, char* dia, const char **arrayHorari
     printf("\n");
     printf("\n");
 
-    h = verHorarios(p.nom_pel, dia, db);
+    h = verHorarios(p.nom_pel, db);
 
     printf("\n\n Indique el numero del horario que desee: ");
     scanf("%1d", &seleccionHorario);
