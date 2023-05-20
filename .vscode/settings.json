@@ -5,7 +5,8 @@
         "connect.h": "c",
         "string.h": "c",
         "sqlite3.h": "c",
-        "ostream": "cpp"
+        "ostream": "cpp",
+        "istream": "cpp"
     },
     "C_Cpp.dimInactiveRegions": false,
     "C_Cpp.errorSquiggles": "enabled"
