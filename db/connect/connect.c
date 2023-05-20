@@ -418,6 +418,7 @@ Pelicula verPeliculas(sqlite3 *db)
 
 Pelicula obtenerPeliculaPorId(int id, sqlite3 *db)
 {
+  int rc2 = sqlite3_open("baseDeDatosCine.sqlite", &db);
   Pelicula p;
   sqlite3_stmt *stmt;
   const char *sql = "SELECT nom_pel, genero_pel, duracion_pel, precio FROM pelicula WHERE id_pel = ?";
@@ -438,24 +439,24 @@ Pelicula obtenerPeliculaPorId(int id, sqlite3 *db)
   {
     p.id = id;
 
-    if(p.nom_pel != NULL){
-      free(p.nom_pel);
-      p.nom_pel = NULL;
-    }
+    // if(p.nom_pel != NULL){
+    //   free(p.nom_pel);
+    //   p.nom_pel = NULL;
+    // }
     p.nom_pel = malloc(sizeof(char) * (strlen(sqlite3_column_text(stmt, 0)) + 1));
     strcpy(p.nom_pel, (char *)sqlite3_column_text(stmt, 0));
 
-    if(p.genero_pel != NULL){
-      free(p.genero_pel);
-      p.genero_pel = NULL;
-    }
+    // if(p.genero_pel != NULL){
+    //   free(p.genero_pel);
+    //   p.genero_pel = NULL;
+    // }
     p.genero_pel = malloc(sizeof(char) * (strlen(sqlite3_column_text(stmt, 1)) + 1));
     strcpy(p.genero_pel, (char *)sqlite3_column_text(stmt, 1));
 
-    if(p.duracion != NULL){
-      free(p.duracion);
-      p.duracion = NULL;
-    }
+    // if(p.duracion != NULL){
+    //   free(p.duracion);
+    //   p.duracion = NULL;
+    // }
     p.duracion = malloc(sizeof(char) * (strlen(sqlite3_column_text(stmt, 2)) + 1));
     strcpy(p.duracion, (char *)sqlite3_column_text(stmt, 2));
 
@@ -470,11 +471,15 @@ Pelicula obtenerPeliculaPorId(int id, sqlite3 *db)
     printf("%s\n", sqlite3_errmsg(db));
   }
 
+  sqlite3_close(db);
+
   return p;
 }
 
 Pelicula obtenerPrecioPorId(int id, sqlite3 *db)
 {
+
+  int rc2 = sqlite3_open("baseDeDatosCine.sqlite", &db);
   Pelicula p;
   sqlite3_stmt *stmt;
   const char *sql = "SELECT precio FROM pelicula WHERE id_pel = ?";
@@ -505,6 +510,7 @@ Pelicula obtenerPrecioPorId(int id, sqlite3 *db)
     printf("%s\n", sqlite3_errmsg(db));
   }
 
+  sqlite3_close(db);
   return p;
 }
 }
@@ -571,6 +577,7 @@ Horario verHorarios(char *nom_pel_horario, sqlite3 *db)
 
 Horario obtenerHorarioPorId(int id, sqlite3 *db)
 {
+  int rc3 = sqlite3_open("baseDeDatosCine.sqlite", &db);
   Horario h;
   sqlite3_stmt *stmt;
   const char *sql = "SELECT HoraInicio FROM horario WHERE id_horario = ?";
@@ -591,10 +598,10 @@ Horario obtenerHorarioPorId(int id, sqlite3 *db)
   {
     h.id = id;
 
-    if(h.HoraInicio != NULL){
-      free(h.HoraInicio);
-      h.HoraInicio = NULL;
-    }
+    // if(h.HoraInicio != NULL){
+    //   free(h.HoraInicio);
+    //   h.HoraInicio = NULL;
+    // }
     h.HoraInicio = malloc(sizeof(char) * (strlen(sqlite3_column_text(stmt, 0)) + 1));
     strcpy(h.HoraInicio, (char *)sqlite3_column_text(stmt, 0));
   }
@@ -607,6 +614,7 @@ Horario obtenerHorarioPorId(int id, sqlite3 *db)
     printf("%s\n", sqlite3_errmsg(db));
   }
 
+  sqlite3_close(db);
   return h;
 }
 

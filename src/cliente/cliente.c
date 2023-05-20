@@ -173,7 +173,7 @@ int pantallaCartelera(const char **arrayPeliculas, int numPeliculas, sqlite3 *db
     int seleccion;
     int cambiarDias = 1;
     int diaActual = 0;
-    Seleccion s;
+    // Seleccion s;
 
 
     while (cambiarDias == 1){
@@ -244,11 +244,6 @@ int seleccionHorarios(int seleccionPelicula, char* dia, const char **arrayHorari
     printf("///////////Seleccione un horario///////////");
     printf("\n");
     printf("\n");
-    int rc = sqlite3_open("baseDeDatosCine.sqlite", &db);
-    if (rc != SQLITE_OK) {
-        printf("Error al abrir la base de datos: %s\n", sqlite3_errmsg(db));
-        return -1; 
-    }
 
     p = obtenerPeliculaPorId(seleccionPelicula, db);
     printf("Los horarios disponibles para %s son: ", p.nom_pel);
@@ -270,12 +265,6 @@ int confirmacionTicket(int seleccionPelicula, const char **arrayPeliculas, const
     Horario h;
     Pelicula p;
     sqlite3* db;
-
-     int rc = sqlite3_open("baseDeDatosCine.sqlite", &db);
-    if (rc != SQLITE_OK) {
-        printf("Error al abrir la base de datos: %s\n", sqlite3_errmsg(db));
-        return -1; 
-    }
     
      p = obtenerPeliculaPorId(seleccionPelicula, db);
      h = obtenerHorarioPorId(seleccionHorario, db);
@@ -290,6 +279,12 @@ int confirmacionTicket(int seleccionPelicula, const char **arrayPeliculas, const
     int preciototal = p.precio*numEntradas;
     printf("Precio total : %d", preciototal);
     printf("\n\n Escriba 'v' y presione Enter para volver a la selección del horario");
+    free(p.nom_pel);
+    free(p.genero_pel);
+    free(p.duracion);
+    free(h.HoraInicio);
+    free(h.HoraFin);
+    free(h.nom_pel_horario);
 
     return numEntradas;
 
