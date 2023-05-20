@@ -4,6 +4,8 @@
 #include <string.h>
 using namespace std;
 
+int totalPersonas = Persona::getNumPersonas();
+
 Administrador::Administrador(const char * nombre, const char * mail, const char * tlfn, const char * dni, unsigned int sueldo): Persona(nombre, mail, tlfn, dni)
 {
     this->sueldo = sueldo;
@@ -18,6 +20,10 @@ Administrador::Administrador(const Administrador &a): Persona(Persona::getNombre
 
 Administrador::~Administrador()
 {
+    for (int i = 0; i < totalPersonas; i++){
+        delete usuarios[i];
+    }
+    delete[] usuarios;
 }
 
 
@@ -65,6 +71,28 @@ void Administrador::anyadirAdministrador(const char* nombre, const char * mail, 
 
 
 }
+
+    void Administrador::modificarSueldo(unsigned int nuevoSueldo)
+    {
+        this->sueldo = nuevoSueldo;
+        cout<<"Sueldo modificado correctamente."<<endl;
+    }
+
+    void Administrador::eliminarUsuario(const char* dni)
+    {
+        for(int i = 0; i < totalPersonas; i++){
+            if(strcmp(usuarios[i]->getDni(), dni) == 0){
+                for(int j = i; j < totalPersonas - 1; j++){
+                    usuarios[j] = usuarios[j+1];
+                }
+                cout<< "Usuario con DNI " << dni << "eliminado correctamente."<<endl;
+        
+
+            }
+
+        }
+    }
+
 
 
 /*  

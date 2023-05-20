@@ -6,6 +6,7 @@ class Administrador: public Persona
 {
     private:
         unsigned int sueldo;
+        Persona** usuarios;
 
     public:
         Administrador();
@@ -16,7 +17,8 @@ class Administrador: public Persona
 
         virtual void consultarDatos();
         void anyadirAdministrador(const char* nombre, const char * mail, const char * tlfn, const char * dni, unsigned int sueldo);
-        void modificarDatosUsuario();//adasfs
+        void modificarSueldo(unsigned int nuevoSueldo);
+        void eliminarUsuario(const char* dni);
 };
 
 #endif
