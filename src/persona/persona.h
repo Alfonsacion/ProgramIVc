@@ -6,25 +6,23 @@ class Persona
 {
 private:
     const char * nombre;
-    char * mail;
-    char * tlfn;
+    const char * mail;
+    const char * tlfn;
     char * contrasenya;
-    char * dni;
+    const char * dni;
     static int numPersonas;
 
 public:
     Persona();
-    Persona(const char * nombre, char * mail, char * tlfn, char * contrasenya, char * dni);
+    Persona(const char * nombre, const char * mail, const char * tlfn, const char * dni);
     Persona(const Persona& p);
     virtual ~Persona();
 
-
     char * getNombre() const;
-
-
+    char * getMail() const;
+    char * getTlfn() const;
+    char * getDni() const;
     virtual void consultarDatos();
-
-
     static int getNumPersonas();
 };
 
