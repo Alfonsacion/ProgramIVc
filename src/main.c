@@ -48,39 +48,22 @@ int main(void)
 	Usuario u = login(a, contraseyna, dniUsuario, correoUsuario, tlf, db);
 
 	free(a);
-	// free(b);
-	// free(c);
-	// free(d);
-	//free(e);
-
-	//////////////////////PARTE ALONSO, SELECCION DE ASIENTOS
-	//////////VARIABLES DESDE BD////////////
-
-	int numPeliculas = 5;
-	char usuario[100] = "Iker";
-	char dni[100] = "75485943L.";
-	char correo[100] = "iker@gmail.com";
-	char telefono[100] = "758 748 372";
 
 	///////////////////////////////////////
 	int seleccionPelicula = 0;
 	int seleccionHorario = 0;
 	int numEntradas = 0;
 	int numEntradasSeleccionadas = 0;
+	int numPeliculas = 0;
+	const char *arrayPeliculas[6];
+	const char *arrayHorarios[4];
+
+
+
 
 	AsientoElegido *arrayAsientosElegidos;
 
-	const char *arrayPeliculas[6];
-	arrayPeliculas[1] = "Gato con botas";
-	arrayPeliculas[2] = "Vengadores";
-	arrayPeliculas[3] = "Narnia";
-	arrayPeliculas[4] = "Star Wars";
-	arrayPeliculas[5] = "Avatar";
 
-	const char *arrayHorarios[4];
-	arrayHorarios[1] = "17:00";
-	arrayHorarios[2] = "16:00";
-	arrayHorarios[3] = "18:00";
 
 	int opcion = 1;
 	Pelicula p;
