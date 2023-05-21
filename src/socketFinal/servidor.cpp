@@ -10,6 +10,20 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <iostream>
+
+extern "C"{
+    #include "../../sqlite3.h"
+    #include "../../struct.h"
+    #include "../cliente/cliente.h"
+    #include "../../db/connect/connect.h"
+    #include <cstdlib>
+    #include <string.h>
+}
+
+
+#define MAX_USERNAME_LENGTH 20
+#define MAX_PASSWORD_LENGTH 20
+
 using namespace std;
 
 #include <iostream>
@@ -26,8 +40,15 @@ int __cdecl main(void)
 {
     std::cout << "Servidor preparado para cliente";
 
-    int x = 10;
-    std::cout << "Servidor preparado para cliente  y " << x;
+
+    ////////////MAIN VARIABLES////////////////////////////
+
+
+	printf("\n");
+	printf("Bienvenido/a, ahora puedes iniciar sesion\n");
+	printf("\n");
+
+    //////////////////////////////////////////////////////
 
 
     WSADATA wsaData;
@@ -218,3 +239,8 @@ int __cdecl main(void)
 
 
 //c++ -o server servidor.cpp -lws2_32
+
+//gcc .\src\main.c .\src\cliente\cliente.c .\db\connect\connect.c .\sqlite3.c -o main.exe
+
+
+//c++ .\src\socketFinal\servidor.cpp .\src\cliente\cliente.c .\db\connect\connect.c .\sqlite3.c -o server.exe -lws2_32
