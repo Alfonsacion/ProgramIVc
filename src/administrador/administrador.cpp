@@ -11,12 +11,10 @@ Administrador::Administrador(const char * nombre, const char * mail, const char 
     this->sueldo = sueldo;
 }
 
-
 Administrador::Administrador(const Administrador &a): Persona(Persona::getNombre(), a.getMail(), a.getTlfn(), a.getDni())
 {
     this->sueldo = a.sueldo;
 }
-
 
 Administrador::~Administrador()
 {
@@ -25,7 +23,6 @@ Administrador::~Administrador()
     }
     delete[] usuarios;
 }
-
 
 void Administrador::usuarioDatos()
 {
@@ -36,10 +33,9 @@ void Administrador::usuarioDatos()
     cout << "Sueldo: " << this->sueldo << endl;
 }
 
-
 void Administrador::anyadirAdministrador(const char* nombre, const char * mail, const char * tlfn, const char * dni, unsigned int sueldo)
 {
-    cout<<"Has seleccionado la opción de anyadir un nuevo Administrador."<<endl;
+    cout<<"Has seleccionado la opcion de anyadir un nuevo Administrador."<<endl;
     cout<<"A continuacion indica sus datos: "<<endl;
 
     char nombre[20];
@@ -78,6 +74,13 @@ void Administrador::anyadirAdministrador(const char* nombre, const char * mail, 
         cout<<"Sueldo modificado correctamente."<<endl;
     }
 
+    void visualizarDatosClientes(Persona& cliente){
+        cout<< "El nombre: " << cliente.getNombre() <<endl;
+        cout<<"El DNI: "<<cliente.getDni()<<endl;
+        cout<< "El mail: " << cliente.getMail() << endl;
+        cout<< "El telefono: "<<cliente.getTlfn()<<endl;
+    }
+
     void Administrador::eliminarUsuario(const char* dni)
     {
         for(int i = 0; i < totalPersonas; i++){
@@ -93,9 +96,32 @@ void Administrador::anyadirAdministrador(const char* nombre, const char * mail, 
         }
     }
 
+    void eliminarPelicula(){
+
+    }
+
 
 
 /*  
-    
+FUNCIONES A METER EN ADMIN
+        Administrador();
+        Administrador(const char * nombre, const char * mail, const char * tlfn, const char * dni, unsigned int sueldo);
+        Administrador(const Administrador &a);
+        virtual ~Administrador();
+
+
+        virtual void usuarioDatos();
+        void consultarDatosClientes();
+        void anyadirAdministrador(const char* nombre, const char * mail, const char * tlfn, const char * dni, unsigned int sueldo);
+        void modificarSueldo(unsigned int nuevoSueldo);
+        void eliminarUsuario(const char* dni);
+        
+        void anyadirPelicula();
+        void eliminarPelicula();
+
+};
+
+
+    VER SI ESTO ES SICUA
     Administrador admin(nombre, mail, tlfn, dni, sueldo);
     cout<<"Administrador anyadido: "<< admin.getNombre() << endl;*/

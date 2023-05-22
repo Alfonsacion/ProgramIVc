@@ -1,6 +1,6 @@
 #ifndef ADMINISTRADOR_H_
 #define ADMINISTRADOR_H_
-#include "persona.h"
+#include "../persona/persona.h"
 
 class Administrador: public Persona
 {
@@ -20,6 +20,10 @@ class Administrador: public Persona
         void anyadirAdministrador(const char* nombre, const char * mail, const char * tlfn, const char * dni, unsigned int sueldo);
         void modificarSueldo(unsigned int nuevoSueldo);
         void eliminarUsuario(const char* dni);
+        void anyadirPelicula();
+        void eliminarPelicula();
+        
+
 };
 
 #endif

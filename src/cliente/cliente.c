@@ -1,10 +1,11 @@
 #include "cliente.h"
 #include <stdio.h>
-#include<stdlib.h>
+#include <stdlib.h>
 #include <time.h>
 #include "../../struct.h"
 #include "../../db/connect/connect.h"
 #include "../../sqlite3.h"
+
 
 void generarSalaA(AsientoElegido *arrayAsientosElegidos, int numEntradasSeleccionadas, int numEntradas){
 
@@ -344,11 +345,4 @@ void datosPeliculas(const char **arrayPeliculas, int numPeliculas){
 
 
 }
-
-
-
-
-
-
-
 
