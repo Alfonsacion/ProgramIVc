@@ -51,143 +51,9 @@ extern "C"
 
 int __cdecl main(void) 
 {
-    std::cout << "Servidor preparado para cliente";
 
-    int x = 10;
-    std::cout << "Servidor preparado para cliente  y " << x;
+    //////////////////SOCKETS ESENCIAL//////////////////////
 
-    ///////////////////CCCCCCCCCCCCCCC/////////////////////
-    sqlite3 *db;
-	char *error;
-	////////////////////////////////////////////////BASE DE DATOS//////////////////////////////////////////////////////
-	int baseDedatos = openDB(db);
-	int pelicula = tablaPelicula(db, error);
-	int horario = tablaHorario(db, error);
-	int fecha = tablaFecha(db, error);
-	int usuarioTest = tablaUsuario(db, error);
-
-	char nombreUsuario[MAX_PASSWORD_LENGTH];
-	char contraseyna[MAX_PASSWORD_LENGTH];
-	char dniUsuario[MAX_PASSWORD_LENGTH];
-	char correoUsuario[MAX_PASSWORD_LENGTH];
-	char tlf[MAX_PASSWORD_LENGTH];
-
-	char nom_pel_fecha[MAX_PASSWORD_LENGTH];
-	char fecha_peli[MAX_PASSWORD_LENGTH];
-	char nom_pel_horario[MAX_PASSWORD_LENGTH];
-	char HoraInicio[MAX_PASSWORD_LENGTH];
-	char HoraFin[MAX_PASSWORD_LENGTH];
-
-	char *a = new char((strlen(nombreUsuario) + 1) * sizeof(char));
-	a = strcpy(a, nombreUsuario);
-	a[strlen(a)] = '\0';
-
-
-	std::cout << "\n";
-    std::cout << "Bienvenido/a, ahora puedes iniciar sesión\n";
-    std::cout << "\n";
-
-
-	Usuario u = login(a, contraseyna, dniUsuario, correoUsuario, tlf, db);
-
-	free(a);
-
-	///////////////////////////////////////
-	int seleccionPelicula = 0;
-	int seleccionHorario = 0;
-	int numEntradas = 0;
-	int numEntradasSeleccionadas = 0;
-	int numPeliculas = 0;
-	const char *arrayPeliculas[6];
-	const char *arrayHorarios[4];
-
-
-
-
-	AsientoElegido *arrayAsientosElegidos;
-
-
-
-	int opcion = 1;
-	Pelicula p;
-	UsuarioDatos ud;
-	Horario h;
-	Seleccion s;
-
-		while (opcion <= 5 && opcion >= 0)
-		{
-			std::cout << "\n\n///////////Menu Cineplex///////////\n\n";
-            std::cout << "1. Visualizar datos del usuario\n\n";
-            std::cout << "2. Efectuar una reserva \n\n";
-            std::cout << "3. Visualizar las peliculas disponibles \n\n";
-            std::cout << "4. Cerrar sesión\n\n";
-            std::cout << "Seleccione la opción que desee: \n";
-
-			scanf("%1d", &opcion);
-			switch (opcion)
-
-			{
-
-			case 1:
-				
-				ud = usuarioDatos(u.nombreUsuario, db);
-
-				std::cout << "\n\nPresiona cualquier tecla y enter para volver al menú: ";
-
-				scanf("%1d", &opcion);
-				fflush(stdin);
-				break;
-
-
-			case 2:
-                std::cout << "\n\n///////////Bienvenido al gestor de reservas///////////\n\n";
-
-				seleccionPelicula = pantallaCartelera(arrayPeliculas, numPeliculas, db);
-				seleccionHorario = seleccionHorarios(seleccionPelicula, s.dia, arrayHorarios, arrayPeliculas);
-				numEntradas = confirmacionTicket(seleccionPelicula, arrayPeliculas, arrayHorarios, seleccionHorario);
-				//arrayAsientosElegidos =  malloc(numEntradas * sizeof(AsientoElegido));
-                arrayAsientosElegidos = new AsientoElegido[numEntradas];
-
-				generarSalaA(arrayAsientosElegidos, numEntradasSeleccionadas, numEntradas);
-
-				for (numEntradasSeleccionadas = 0; numEntradasSeleccionadas < numEntradas; numEntradasSeleccionadas++)
-				{
-					elegirAsiento(arrayAsientosElegidos, numEntradasSeleccionadas);
-					generarSalaA(arrayAsientosElegidos, numEntradasSeleccionadas, numEntradas);
-					numEntradasSeleccionadas = confirmacionAsiento(numEntradasSeleccionadas);
-				}
-
-				exportarDatos(numEntradasSeleccionadas, seleccionPelicula, arrayPeliculas);
-				// confirmacionDefinitiva(seleccionPelicula, arrayPeliculas, seleccionHorario, arrayHorarios, numEntradas, arrayAsientosElegidos, numEntradasSeleccionadas);
-
-                std::cout << "\n\nPresiona cualquier tecla y enter para volver al menú: ";
-				scanf("%1d", &opcion);
-				fflush(stdin);
-				break;
-
-			case 3:
-
-				p = verPeliculas(db);
-                std::cout << "\n\nPresiona cualquier tecla y enter para volver al menú: ";
-				scanf("%d", &opcion);
-				fflush(stdin);
-				break;
-
-			case 4:
-                std::cout << "\n\n///////////Has cerrado sesión, hasta pronto!///////////\n\n";
-
-				opcion = 6;
-				break;
-				
-			default:
-
-                std::cout << "\n\n///////////La opción seleccionada no es válida///////////\n\n";
-				fflush(stdin);
-				break;
-
-			}
-		}
-    ////////////////////////////////////////
     WSADATA wsaData;
     int iResult;
 
@@ -265,6 +131,176 @@ int __cdecl main(void)
 
     // No longer need server socket
     closesocket(ListenSocket);
+
+    ///////////////FINAL SOCKET ESENCIAL////////////////////////
+
+
+    std::cout << "Servidor preparado para cliente";
+
+
+    ///////////////////CCCCCCCCCCCCCCC/////////////////////
+    sqlite3 *db;
+	char *error;
+	////////////////////////////////////////////////BASE DE DATOS//////////////////////////////////////////////////////
+	int baseDedatos = openDB(db);
+	int pelicula = tablaPelicula(db, error);
+	int horario = tablaHorario(db, error);
+	int fecha = tablaFecha(db, error);
+	int usuarioTest = tablaUsuario(db, error);
+
+	char nombreUsuario[MAX_PASSWORD_LENGTH];
+	char contraseyna[MAX_PASSWORD_LENGTH];
+	char dniUsuario[MAX_PASSWORD_LENGTH];
+	char correoUsuario[MAX_PASSWORD_LENGTH];
+	char tlf[MAX_PASSWORD_LENGTH];
+
+	char nom_pel_fecha[MAX_PASSWORD_LENGTH];
+	char fecha_peli[MAX_PASSWORD_LENGTH];
+	char nom_pel_horario[MAX_PASSWORD_LENGTH];
+	char HoraInicio[MAX_PASSWORD_LENGTH];
+	char HoraFin[MAX_PASSWORD_LENGTH];
+
+	char *a = new char((strlen(nombreUsuario) + 1) * sizeof(char));
+	a = strcpy(a, nombreUsuario);
+	a[strlen(a)] = '\0';
+
+
+	std::cout << "\n";
+    std::cout << "Bienvenido/a, ahora puedes iniciar sesión\n";
+    std::cout << "\n";
+
+////////////////////////////////////////////
+
+    std::cout << "\nIntroduce tu nombre de usuario, si no tienes escribe 'n': ";
+
+//////////////////////////////////////////////
+
+
+	Usuario u = login(a, contraseyna, dniUsuario, correoUsuario, tlf, db);
+
+	free(a);
+
+
+	///////////////////////////////////////
+	int seleccionPelicula = 0;
+	int seleccionHorario = 0;
+	int numEntradas = 0;
+	int numEntradasSeleccionadas = 0;
+	int numPeliculas = 0;
+	const char *arrayPeliculas[6];
+	const char *arrayHorarios[4];
+    ///////////////////////////////////////
+
+
+
+	AsientoElegido *arrayAsientosElegidos;
+
+
+
+	int opcion = 1;
+	Pelicula p;
+	UsuarioDatos ud;
+	Horario h;
+	Seleccion s;
+
+		while (opcion <= 5 && opcion >= 0)
+		{
+			std::cout << "\n\n///////////Menu Cineplex///////////\n\n";
+            std::cout << "1. Visualizar datos del usuario\n\n";
+            std::cout << "2. Efectuar una reserva \n\n";
+            std::cout << "3. Visualizar las peliculas disponibles \n\n";
+            std::cout << "4. Cerrar sesión\n\n";
+            std::cout << "Seleccione la opción que desee: \n";
+
+			/////////////OPCION MENU/////////////
+
+            iResult = recv(ClientSocket, recvOpMen, recvbuflen, 0);
+            if (iResult >= 0) {
+                printf("Mensaje recibido en servidor: %s\n", recvOpMen);
+
+            // Echo the buffer back to the sender
+                iSendResult = send( ClientSocket, recvOpMen, iResult, 0 );
+                if (iSendResult == SOCKET_ERROR) {
+                    printf("send failed with error: %d\n", WSAGetLastError());
+                    closesocket(ClientSocket);
+                    WSACleanup();
+                    return 1;
+                }
+                printf("Bytes sent: %s\n", recvOpMen);
+            }
+        
+            else  {
+                printf("recv failed with error: %d\n", WSAGetLastError());
+                closesocket(ClientSocket);
+                WSACleanup();
+                return 1;
+            }
+
+            int opcion = stoi(recvOpMen);
+
+			    switch (opcion)
+
+			{
+
+			case 1:
+				
+				ud = usuarioDatos(u.nombreUsuario, db);
+
+				std::cout << "\n\nPresiona cualquier tecla y enter para volver al menú: ";
+
+				scanf("%1d", &opcion);
+				fflush(stdin);
+				break;
+
+
+			case 2:
+                std::cout << "\n\n///////////Bienvenido al gestor de reservas///////////\n\n";
+
+				seleccionPelicula = pantallaCartelera(arrayPeliculas, numPeliculas, db);
+				seleccionHorario = seleccionHorarios(seleccionPelicula, s.dia, arrayHorarios, arrayPeliculas);
+				numEntradas = confirmacionTicket(seleccionPelicula, arrayPeliculas, arrayHorarios, seleccionHorario);
+                arrayAsientosElegidos = new AsientoElegido[numEntradas];
+
+				generarSalaA(arrayAsientosElegidos, numEntradasSeleccionadas, numEntradas);
+
+				for (numEntradasSeleccionadas = 0; numEntradasSeleccionadas < numEntradas; numEntradasSeleccionadas++)
+				{
+					elegirAsiento(arrayAsientosElegidos, numEntradasSeleccionadas);
+					generarSalaA(arrayAsientosElegidos, numEntradasSeleccionadas, numEntradas);
+					numEntradasSeleccionadas = confirmacionAsiento(numEntradasSeleccionadas);
+				}
+
+				exportarDatos(numEntradasSeleccionadas, seleccionPelicula, arrayPeliculas);
+				// confirmacionDefinitiva(seleccionPelicula, arrayPeliculas, seleccionHorario, arrayHorarios, numEntradas, arrayAsientosElegidos, numEntradasSeleccionadas);
+
+                std::cout << "\n\nPresiona cualquier tecla y enter para volver al menú: ";
+				scanf("%1d", &opcion);
+				fflush(stdin);
+				break;
+
+			case 3:
+
+				p = verPeliculas(db);
+                std::cout << "\n\nPresiona cualquier tecla y enter para volver al menú: ";
+				scanf("%d", &opcion);
+				fflush(stdin);
+				break;
+
+			case 4:
+                std::cout << "\n\n///////////Has cerrado sesión, hasta pronto!///////////\n\n";
+
+				opcion = 6;
+				break;
+				
+			default:
+
+                std::cout << "\n\n///////////La opción seleccionada no es válida///////////\n\n";
+				fflush(stdin);
+				break;
+
+			}
+		}
+
 
 
 
