@@ -83,9 +83,10 @@ int __cdecl main(void)
 	a[strlen(a)] = '\0';
 
 
-	printf("\n");
-	printf("Bienvenido/a, ahora puedes iniciar sesion\n");
-	printf("\n");
+	std::cout << "\n";
+    std::cout << "Bienvenido/a, ahora puedes iniciar sesión\n";
+    std::cout << "\n";
+
 
 	Usuario u = login(a, contraseyna, dniUsuario, correoUsuario, tlf, db);
 
@@ -115,14 +116,13 @@ int __cdecl main(void)
 
 		while (opcion <= 5 && opcion >= 0)
 		{
-			printf("\n\n///////////Menu Cineplex///////////\n\n");
+			std::cout << "\n\n///////////Menu Cineplex///////////\n\n";
+            std::cout << "1. Visualizar datos del usuario\n\n";
+            std::cout << "2. Efectuar una reserva \n\n";
+            std::cout << "3. Visualizar las peliculas disponibles \n\n";
+            std::cout << "4. Cerrar sesión\n\n";
+            std::cout << "Seleccione la opción que desee: \n";
 
-			printf("1. Visualizar datos del usuario\n\n");
-			printf("2. Efectuar una reserva \n\n");
-			printf("3. Visualizar las peliculas disponibles \n\n");
-			printf("4. Cerrar sesion\n\n");
-
-			printf("Seleccione la opcion que desee: \n");
 			scanf("%1d", &opcion);
 			switch (opcion)
 
@@ -132,14 +132,15 @@ int __cdecl main(void)
 				
 				ud = usuarioDatos(u.nombreUsuario, db);
 
-				printf("\n\nPresiona cualquier tecla y enter para volver al menu: ");
+				std::cout << "\n\nPresiona cualquier tecla y enter para volver al menú: ";
+
 				scanf("%1d", &opcion);
 				fflush(stdin);
 				break;
 
 
 			case 2:
-				printf("\n\n///////////Bienvenido al gestor de reservas///////////\n\n");
+                std::cout << "\n\n///////////Bienvenido al gestor de reservas///////////\n\n";
 
 				seleccionPelicula = pantallaCartelera(arrayPeliculas, numPeliculas, db);
 				seleccionHorario = seleccionHorarios(seleccionPelicula, s.dia, arrayHorarios, arrayPeliculas);
@@ -159,7 +160,7 @@ int __cdecl main(void)
 				exportarDatos(numEntradasSeleccionadas, seleccionPelicula, arrayPeliculas);
 				// confirmacionDefinitiva(seleccionPelicula, arrayPeliculas, seleccionHorario, arrayHorarios, numEntradas, arrayAsientosElegidos, numEntradasSeleccionadas);
 
-				printf("\n\nPresiona cualquier tecla y enter para volver al menu: ");
+                std::cout << "\n\nPresiona cualquier tecla y enter para volver al menú: ";
 				scanf("%1d", &opcion);
 				fflush(stdin);
 				break;
@@ -167,20 +168,20 @@ int __cdecl main(void)
 			case 3:
 
 				p = verPeliculas(db);
-				printf("\n\nPresiona cualquier tecla y enter para volver al menu: ");
+                std::cout << "\n\nPresiona cualquier tecla y enter para volver al menú: ";
 				scanf("%d", &opcion);
 				fflush(stdin);
 				break;
 
 			case 4:
-				printf("\n\n///////////Has cerrado sesion, hasta pronto!///////////\n\n");
+                std::cout << "\n\n///////////Has cerrado sesión, hasta pronto!///////////\n\n";
 
 				opcion = 6;
 				break;
 				
 			default:
 
-				printf("\n\n///////////La opcion seleccionada no es valida///////////\n\n");
+                std::cout << "\n\n///////////La opción seleccionada no es válida///////////\n\n";
 				fflush(stdin);
 				break;
 
