@@ -15,7 +15,8 @@ class Administrador: public Persona
         virtual ~Administrador();
 
 
-        virtual void consultarDatos();
+        virtual void usuarioDatos();
+        void consultarDatosClientes();
         void anyadirAdministrador(const char* nombre, const char * mail, const char * tlfn, const char * dni, unsigned int sueldo);
         void modificarSueldo(unsigned int nuevoSueldo);
         void eliminarUsuario(const char* dni);

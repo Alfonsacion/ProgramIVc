@@ -22,7 +22,7 @@ public:
     char * getMail() const;
     char * getTlfn() const;
     char * getDni() const;
-    virtual void consultarDatos();
+    virtual void usuarioDatos(); //=visuaslizarDatos
     static int getNumPersonas();
 };
 

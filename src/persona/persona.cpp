@@ -77,7 +77,7 @@ char * Persona::getTlfn() const
     return (char*) this->tlfn;
 }
 
-void Persona::consultarDatos()
+void Persona::usuarioDatos()
 {
     cout << "NOMBRE: " << this->nombre << endl;
 }

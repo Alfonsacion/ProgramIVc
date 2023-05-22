@@ -27,9 +27,9 @@ Administrador::~Administrador()
 }
 
 
-void Administrador::consultarDatos()
+void Administrador::usuarioDatos()
 {
-    Persona::consultarDatos();
+    Persona::usuarioDatos();
     cout<< "Mail: " << getMail() << endl;
     cout<< "DNI: " << getDni() << endl;
     cout<< "Telefono: " << getTlfn() << endl;
