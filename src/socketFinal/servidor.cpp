@@ -66,7 +66,7 @@ int __cdecl main(void)
     int iSendResult;
     char recvUsur[DEFAULT_BUFLEN];
     char recvContra[DEFAULT_BUFLEN];
-    char recvOpMen[DEFAULT_BUFLEN];
+    char recvBuf[DEFAULT_BUFLEN];
 
     int recvbuflen = DEFAULT_BUFLEN;
     
@@ -214,9 +214,9 @@ int __cdecl main(void)
 
 			/////////////OPCION MENU/////////////
 
-            iResult = recv(ClientSocket, recvOpMen, recvbuflen, 0);
+            iResult = recv(ClientSocket, recvBuf, recvbuflen, 0);
 
-            int opcion = stoi(recvOpMen);
+            int opcion = stoi(recvBuf);
 
 			    switch (opcion)
 
@@ -228,7 +228,7 @@ int __cdecl main(void)
 
 				std::cout << "\n\nPresiona cualquier tecla y enter para volver al menú: ";
 
-				iResult = recv(ClientSocket, recvOpMen, recvbuflen, 0);
+				iResult = recv(ClientSocket, recvBuf, recvbuflen, 0);
 				break;
 
 
@@ -253,21 +253,32 @@ int __cdecl main(void)
 				// confirmacionDefinitiva(seleccionPelicula, arrayPeliculas, seleccionHorario, arrayHorarios, numEntradas, arrayAsientosElegidos, numEntradasSeleccionadas);
 
                 std::cout << "\n\nPresiona cualquier tecla y enter para volver al menú: ";
-				iResult = recv(ClientSocket, recvOpMen, recvbuflen, 0);
+				iResult = recv(ClientSocket, recvBuf, recvbuflen, 0);
 				break;
 
 			case 3:
 
 				p = verPeliculas(db);
                 std::cout << "\n\nPresiona cualquier tecla y enter para volver al menú: ";
-				iResult = recv(ClientSocket, recvOpMen, recvbuflen, 0);
+				iResult = recv(ClientSocket, recvBuf, recvbuflen, 0);
 				break;
 
 			case 4:
                 std::cout << "\n\n///////////Has cerrado sesión, hasta pronto!///////////\n\n";
 
 				opcion = 6;
-				break;
+                iResult = shutdown(ClientSocket, SD_SEND);
+                if (iResult == SOCKET_ERROR) {
+                    printf("shutdown failed with error: %d\n", WSAGetLastError());
+                    closesocket(ClientSocket);
+                    WSACleanup();
+                    return 1;
+                }
+
+                // cleanup
+                closesocket(ClientSocket);
+                WSACleanup();
+                break;
 				
 			default:
 
@@ -338,19 +349,19 @@ int __cdecl main(void)
 
         /////////////OPCION MENU/////////////
 
-        iResult = recv(ClientSocket, recvOpMen, recvbuflen, 0);
+        iResult = recv(ClientSocket, recvBuf, recvbuflen, 0);
         if (iResult >= 0) {
-            printf("Mensaje recibido en servidor: %s\n", recvOpMen);
+            printf("Mensaje recibido en servidor: %s\n", recvBuf);
 
         // Echo the buffer back to the sender
-            iSendResult = send( ClientSocket, recvOpMen, iResult, 0 );
+            iSendResult = send( ClientSocket, recvBuf, iResult, 0 );
             if (iSendResult == SOCKET_ERROR) {
                 printf("send failed with error: %d\n", WSAGetLastError());
                 closesocket(ClientSocket);
                 WSACleanup();
                 return 1;
             }
-            printf("Bytes sent: %s\n", recvOpMen);
+            printf("Bytes sent: %s\n", recvBuf);
         }
         
         else  {

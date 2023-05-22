@@ -35,7 +35,7 @@ int __cdecl main(int argc, char **argv)
 
      string strUsuario = "Iker";
      string strContrasenya = "gym";
-     string strOpcionMenu = "2";
+     string strBuf = "2";
 
 
 
@@ -43,7 +43,7 @@ int __cdecl main(int argc, char **argv)
 
     char recvUsur[DEFAULT_BUFLEN];
     char recvContra[DEFAULT_BUFLEN];
-    char recvOpMen[DEFAULT_BUFLEN];
+    char recvBuf[DEFAULT_BUFLEN];
 
 
     int iResult;
@@ -112,8 +112,8 @@ int __cdecl main(int argc, char **argv)
     bool mandar = true;
     while(mandar ==true){
     
-    cin >> strUsuario;
-    const char *usuario = strUsuario.c_str();
+    cin >> strBuf;
+    const char *usuario = strBuf.c_str();
     iResult = send( ConnectSocket, usuario, (int)strlen(usuario), 0 );
     if (iResult == SOCKET_ERROR) {
         printf("send failed with error: %s\n", WSAGetLastError());
@@ -126,7 +126,7 @@ int __cdecl main(int argc, char **argv)
 }
     ////////////CONTRASENYA//////////////
 
-    cin >> strContrasenya;
+    /*cin >> strContrasenya;
     const char *contrasenya = strContrasenya.c_str();
     iResult = send( ConnectSocket, contrasenya, (int)strlen(contrasenya), 0 );
     if (iResult == SOCKET_ERROR) {
@@ -162,7 +162,7 @@ int __cdecl main(int argc, char **argv)
         closesocket(ConnectSocket);
         WSACleanup();
         return 1;
-    }
+    }*/
 
     // Receive until the peer closes the connection
 
@@ -182,7 +182,7 @@ int __cdecl main(int argc, char **argv)
 
         ////////////CONTRASENYA//////////////
 
-        iResult = recv(ConnectSocket, recvContra, (int)strlen(contrasenya), 0);
+        /*iResult = recv(ConnectSocket, recvContra, (int)strlen(contrasenya), 0);
         if ( iResult > 0 ){
             printf("Contrasenya de vuelta en cliente: %s\n", recvContra); }
         else if ( iResult == 0 )
@@ -198,7 +198,7 @@ int __cdecl main(int argc, char **argv)
         else if ( iResult == 0 )
             printf("Connection closed\n");
         else
-            printf("recv failed with error: %d\n", WSAGetLastError());
+            printf("recv failed with error: %d\n", WSAGetLastError());*/
 
 
 
