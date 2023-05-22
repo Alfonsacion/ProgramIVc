@@ -109,6 +109,8 @@ int __cdecl main(int argc, char **argv)
 
     /////////////////// ENVIOS ///////////////////////////////
     ////////////USUARIO//////////////
+    bool mandar = true;
+    while(mandar ==true){
     
     cin >> strUsuario;
     const char *usuario = strUsuario.c_str();
@@ -121,7 +123,7 @@ int __cdecl main(int argc, char **argv)
     }
 
     printf("Usuario enviado desde cliente: %s\n", usuario);
-
+}
     ////////////CONTRASENYA//////////////
 
     cin >> strContrasenya;
@@ -153,7 +155,6 @@ int __cdecl main(int argc, char **argv)
     //printf("Message Sent: %s\n", iResult);
 
 
-
     // shutdown the connection since no more data will be sent
     iResult = shutdown(ConnectSocket, SD_SEND);
     if (iResult == SOCKET_ERROR) {
@@ -168,7 +169,7 @@ int __cdecl main(int argc, char **argv)
         /////////////////// RECIBOS ///////////////////////////////
         ////////////USUARIO//////////////
 
-        printf("el tmanyo es: %i\n", (int)strlen(usuario));
+        /*printf("el tmanyo es: %i\n", (int)strlen(usuario));
 
         iResult = recv(ConnectSocket, recvUsur, (int)strlen(usuario), 0);
         if ( iResult > 0 ){
@@ -176,7 +177,7 @@ int __cdecl main(int argc, char **argv)
         else if ( iResult == 0 )
             printf("Connection closed\n");
         else
-            printf("recv failed with error: %d\n", WSAGetLastError());
+            printf("recv failed with error: %d\n", WSAGetLastError());*/
 
 
         ////////////CONTRASENYA//////////////

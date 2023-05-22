@@ -215,26 +215,6 @@ int __cdecl main(void)
 			/////////////OPCION MENU/////////////
 
             iResult = recv(ClientSocket, recvOpMen, recvbuflen, 0);
-            if (iResult >= 0) {
-                printf("Mensaje recibido en servidor: %s\n", recvOpMen);
-
-            // Echo the buffer back to the sender
-                iSendResult = send( ClientSocket, recvOpMen, iResult, 0 );
-                if (iSendResult == SOCKET_ERROR) {
-                    printf("send failed with error: %d\n", WSAGetLastError());
-                    closesocket(ClientSocket);
-                    WSACleanup();
-                    return 1;
-                }
-                printf("Bytes sent: %s\n", recvOpMen);
-            }
-        
-            else  {
-                printf("recv failed with error: %d\n", WSAGetLastError());
-                closesocket(ClientSocket);
-                WSACleanup();
-                return 1;
-            }
 
             int opcion = stoi(recvOpMen);
 
@@ -248,8 +228,7 @@ int __cdecl main(void)
 
 				std::cout << "\n\nPresiona cualquier tecla y enter para volver al menú: ";
 
-				scanf("%1d", &opcion);
-				fflush(stdin);
+				iResult = recv(ClientSocket, recvOpMen, recvbuflen, 0);
 				break;
 
 
@@ -274,16 +253,14 @@ int __cdecl main(void)
 				// confirmacionDefinitiva(seleccionPelicula, arrayPeliculas, seleccionHorario, arrayHorarios, numEntradas, arrayAsientosElegidos, numEntradasSeleccionadas);
 
                 std::cout << "\n\nPresiona cualquier tecla y enter para volver al menú: ";
-				scanf("%1d", &opcion);
-				fflush(stdin);
+				iResult = recv(ClientSocket, recvOpMen, recvbuflen, 0);
 				break;
 
 			case 3:
 
 				p = verPeliculas(db);
                 std::cout << "\n\nPresiona cualquier tecla y enter para volver al menú: ";
-				scanf("%d", &opcion);
-				fflush(stdin);
+				iResult = recv(ClientSocket, recvOpMen, recvbuflen, 0);
 				break;
 
 			case 4:
