@@ -172,6 +172,13 @@ int __cdecl main(void)
 ////////////////////////////////////////////
 
     std::cout << "\nIntroduce tu nombre de usuario, si no tienes escribe 'n': ";
+    std::string usuario;
+    std::cin >> usuario;
+    std::cout << "Ingresa tu contraseña: ";
+    std:string contraseyna;
+    iResult = send(ListenSocket, usuario.c_str(), usuario.length()+1, 0);
+    memset(recvUsur, 0, sizeof(recvUsur));
+
 
 //////////////////////////////////////////////
 
