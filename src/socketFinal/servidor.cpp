@@ -369,15 +369,31 @@ int __cdecl main(void)
 
 				seleccionPelicula = pantallaCartelera(arrayPeliculas, numPeliculas, db);
 				seleccionHorario = seleccionHorarios(seleccionPelicula, s.dia, arrayHorarios, arrayPeliculas);
-				numEntradas = confirmacionTicket(seleccionPelicula, arrayPeliculas, arrayHorarios, seleccionHorario);
+				confirmacionTicket(seleccionPelicula, arrayPeliculas, arrayHorarios, seleccionHorario);
+                ///////////////NUEVO NUMENTRADAS
+                iResult = recv(ClientSocket, recvBuf, recvbuflen, 0);
+
+                numEntradas = stoi(recvBuf);
+                ///////////////NUEVO NUMENTRADAS
                 arrayAsientosElegidos = new AsientoElegido[numEntradas];
 
 				generarSalaA(arrayAsientosElegidos, numEntradasSeleccionadas, numEntradas);
 
 				for (numEntradasSeleccionadas = 0; numEntradasSeleccionadas < numEntradas; numEntradasSeleccionadas++)
 				{
-					elegirAsiento(arrayAsientosElegidos, numEntradasSeleccionadas);
-					generarSalaA(arrayAsientosElegidos, numEntradasSeleccionadas, numEntradas);
+
+                    //////////NUEVO ELEGIRASIENTO
+                    cout << endl << endl;
+                    cout << "Introduce un asiento del esquema de la sala, indicando primero la fila y luego columna (ej: 1A): " << endl;
+
+                    iResult = recv(ClientSocket, recvBuf, recvbuflen, 0);
+                    int numeroAsiento = recvBuf[0] - '0';
+                    char letraAsiento = recvBuf[1];
+
+					elegirAsiento(arrayAsientosElegidos, numEntradasSeleccionadas, numeroAsiento, letraAsiento);
+                    //////////NUEVO ELEGIRASIENTO
+                    
+                    generarSalaA(arrayAsientosElegidos, numEntradasSeleccionadas, numEntradas);
 					numEntradasSeleccionadas = confirmacionAsiento(numEntradasSeleccionadas);
 				}
 
