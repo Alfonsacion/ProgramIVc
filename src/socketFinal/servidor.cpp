@@ -141,6 +141,8 @@ int __cdecl main(void)
     ///////////////////CCCCCCCCCCCCCCC/////////////////////
     sqlite3 *db;
 	char *error;
+    FILE *f;
+    f = fopen("DatosUsuarios.txt", "a");
 	////////////////////////////////////////////////BASE DE DATOS//////////////////////////////////////////////////////
 	int baseDedatos = openDB(db);
 	int pelicula = tablaPelicula(db, error);
@@ -165,18 +167,47 @@ int __cdecl main(void)
 	a[strlen(a)] = '\0';
 
 
-	std::cout << "\n";
-    std::cout << "Bienvenido/a, ahora puedes iniciar sesión\n";
-    std::cout << "\n";
+	std::cout << endl;
+    std::cout << "Bienvenido/a, ahora puedes iniciar sesión\n" << endl;
+    std::cout << endl;
 
 ////////////////////////////////////////////
 
-    std::cout << "\nIntroduce tu nombre de usuario, si no tienes escribe 'n': ";
-    std::string usuario;
-    std::cin >> usuario;
+    std::cout << "Introduce tu nombre de usuario, si no tienes escribe 'n': " << endl;
+    std::cin >> a;
+    if (strcmp(a, "n") == 0)
+  {
+
+    std:: cout << "Elige tu nombre de usuario: " << endl;
+    std:: cin >> a;
+    iResult = send(ListenSocket, a, strlen(a)+1, 0);
+    std:: cout << "Elige cual va ser tu contrasena: " << endl ;
+    std:: cin >> contraseyna;
+    iResult = send(ListenSocket, contraseyna, strlen(contraseyna)+1, 0);
+    std:: cout << "Ingresa tu dni: " << endl;
+    std::cin >> dniUsuario;
+    iResult = send(ListenSocket, dniUsuario, strlen(dniUsuario)+1, 0);
+    std:: cout << "Ingresa tu correo: " << endl;
+    std::cin >> correoUsuario;
+    iResult = send(ListenSocket, correoUsuario, strlen(correoUsuario)+1, 0);
+    std:: cout << "Ingresa tu numero de tlf: " << endl;
+    std::cin >> tlf;
+    iResult = send(ListenSocket, tlf, strlen(tlf)+1, 0);
+    agregarUsuario(a, contraseyna, dniUsuario, correoUsuario, tlf, db);
+    fprintf(f, "%s %s\n", a, contraseyna);
+    std::cout << "Usuario registrado, felicidades, ya puedes iniciar sesion con ese usuario" << endl;
+    fclose(f);
+  
+  }else{
+    iResult = send(ListenSocket, a, strlen(a)+1, 0);
     std::cout << "Ingresa tu contraseña: ";
-    std:string contraseyna;
-    iResult = send(ListenSocket, usuario.c_str(), usuario.length()+1, 0);
+    std::cin >> contraseyna;
+    iResult = send(ListenSocket, contraseyna, strlen(contraseyna)+1, 0);
+    Usuario u = leeUsuario(a, contraseyna, db);
+    fclose(f);
+
+  }
+    
     memset(recvUsur, 0, sizeof(recvUsur));
 
 
@@ -185,7 +216,7 @@ int __cdecl main(void)
 
 	Usuario u = login(a, contraseyna, dniUsuario, correoUsuario, tlf, db);
 
-	free(a);
+	delete(a);
 
 
 	///////////////////////////////////////

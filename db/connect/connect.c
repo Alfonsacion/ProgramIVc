@@ -135,18 +135,16 @@ void agregarUsuario(char *username, char *password, char *dni, char *correo, cha
     printf("Error al abrir el fichero\n");
   }
 
-  printf("Elije tu nombre de usuario: ");
-  scanf("%s", username);
-  printf("Elige cual va ser tu contrasena: ");
-  scanf("%s", password);
-  printf("Ingresa tu dni: ");
-  scanf("%s", dni);
-  printf("Ingresa tu correo: ");
-  scanf("%s", correo);
-  printf("Ingresa tu numero de tlf: ");
-  scanf("%s", tlf);
-
-  fprintf(f, "%s %s\n", username, password);
+  // printf("Elije tu nombre de usuario: ");
+  // scanf("%s", username);
+  // printf("Elige cual va ser tu contrasena: ");
+  // scanf("%s", password);
+  // printf("Ingresa tu dni: ");
+  // scanf("%s", dni);
+  // printf("Ingresa tu correo: ");
+  // scanf("%s", correo);
+  // printf("Ingresa tu numero de tlf: ");
+  // scanf("%s", tlf);
 
   char sql[] = "insert into usuario (nombreUsuario, password, dni, correo, telefono) values (?, ?, ?, ?, ?)";
   int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
@@ -279,8 +277,8 @@ Usuario login(char *usuario, char *password, char *dni, char *correo, char* tlf,
 
   while (usuarioValido == 0){
 
-  printf("\nIntroduce tu nombre de usuario, si no tienes escribe 'n': ");
-  scanf("%s", usuario);
+  // printf("\nIntroduce tu nombre de usuario, si no tienes escribe 'n': ");
+  // scanf("%s", usuario);
 
   if (strcmp(usuario, "n") == 0)
   {
