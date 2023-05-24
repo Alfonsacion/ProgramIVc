@@ -36,6 +36,7 @@ int __cdecl main(int argc, char **argv)
      string strUsuario = "Iker";
      string strContrasenya = "gym";
      string strBuf = "2";
+     string strOpcionMenu;
 
 
 
@@ -110,20 +111,105 @@ int __cdecl main(int argc, char **argv)
     /////////////////// ENVIOS ///////////////////////////////
     ////////////USUARIO//////////////
     bool mandar = true;
-    while(mandar ==true){
+    while(mandar){
     
     cin >> strBuf;
     const char *usuario = strBuf.c_str();
-    iResult = send( ConnectSocket, usuario, (int)strlen(usuario), 0 );
-    if (iResult == SOCKET_ERROR) {
-        printf("send failed with error: %s\n", WSAGetLastError());
-        closesocket(ConnectSocket);
-        WSACleanup();
-        return 1;
+    if((strcmp(usuario, "n") != 0)) {
+        iResult = send( ConnectSocket, usuario, (int)strlen(usuario), 0 );
+        if (iResult == SOCKET_ERROR) {
+            printf("send failed with error: %s\n", WSAGetLastError());
+            closesocket(ConnectSocket);
+            WSACleanup();
+            return 1;
+        }
+
+        printf("Usuario enviado desde cliente: %s\n", usuario);
+
+        cin >> strBuf;
+        const char *contraseyna = strBuf.c_str();
+        iResult = send(ConnectSocket, contraseyna, strlen(contraseyna), 0);
+        if (iResult == SOCKET_ERROR) {
+            printf("send failed with error: %s\n", WSAGetLastError());
+            closesocket(ConnectSocket);
+            WSACleanup();
+            return 1;
+        }
+        printf("Contrasena enviada desde cliente: %s\n", contraseyna);
+        mandar = false;
+    }else{
+
+        iResult = send( ConnectSocket, usuario, (int)strlen(usuario), 0 );
+        if (iResult == SOCKET_ERROR) {
+            printf("send failed with error: %s\n", WSAGetLastError());
+            closesocket(ConnectSocket);
+            WSACleanup();
+            return 1;
+        }
+
+        printf("Usuario enviado desde cliente: %s\n", usuario);
+
+        cin >> strBuf;
+        const char *contraseyna = strBuf.c_str();
+        iResult = send(ConnectSocket, contraseyna, strlen(contraseyna), 0);
+        if (iResult == SOCKET_ERROR) {
+            printf("send failed with error: %s\n", WSAGetLastError());
+            closesocket(ConnectSocket);
+            WSACleanup();
+            return 1;
+        }
+        printf("Contrasena enviada desde cliente: %s\n", contraseyna);
+
+        cin >> strBuf;
+        const char *dni = strBuf.c_str();
+        iResult = send(ConnectSocket, dni, strlen(dni), 0);
+        if (iResult == SOCKET_ERROR) {
+            printf("send failed with error: %s\n", WSAGetLastError());
+            closesocket(ConnectSocket);
+            WSACleanup();
+            return 1;
+        }
+
+        printf("DNI enviado desde cliente: %s\n", dni);
+
+        cin >> strBuf;
+        const char *correo = strBuf.c_str();
+        iResult = send(ConnectSocket, correo, strlen(correo), 0);
+        if (iResult == SOCKET_ERROR) {
+            printf("send failed with error: %s\n", WSAGetLastError());
+            closesocket(ConnectSocket);
+            WSACleanup();
+            return 1;
+        }
+        printf("Correo enviado desde cliente: %s\n", correo);
+
+        cin >> strBuf;
+        const char *tlf = strBuf.c_str();
+        iResult = send(ConnectSocket, tlf, strlen(tlf), 0);
+        if (iResult == SOCKET_ERROR) {
+            printf("send failed with error: %s\n", WSAGetLastError());
+            closesocket(ConnectSocket);
+            WSACleanup();
+            return 1;
+        }
+        printf("telefono enviado desde cliente: %s\n", tlf);
     }
 
-    printf("Usuario enviado desde cliente: %s\n", usuario);
 }
+
+    cin >> strOpcionMenu;
+        const char *opcionMenu = strOpcionMenu.c_str();
+        iResult = send( ConnectSocket, opcionMenu, (int)strlen(opcionMenu), 0 );
+        if (iResult == SOCKET_ERROR) {
+            printf("send failed with error: %s\n", WSAGetLastError());
+            closesocket(ConnectSocket);
+            WSACleanup();
+            return 1;
+        }
+
+        printf("Opcion enviada desde cliente: %s\n", opcionMenu);
+
+
     ////////////CONTRASENYA//////////////
 
     /*cin >> strContrasenya;

@@ -287,12 +287,12 @@ Usuario login(char *usuario, char *password, char *dni, char *correo, char* tlf,
     printf("Usuario registrado, felicidades, ya puedes iniciar sesion con ese usuario\n");
   
   }
-  else
-  {
+  // else
+  // {
 
-    printf("Ingresa tu contraseña: ");
-    scanf("%s", password);
-  }
+  //   printf("Ingresa tu contraseña: ");
+  //   scanf("%s", password);
+  // }
 
   u = leeUsuario(usuario, password, db);
   if (strcmp(usuario, u.nombreUsuario) && strcmp(password, u.contraseyna) != 0)

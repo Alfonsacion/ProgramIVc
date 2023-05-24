@@ -174,41 +174,109 @@ int __cdecl main(void)
 ////////////////////////////////////////////
 
     std::cout << "Introduce tu nombre de usuario, si no tienes escribe 'n': " << endl;
-    std::cin >> a;
+    bool mandar = true;
+    while (mandar) {
+    iResult = recv(ClientSocket, a, sizeof(a), 0);
+    if (iResult == SOCKET_ERROR) {
+        printf("recv failed with error: %d\n", WSAGetLastError());
+        closesocket(ClientSocket);
+        WSACleanup();
+        return 1;
+    }
+    a[iResult] = '\0';  
+    printf("Usuario recibido desde cliente: %s\n", a);
+
+
+
+
     if (strcmp(a, "n") == 0)
   {
 
-    std:: cout << "Elige tu nombre de usuario: " << endl;
-    std:: cin >> a;
-    iResult = send(ListenSocket, a, strlen(a)+1, 0);
-    std:: cout << "Elige cual va ser tu contrasena: " << endl ;
-    std:: cin >> contraseyna;
-    iResult = send(ListenSocket, contraseyna, strlen(contraseyna)+1, 0);
-    std:: cout << "Ingresa tu dni: " << endl;
-    std::cin >> dniUsuario;
-    iResult = send(ListenSocket, dniUsuario, strlen(dniUsuario)+1, 0);
-    std:: cout << "Ingresa tu correo: " << endl;
-    std::cin >> correoUsuario;
-    iResult = send(ListenSocket, correoUsuario, strlen(correoUsuario)+1, 0);
-    std:: cout << "Ingresa tu numero de tlf: " << endl;
-    std::cin >> tlf;
-    iResult = send(ListenSocket, tlf, strlen(tlf)+1, 0);
-    agregarUsuario(a, contraseyna, dniUsuario, correoUsuario, tlf, db);
-    fprintf(f, "%s %s\n", a, contraseyna);
-    std::cout << "Usuario registrado, felicidades, ya puedes iniciar sesion con ese usuario" << endl;
-    fclose(f);
+        std:: cout << "Elige tu nombre de usuario: " << endl;
+        iResult = recv(ClientSocket, a, sizeof(a), 0);
+        if (iResult == SOCKET_ERROR) {
+            printf("recv failed with error: %d\n", WSAGetLastError());
+            closesocket(ClientSocket);
+            WSACleanup();
+            return 1;
+        }
+        a[iResult] = '\0';    
+        printf("Usuario recibido desde cliente: %s\n", a);
+
+
+        std:: cout << "Elige cual va ser tu contrasena: " << endl ;
+        iResult = recv(ClientSocket, a, sizeof(contraseyna), 0);
+        if (iResult == SOCKET_ERROR) {
+            printf("recv failed with error: %d\n", WSAGetLastError());
+            closesocket(ClientSocket);
+            WSACleanup();
+            return 1;
+        }
+        contraseyna[iResult] = '\0';  
+        printf("Contrasena recibida desde cliente: %s\n", contraseyna);
+
+
+        std:: cout << "Ingresa tu dni: " << endl;
+        iResult = recv(ClientSocket, dniUsuario, sizeof(dniUsuario), 0);
+        if (iResult == SOCKET_ERROR) {
+            printf("recv failed with error: %d\n", WSAGetLastError());
+            closesocket(ClientSocket);
+            WSACleanup();
+            return 1;
+        }
+        dniUsuario[iResult] = '\0';  
+        printf("Dni recibido desde cliente: %s\n", dniUsuario);
+
+
+        std:: cout << "Ingresa tu correo: " << endl;
+        iResult = recv(ClientSocket, correoUsuario, sizeof(correoUsuario), 0);
+        if (iResult == SOCKET_ERROR) {
+            printf("recv failed with error: %d\n", WSAGetLastError());
+            closesocket(ClientSocket);
+            WSACleanup();
+            return 1;
+        }
+        correoUsuario[iResult] = '\0';  
+        printf("Correo recibido desde cliente: %s\n", correoUsuario);
+
+
+        std:: cout << "Ingresa tu numero de tlf: " << endl;
+        iResult = recv(ClientSocket, tlf, sizeof(tlf), 0);
+        if (iResult == SOCKET_ERROR) {
+            printf("recv failed with error: %d\n", WSAGetLastError());
+            closesocket(ClientSocket);
+            WSACleanup();
+            return 1;
+        }
+        tlf[iResult] = '\0';  
+        printf("Usuario recibido desde cliente: %s\n", tlf);
+
+        agregarUsuario(a, contraseyna, dniUsuario, correoUsuario, tlf, db);
+        fprintf(f, "%s %s\n", a, contraseyna);
+        std::cout << "Usuario registrado, felicidades, ya puedes iniciar sesion con ese usuario" << endl;
+        fclose(f);
   
   }else{
-    iResult = send(ListenSocket, a, strlen(a)+1, 0);
-    std::cout << "Ingresa tu contraseña: ";
-    std::cin >> contraseyna;
-    iResult = send(ListenSocket, contraseyna, strlen(contraseyna)+1, 0);
-    Usuario u = leeUsuario(a, contraseyna, db);
-    fclose(f);
+        std::cout << "Ingresa tu contraseña: ";
+        iResult = recv(ClientSocket, contraseyna, sizeof(contraseyna), 0);
+        if (iResult == SOCKET_ERROR) {
+            printf("recv failed with error: %d\n", WSAGetLastError());
+            closesocket(ClientSocket);
+            WSACleanup();
+            return 1;
+        }
+        contraseyna[iResult] = '\0';  
+        
+        printf("Contrasena recibida desde cliente: %s\n", contraseyna);
+        Usuario u = leeUsuario(a, contraseyna, db);
+        mandar = false;
 
   }
+
+  fclose(f);
+}
     
-    memset(recvUsur, 0, sizeof(recvUsur));
+    // memset(recvUsur, 0, sizeof(recvUsur));
 
 
 //////////////////////////////////////////////
@@ -217,6 +285,8 @@ int __cdecl main(void)
 	Usuario u = login(a, contraseyna, dniUsuario, correoUsuario, tlf, db);
 
 	delete(a);
+
+
 
 
 	///////////////////////////////////////
@@ -229,13 +299,26 @@ int __cdecl main(void)
 	const char *arrayHorarios[4];
     ///////////////////////////////////////
 
-
+    std::cout << "Elige una opción: ";
+        iResult = recv(ClientSocket, contraseyna, sizeof(contraseyna), 0);
+        if (iResult == SOCKET_ERROR) {
+            printf("recv failed with error: %d\n", WSAGetLastError());
+            closesocket(ClientSocket);
+            WSACleanup();
+            return 1;
+        }
+        contraseyna[iResult] = '\0';  
+        
+        printf("Contrasena recibida desde cliente: %s\n", contraseyna);
 
 	AsientoElegido *arrayAsientosElegidos;
 
 
 
-	int opcion = 1;
+	int opcion;
+
+    std::cin >> opcion;
+
 	Pelicula p;
 	UsuarioDatos ud;
 	Horario h;
@@ -251,6 +334,17 @@ int __cdecl main(void)
             std::cout << "Seleccione la opción que desee: \n";
 
 			/////////////OPCION MENU/////////////
+
+        // iResult = recv(ClientSocket, (char*)opcion, sizeof(opcion), 0);
+        // if (iResult == SOCKET_ERROR) {
+        //     printf("recv failed with error: %d\n", WSAGetLastError());
+        //     closesocket(ClientSocket);
+        //     WSACleanup();
+        //     return 1;
+        // }
+        // opcion[(char*)iResult] = '\0';  
+        
+        // printf("Opción recibida desde cliente: %d\n", opcion);
 
             iResult = recv(ClientSocket, recvBuf, recvbuflen, 0);
 
