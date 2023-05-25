@@ -211,7 +211,7 @@ int __cdecl main(int argc, char **argv)
 
     cin >> strOpcionMenu;
     const char *opcionMenu = strOpcionMenu.c_str();
-    iResult = send(ConnectSocket, opcionMenu, (int)strlen(opcionMenu), 0);
+    iResult = send(ConnectSocket, opcionMenu, strlen(opcionMenu), 0);
     if (iResult == SOCKET_ERROR)
     {
         printf("send failed with error: %s\n", WSAGetLastError());
@@ -221,8 +221,21 @@ int __cdecl main(int argc, char **argv)
     }
 
     printf("Opcion enviada desde cliente: %s\n", opcionMenu);
-    printf("");
 
+    // iResult = recv(ConnectSocket, recvBuf, recvbuflen - 1, 0);
+    // if (iResult == SOCKET_ERROR)
+    // {
+    //     printf("recv failed with error: %d\n", WSAGetLastError());
+    //     closesocket(ConnectSocket);
+    //     WSACleanup();
+    //     return 1;
+    // }
+
+    // // Asegurarse de que la respuesta sea terminada con el carácter nulo
+    // recvBuf[iResult] = '\0';
+
+    // // Imprimir la respuesta recibida del servidor
+    // printf("Respuesta del servidor: %s\n", recvBuf);
 
     // cin >> strOpcionMenu;
     // const char *volver = strOpcionMenu.c_str();

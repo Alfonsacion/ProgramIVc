@@ -263,11 +263,11 @@ int __cdecl main(void)
 
             printf("Contrasena recibida desde cliente: %s\n", contraseyna);
             mandar = false;
-            u = login(nombreUsuario, contraseyna, dniUsuario, correoUsuario, tlf, db);
+            // u = login(nombreUsuario, contraseyna, dniUsuario, correoUsuario, tlf, db);
         }
     }
     mandar = false;
-    // u = login(nombreUsuario, contraseyna, dniUsuario, correoUsuario, tlf, db);
+     u = login(nombreUsuario, contraseyna, dniUsuario, correoUsuario, tlf, db);
     fclose(f);
 
     ///////////////////////////////////////
@@ -307,9 +307,9 @@ int __cdecl main(void)
     }
     recvBuf[iResult] = '\0';
 
-    int opcion = stoi(recvBuf);
+    std::cout << "Opcion recibida desde cliente" << recvBuf << std::endl;
 
-    std::cout << "Opcion recibida desde cliente";
+    int opcion = stoi(recvBuf);
 
     switch (opcion)
 
@@ -319,6 +319,15 @@ int __cdecl main(void)
 
         ud = usuarioDatos(u.nombreUsuario, db);
 
+    
+    //     respuesta = "Datos del usuario";
+    //      iResult = send(ClientSocket, respuesta, strlen(respuesta), 0);
+    //      if (iResult == SOCKET_ERROR) {
+    //     printf("send failed with error: %d\n", WSAGetLastError());
+    //     closesocket(ClientSocket);
+    //     WSACleanup();
+    //     return 1;
+    // }
         std::cout << "\n\nPresiona cualquier tecla y enter para volver al menú: ";
 
         break;
