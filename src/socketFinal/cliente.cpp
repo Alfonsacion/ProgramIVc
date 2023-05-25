@@ -13,17 +13,15 @@
 #include <iostream>
 using namespace std;
 
-
 // Need to link with Ws2_32.lib, Mswsock.lib, and Advapi32.lib
-#pragma comment (lib, "Ws2_32.lib")
-#pragma comment (lib, "Mswsock.lib")
-#pragma comment (lib, "AdvApi32.lib")
-
+#pragma comment(lib, "Ws2_32.lib")
+#pragma comment(lib, "Mswsock.lib")
+#pragma comment(lib, "AdvApi32.lib")
 
 #define DEFAULT_BUFLEN 512
 #define DEFAULT_PORT "1"
 
-int __cdecl main(int argc, char **argv) 
+int __cdecl main(int argc, char **argv)
 {
     WSADATA wsaData;
     SOCKET ConnectSocket = INVALID_SOCKET;
@@ -33,12 +31,10 @@ int __cdecl main(int argc, char **argv)
 
     ////////////////// A ENVIAR ///////////////////////
 
-     string strUsuario = "Iker";
-     string strContrasenya = "gym";
-     string strBuf = "2";
-     string strOpcionMenu;
-
-
+    string strUsuario = "Iker";
+    string strContrasenya = "gym";
+    string strBuf = "2";
+    string strOpcionMenu;
 
     ////////////////// A RECIBIR ///////////////////////
 
@@ -46,51 +42,56 @@ int __cdecl main(int argc, char **argv)
     char recvContra[DEFAULT_BUFLEN];
     char recvBuf[DEFAULT_BUFLEN];
 
-
     int iResult;
     int recvbuflen = DEFAULT_BUFLEN;
-    
+
     // Validate the parameters
-    if (argc != 2) {
+    if (argc != 2)
+    {
         printf("usage: %s server-name\n", argv[0]);
         return 1;
     }
 
     // Initialize Winsock
-    iResult = WSAStartup(MAKEWORD(2,2), &wsaData);
-    if (iResult != 0) {
+    iResult = WSAStartup(MAKEWORD(2, 2), &wsaData);
+    if (iResult != 0)
+    {
         printf("WSAStartup failed with error: %d\n", iResult);
         return 1;
     }
 
-    ZeroMemory( &hints, sizeof(hints) );
+    ZeroMemory(&hints, sizeof(hints));
     hints.ai_family = AF_UNSPEC;
     hints.ai_socktype = SOCK_STREAM;
     hints.ai_protocol = IPPROTO_TCP;
 
     // Resolve the server address and port
     iResult = getaddrinfo(argv[1], DEFAULT_PORT, &hints, &result);
-    if ( iResult != 0 ) {
+    if (iResult != 0)
+    {
         printf("getaddrinfo failed with error: %d\n", iResult);
         WSACleanup();
         return 1;
     }
 
     // Attempt to connect to an address until one succeeds
-    for(ptr=result; ptr != NULL ;ptr=ptr->ai_next) {
+    for (ptr = result; ptr != NULL; ptr = ptr->ai_next)
+    {
 
         // Create a SOCKET for connecting to server
-        ConnectSocket = socket(ptr->ai_family, ptr->ai_socktype, 
-            ptr->ai_protocol);
-        if (ConnectSocket == INVALID_SOCKET) {
+        ConnectSocket = socket(ptr->ai_family, ptr->ai_socktype,
+                               ptr->ai_protocol);
+        if (ConnectSocket == INVALID_SOCKET)
+        {
             printf("socket failed with error: %ld\n", WSAGetLastError());
             WSACleanup();
             return 1;
         }
 
         // Connect to server.
-        iResult = connect( ConnectSocket, ptr->ai_addr, (int)ptr->ai_addrlen);
-        if (iResult == SOCKET_ERROR) {
+        iResult = connect(ConnectSocket, ptr->ai_addr, (int)ptr->ai_addrlen);
+        if (iResult == SOCKET_ERROR)
+        {
             closesocket(ConnectSocket);
             ConnectSocket = INVALID_SOCKET;
             continue;
@@ -100,7 +101,8 @@ int __cdecl main(int argc, char **argv)
 
     freeaddrinfo(result);
 
-    if (ConnectSocket == INVALID_SOCKET) {
+    if (ConnectSocket == INVALID_SOCKET)
+    {
         printf("Unable to connect to server!\n");
         WSACleanup();
         return 1;
@@ -111,104 +113,129 @@ int __cdecl main(int argc, char **argv)
     /////////////////// ENVIOS ///////////////////////////////
     ////////////USUARIO//////////////
     bool mandar = true;
-    while(mandar){
-    
-    cin >> strBuf;
-    const char *usuario = strBuf.c_str();
-    if((strcmp(usuario, "n") != 0)) {
-        iResult = send( ConnectSocket, usuario, (int)strlen(usuario), 0 );
-        if (iResult == SOCKET_ERROR) {
-            printf("send failed with error: %s\n", WSAGetLastError());
-            closesocket(ConnectSocket);
-            WSACleanup();
-            return 1;
-        }
-
-        printf("Usuario enviado desde cliente: %s\n", usuario);
+    while (mandar)
+    {
 
         cin >> strBuf;
-        const char *contraseyna = strBuf.c_str();
-        iResult = send(ConnectSocket, contraseyna, strlen(contraseyna), 0);
-        if (iResult == SOCKET_ERROR) {
-            printf("send failed with error: %s\n", WSAGetLastError());
-            closesocket(ConnectSocket);
-            WSACleanup();
-            return 1;
+        const char *usuario = strBuf.c_str();
+        if ((strcmp(usuario, "n") != 0))
+        {
+            iResult = send(ConnectSocket, usuario, (int)strlen(usuario), 0);
+            if (iResult == SOCKET_ERROR)
+            {
+                printf("send failed with error: %s\n", WSAGetLastError());
+                closesocket(ConnectSocket);
+                WSACleanup();
+                return 1;
+            }
+
+            printf("Usuario enviado desde cliente: %s\n", usuario);
+
+            cin >> strBuf;
+            const char *contraseyna = strBuf.c_str();
+            iResult = send(ConnectSocket, contraseyna, strlen(contraseyna), 0);
+            if (iResult == SOCKET_ERROR)
+            {
+                printf("send failed with error: %s\n", WSAGetLastError());
+                closesocket(ConnectSocket);
+                WSACleanup();
+                return 1;
+            }
+            printf("Contrasena enviada desde cliente: %s\n", contraseyna);
+            mandar = false;
         }
-        printf("Contrasena enviada desde cliente: %s\n", contraseyna);
-        mandar = false;
-    }else{
+        else
+        {
 
-        iResult = send( ConnectSocket, usuario, (int)strlen(usuario), 0 );
-        if (iResult == SOCKET_ERROR) {
-            printf("send failed with error: %s\n", WSAGetLastError());
-            closesocket(ConnectSocket);
-            WSACleanup();
-            return 1;
+            iResult = send(ConnectSocket, usuario, (int)strlen(usuario), 0);
+            if (iResult == SOCKET_ERROR)
+            {
+                printf("send failed with error: %s\n", WSAGetLastError());
+                closesocket(ConnectSocket);
+                WSACleanup();
+                return 1;
+            }
+
+            printf("Usuario enviado desde cliente: %s\n", usuario);
+
+            cin >> strBuf;
+            const char *contraseyna = strBuf.c_str();
+            iResult = send(ConnectSocket, contraseyna, strlen(contraseyna), 0);
+            if (iResult == SOCKET_ERROR)
+            {
+                printf("send failed with error: %s\n", WSAGetLastError());
+                closesocket(ConnectSocket);
+                WSACleanup();
+                return 1;
+            }
+            printf("Contrasena enviada desde cliente: %s\n", contraseyna);
+
+            cin >> strBuf;
+            const char *dni = strBuf.c_str();
+            iResult = send(ConnectSocket, dni, strlen(dni), 0);
+            if (iResult == SOCKET_ERROR)
+            {
+                printf("send failed with error: %s\n", WSAGetLastError());
+                closesocket(ConnectSocket);
+                WSACleanup();
+                return 1;
+            }
+
+            printf("DNI enviado desde cliente: %s\n", dni);
+
+            cin >> strBuf;
+            const char *correo = strBuf.c_str();
+            iResult = send(ConnectSocket, correo, strlen(correo), 0);
+            if (iResult == SOCKET_ERROR)
+            {
+                printf("send failed with error: %s\n", WSAGetLastError());
+                closesocket(ConnectSocket);
+                WSACleanup();
+                return 1;
+            }
+            printf("Correo enviado desde cliente: %s\n", correo);
+
+            cin >> strBuf;
+            const char *tlf = strBuf.c_str();
+            iResult = send(ConnectSocket, tlf, strlen(tlf), 0);
+            if (iResult == SOCKET_ERROR)
+            {
+                printf("send failed with error: %s\n", WSAGetLastError());
+                closesocket(ConnectSocket);
+                WSACleanup();
+                return 1;
+            }
+            printf("telefono enviado desde cliente: %s\n", tlf);
         }
-
-        printf("Usuario enviado desde cliente: %s\n", usuario);
-
-        cin >> strBuf;
-        const char *contraseyna = strBuf.c_str();
-        iResult = send(ConnectSocket, contraseyna, strlen(contraseyna), 0);
-        if (iResult == SOCKET_ERROR) {
-            printf("send failed with error: %s\n", WSAGetLastError());
-            closesocket(ConnectSocket);
-            WSACleanup();
-            return 1;
-        }
-        printf("Contrasena enviada desde cliente: %s\n", contraseyna);
-
-        cin >> strBuf;
-        const char *dni = strBuf.c_str();
-        iResult = send(ConnectSocket, dni, strlen(dni), 0);
-        if (iResult == SOCKET_ERROR) {
-            printf("send failed with error: %s\n", WSAGetLastError());
-            closesocket(ConnectSocket);
-            WSACleanup();
-            return 1;
-        }
-
-        printf("DNI enviado desde cliente: %s\n", dni);
-
-        cin >> strBuf;
-        const char *correo = strBuf.c_str();
-        iResult = send(ConnectSocket, correo, strlen(correo), 0);
-        if (iResult == SOCKET_ERROR) {
-            printf("send failed with error: %s\n", WSAGetLastError());
-            closesocket(ConnectSocket);
-            WSACleanup();
-            return 1;
-        }
-        printf("Correo enviado desde cliente: %s\n", correo);
-
-        cin >> strBuf;
-        const char *tlf = strBuf.c_str();
-        iResult = send(ConnectSocket, tlf, strlen(tlf), 0);
-        if (iResult == SOCKET_ERROR) {
-            printf("send failed with error: %s\n", WSAGetLastError());
-            closesocket(ConnectSocket);
-            WSACleanup();
-            return 1;
-        }
-        printf("telefono enviado desde cliente: %s\n", tlf);
     }
 
-}
-
     cin >> strOpcionMenu;
-        const char *opcionMenu = strOpcionMenu.c_str();
-        iResult = send( ConnectSocket, opcionMenu, (int)strlen(opcionMenu), 0 );
-        if (iResult == SOCKET_ERROR) {
-            printf("send failed with error: %s\n", WSAGetLastError());
-            closesocket(ConnectSocket);
-            WSACleanup();
-            return 1;
-        }
+    const char *opcionMenu = strOpcionMenu.c_str();
+    iResult = send(ConnectSocket, opcionMenu, (int)strlen(opcionMenu), 0);
+    if (iResult == SOCKET_ERROR)
+    {
+        printf("send failed with error: %s\n", WSAGetLastError());
+        closesocket(ConnectSocket);
+        WSACleanup();
+        return 1;
+    }
 
-        printf("Opcion enviada desde cliente: %s\n", opcionMenu);
+    printf("Opcion enviada desde cliente: %s\n", opcionMenu);
+    printf("");
 
+
+    // cin >> strOpcionMenu;
+    // const char *volver = strOpcionMenu.c_str();
+    // iResult = send(ConnectSocket, volver, strlen(volver), 0);
+    // if (iResult == SOCKET_ERROR)
+    // {
+    //     printf("send failed with error: %s\n", WSAGetLastError());
+    //     closesocket(ConnectSocket);
+    //     WSACleanup();
+    //     return 1;
+    // }
+
+    // printf("Boton para volver enviado desde cliente: %s\n", volver);
 
     ////////////CONTRASENYA//////////////
 
@@ -252,41 +279,38 @@ int __cdecl main(int argc, char **argv)
 
     // Receive until the peer closes the connection
 
-        /////////////////// RECIBOS ///////////////////////////////
-        ////////////USUARIO//////////////
+    /////////////////// RECIBOS ///////////////////////////////
+    ////////////USUARIO//////////////
 
-        /*printf("el tmanyo es: %i\n", (int)strlen(usuario));
+    /*printf("el tmanyo es: %i\n", (int)strlen(usuario));
 
-        iResult = recv(ConnectSocket, recvUsur, (int)strlen(usuario), 0);
-        if ( iResult > 0 ){
-            printf("Usuario de vuelta en cliente: %s\n", recvUsur); }
-        else if ( iResult == 0 )
-            printf("Connection closed\n");
-        else
-            printf("recv failed with error: %d\n", WSAGetLastError());*/
+    iResult = recv(ConnectSocket, recvUsur, (int)strlen(usuario), 0);
+    if ( iResult > 0 ){
+        printf("Usuario de vuelta en cliente: %s\n", recvUsur); }
+    else if ( iResult == 0 )
+        printf("Connection closed\n");
+    else
+        printf("recv failed with error: %d\n", WSAGetLastError());*/
 
+    ////////////CONTRASENYA//////////////
 
-        ////////////CONTRASENYA//////////////
+    /*iResult = recv(ConnectSocket, recvContra, (int)strlen(contrasenya), 0);
+    if ( iResult > 0 ){
+        printf("Contrasenya de vuelta en cliente: %s\n", recvContra); }
+    else if ( iResult == 0 )
+        printf("Connection closed\n");
+    else
+        printf("recv failed with error: %d\n", WSAGetLastError());
 
-        /*iResult = recv(ConnectSocket, recvContra, (int)strlen(contrasenya), 0);
-        if ( iResult > 0 ){
-            printf("Contrasenya de vuelta en cliente: %s\n", recvContra); }
-        else if ( iResult == 0 )
-            printf("Connection closed\n");
-        else
-            printf("recv failed with error: %d\n", WSAGetLastError());
+    ////////////OPCION MENU//////////////
 
-        ////////////OPCION MENU//////////////
-
-        iResult = recv(ConnectSocket, recvOpMen, (int)strlen(opcionMenu), 0);
-        if ( iResult > 0 ){
-            printf("Opcion de vuelta en cliente: %s\n", recvOpMen); }
-        else if ( iResult == 0 )
-            printf("Connection closed\n");
-        else
-            printf("recv failed with error: %d\n", WSAGetLastError());*/
-
-
+    iResult = recv(ConnectSocket, recvOpMen, (int)strlen(opcionMenu), 0);
+    if ( iResult > 0 ){
+        printf("Opcion de vuelta en cliente: %s\n", recvOpMen); }
+    else if ( iResult == 0 )
+        printf("Connection closed\n");
+    else
+        printf("recv failed with error: %d\n", WSAGetLastError());*/
 
     // cleanup
     closesocket(ConnectSocket);
@@ -294,13 +318,6 @@ int __cdecl main(int argc, char **argv)
     return 0;
 }
 
+// https://learn.microsoft.com/en-us/windows/win32/winsock/complete-server-code
 
-
-
-
-
-
-
-//https://learn.microsoft.com/en-us/windows/win32/winsock/complete-server-code
-
-//c++ -o cliente cliente.cpp -lws2_32
+// c++ -o cliente cliente.cpp -lws2_32

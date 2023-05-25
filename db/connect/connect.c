@@ -275,42 +275,20 @@ Usuario login(char *usuario, char *password, char *dni, char *correo, char* tlf,
   Usuario u;
 
 
-  while (usuarioValido == 0){
+while (usuarioValido == 0) {
+    u = leeUsuario(usuario, password, db);
+    if (strcmp(usuario, u.nombreUsuario) == 0 && strcmp(password, u.contraseyna) == 0) {
+      usuarioValido = 1;
+      printf("Sesion iniciada\n");
+    } else {
+      printf("Usuario o contraseña incorrectos\n");
 
-  // printf("\nIntroduce tu nombre de usuario, si no tienes escribe 'n': ");
-  // scanf("%s", usuario);
-
-  if (strcmp(usuario, "n") == 0)
-  {
-
-    agregarUsuario(usuario, password, dni, correo, tlf, db);
-    printf("Usuario registrado, felicidades, ya puedes iniciar sesion con ese usuario\n");
-  
+    }
   }
-  // else
-  // {
-
-  //   printf("Ingresa tu contraseña: ");
-  //   scanf("%s", password);
-  // }
-
-  u = leeUsuario(usuario, password, db);
-  if (strcmp(usuario, u.nombreUsuario) && strcmp(password, u.contraseyna) != 0)
-  {
-    printf("Usuario o contraseña incorrectos\n");
-  }else{
-    usuarioValido = 1;
-  }
-  }
-
-  printf("Sesion iniciada\n");
 
   return u;
 }
 
-//////////////////////////////////////////// INTENTO DE SELECTS ////////////////////////////////////////////
-
-////////////////////////////////////////// METODO A LO TXINGAS //////////////////////////////////////////
 UsuarioDatos usuarioDatos(char *nombreUsuario, sqlite3 *db)
 {
   UsuarioDatos ud;
