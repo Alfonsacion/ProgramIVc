@@ -15,6 +15,7 @@ class Cliente2: public Persona
 
 
         virtual void usuarioDatos();
+        void generarSalaA();
 
 };
 

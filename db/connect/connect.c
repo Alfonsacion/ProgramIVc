@@ -618,3 +618,9 @@ Horario obtenerHorarioPorId(int id, sqlite3 *db)
   return h;
 }
 
+Pelicula devolver1(){
+  Pelicula p;
+      p.nom_pel = malloc(sizeof(char) * (strlen(sqlite3_column_text(stmt3, 3))+1));
+      strcpy(p.nom_pel, (char *)sqlite3_column_text(stmt3, 3));
+}
+

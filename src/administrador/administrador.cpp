@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <string.h>
+#include "../../struct.h"
 using namespace std;
 
 int totalPersonas = Persona::getNumPersonas();
@@ -27,7 +28,7 @@ Administrador::~Administrador()
 void Administrador::usuarioDatos()
 {
     Persona::usuarioDatos();
-    cout<< "Mail: " << getMail() << endl;
+    cout<< "Mail: " << getMail() << endl; //Esto va en persona.h
     cout<< "DNI: " << getDni() << endl;
     cout<< "Telefono: " << getTlfn() << endl;
     cout << "Sueldo: " << this->sueldo << endl;
@@ -97,6 +98,13 @@ void Administrador::anyadirAdministrador(const char* nombre, const char * mail, 
     }
 
     void eliminarPelicula(){
+        sqlite3* db;
+        Pelicula p = verPeliculas(db);
+        char** peliculas = new char*[5];
+        for(int i = 0; i < 5; i++){
+            peliculas[i] = p.nom_pel;
+
+        }
 
     }
 
