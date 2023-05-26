@@ -78,17 +78,20 @@ void generarSalaA(AsientoElegido *arrayAsientosElegidos, int numEntradasSeleccio
 
 }
 
-void elegirAsiento(AsientoElegido *arrayAsientosElegidos, int numEntradasSeleccionadas){
+void elegirAsiento(AsientoElegido *arrayAsientosElegidos, int numEntradasSeleccionadas, int numeroAsiento, char letraAsiento  ){
 
     int asientoValido =0;
 
     while(asientoValido == 0){
 
-            printf("\n");
+            /*printf("\n");
             printf("\n");
             printf("Introduce un asiento del esquema de la sala: \n");
 
-            scanf("%1d %1c", &arrayAsientosElegidos[numEntradasSeleccionadas].filaElegida, &arrayAsientosElegidos[numEntradasSeleccionadas].letraAsientoElegido);
+            scanf("%1d %1c", &arrayAsientosElegidos[numEntradasSeleccionadas].filaElegida, &arrayAsientosElegidos[numEntradasSeleccionadas].letraAsientoElegido);*/
+
+            arrayAsientosElegidos[numEntradasSeleccionadas].filaElegida = numeroAsiento;
+            arrayAsientosElegidos[numEntradasSeleccionadas].letraAsientoElegido = letraAsiento;
 
                     int arrLen = sizeof arrayAsientosElegidos / sizeof arrayAsientosElegidos[0];
                     int presenteEnArray = 0; 
@@ -260,7 +263,7 @@ int seleccionHorarios(int seleccionPelicula, char* dia, const char **arrayHorari
     return seleccionHorario;
 }   
 
-int confirmacionTicket(int seleccionPelicula, const char **arrayPeliculas, const char **arrayHorarios, int seleccionHorario){    
+void confirmacionTicket(int seleccionPelicula, const char **arrayPeliculas, const char **arrayHorarios, int seleccionHorario){    
 
     int numEntradas;
     Horario h;
@@ -275,7 +278,9 @@ int confirmacionTicket(int seleccionPelicula, const char **arrayPeliculas, const
     // p = obtenerPrecioPorId(seleccionPelicula, db);
     printf("\n\n El precio de la entrada para esta pelicula es de %d euros", p.precio);
     printf("\n\n Indique el número de entradas que desea comprar: ");
-    scanf("%1d", &numEntradas);
+     }
+
+    /*scanf("%1d", &numEntradas);
     printf("\n\n Has seleccionado reservar %d entradas.", numEntradas);
     int preciototal = p.precio*numEntradas;
     printf("Precio total : %d", preciototal);
@@ -289,7 +294,7 @@ int confirmacionTicket(int seleccionPelicula, const char **arrayPeliculas, const
 
     return numEntradas;
 
-}
+}*/
 
 void confirmacionDefinitiva(int seleccionPelicula, const char **arrayPeliculas, int seleccionHorario, const char **arrayHorarios, int numEntradas, AsientoElegido **arrayAsientosElegidos, int numEntradasSeleccionadas){
     

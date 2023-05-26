@@ -135,18 +135,16 @@ void agregarUsuario(char *username, char *password, char *dni, char *correo, cha
     printf("Error al abrir el fichero\n");
   }
 
-  printf("Elije tu nombre de usuario: ");
-  scanf("%s", username);
-  printf("Elige cual va ser tu contrasena: ");
-  scanf("%s", password);
-  printf("Ingresa tu dni: ");
-  scanf("%s", dni);
-  printf("Ingresa tu correo: ");
-  scanf("%s", correo);
-  printf("Ingresa tu numero de tlf: ");
-  scanf("%s", tlf);
-
-  fprintf(f, "%s %s\n", username, password);
+  // printf("Elije tu nombre de usuario: ");
+  // scanf("%s", username);
+  // printf("Elige cual va ser tu contrasena: ");
+  // scanf("%s", password);
+  // printf("Ingresa tu dni: ");
+  // scanf("%s", dni);
+  // printf("Ingresa tu correo: ");
+  // scanf("%s", correo);
+  // printf("Ingresa tu numero de tlf: ");
+  // scanf("%s", tlf);
 
   char sql[] = "insert into usuario (nombreUsuario, password, dni, correo, telefono) values (?, ?, ?, ?, ?)";
   int result = sqlite3_prepare_v2(db, sql, -1, &stmt, NULL);
@@ -277,42 +275,20 @@ Usuario login(char *usuario, char *password, char *dni, char *correo, char* tlf,
   Usuario u;
 
 
-  while (usuarioValido == 0){
+while (usuarioValido == 0) {
+    u = leeUsuario(usuario, password, db);
+    if (strcmp(usuario, u.nombreUsuario) == 0 && strcmp(password, u.contraseyna) == 0) {
+      usuarioValido = 1;
+      printf("Sesion iniciada\n");
+    } else {
+      printf("Usuario o contraseña incorrectos\n");
 
-  printf("\nIntroduce tu nombre de usuario, si no tienes escribe 'n': ");
-  scanf("%s", usuario);
-
-  if (strcmp(usuario, "n") == 0)
-  {
-
-    agregarUsuario(usuario, password, dni, correo, tlf, db);
-    printf("Usuario registrado, felicidades, ya puedes iniciar sesion con ese usuario\n");
-  
+    }
   }
-  else
-  {
-
-    printf("Ingresa tu contraseña: ");
-    scanf("%s", password);
-  }
-
-  u = leeUsuario(usuario, password, db);
-  if (strcmp(usuario, u.nombreUsuario) && strcmp(password, u.contraseyna) != 0)
-  {
-    printf("Usuario o contraseña incorrectos\n");
-  }else{
-    usuarioValido = 1;
-  }
-  }
-
-  printf("Sesion iniciada\n");
 
   return u;
 }
 
-//////////////////////////////////////////// INTENTO DE SELECTS ////////////////////////////////////////////
-
-////////////////////////////////////////// METODO A LO TXINGAS //////////////////////////////////////////
 UsuarioDatos usuarioDatos(char *nombreUsuario, sqlite3 *db)
 {
   UsuarioDatos ud;
@@ -475,6 +451,103 @@ Pelicula obtenerPeliculaPorId(int id, sqlite3 *db)
 
   return p;
 }
+
+Pelicula verPeliculas(sqlite3 *db)
+{
+  Pelicula p;
+
+  int rc2 = sqlite3_open("baseDeDatosCine.sqlite", &db);
+  sqlite3_stmt *stmt2;
+
+  const char *sql2 = "SELECT id_pel, nom_pel, genero_pel, duracion_pel FROM pelicula";
+  int result = sqlite3_prepare_v2(db, sql2, -1, &stmt2, NULL);
+
+  if (result != SQLITE_OK)
+  {
+    printf("Error al preparar la consulta\n");
+    printf("%s\n", sqlite3_errmsg(db));
+  }
+
+  do
+  {
+    result = sqlite3_step(stmt2);
+
+    if (result == SQLITE_ROW)
+    {
+
+    p.id = sqlite3_column_int(stmt2, 0); 
+    p.nom_pel = malloc(sizeof(char) * (strlen(sqlite3_column_text(stmt2, 1))+1));
+    strcpy(p.nom_pel, (char *)sqlite3_column_text(stmt2, 1));
+
+    p.genero_pel = malloc(sizeof(char) * (strlen(sqlite3_column_text(stmt2, 2))+1));
+    strcpy(p.genero_pel, (char *)sqlite3_column_text(stmt2, 2));
+
+    p.duracion = malloc(sizeof(char) * (strlen(sqlite3_column_text(stmt2, 3))+1));
+    strcpy(p.duracion, (char *)sqlite3_column_text(stmt2, 3));
+    printf(" %d [Pelicula: %s] [Genero: %s] [Duracion: %s]\n", p.id, p.nom_pel, p.genero_pel, p.duracion);
+    }
+  } while (result == SQLITE_ROW);
+
+  result = sqlite3_finalize(stmt2);
+
+  if (result != SQLITE_OK)
+  {
+    printf("Error al cerrar la consulta\n");
+    printf("%s\n", sqlite3_errmsg(db));
+  }
+
+  sqlite3_close(db);
+
+  return p;
+}
+
+
+UsuarioDatos verListaUsuarios(sqlite3 *db)
+{
+  UsuarioDatos ud;
+
+  int rc5 = sqlite3_open("baseDeDatosCine.sqlite", &db);
+  sqlite3_stmt *stmt5;
+
+  const char *sql5 = "SELECT nombreUsuario, dni FROM usuario";
+  int result = sqlite3_prepare_v2(db, sql5, -1, &stmt5, NULL);
+
+  if (result != SQLITE_OK)
+  {
+    printf("Error al preparar la consulta\n");
+    printf("%s\n", sqlite3_errmsg(db));
+  }
+
+  do
+  {
+    result = sqlite3_step(stmt5);
+
+    if (result == SQLITE_ROW)
+    {
+ 
+    ud.nombreUsuario = malloc(sizeof(char) * (strlen(sqlite3_column_text(stmt5, 1))+1));
+    strcpy(ud.nombreUsuario, (char *)sqlite3_column_text(stmt5, 1));
+
+    ud.dni = malloc(sizeof(char) * (strlen(sqlite3_column_text(stmt5, 1))+1));
+    strcpy(ud.dni, (char *)sqlite3_column_text(stmt5, 1));
+    
+    printf("[Usuario: %s] [DNI: %s]\n", ud.nombreUsuario, ud.dni);
+    }
+  } while (result == SQLITE_ROW);
+
+  result = sqlite3_finalize(stmt5);
+
+  if (result != SQLITE_OK)
+  {
+    printf("Error al cerrar la consulta\n");
+    printf("%s\n", sqlite3_errmsg(db));
+  }
+
+  sqlite3_close(db);
+
+  return ud;
+}
+
 
 Pelicula obtenerPrecioPorId(int id, sqlite3 *db)
 {
