@@ -452,6 +452,103 @@ Pelicula obtenerPeliculaPorId(int id, sqlite3 *db)
   return p;
 }
 
+Pelicula verPeliculas(sqlite3 *db)
+{
+  Pelicula p;
+
+  int rc2 = sqlite3_open("baseDeDatosCine.sqlite", &db);
+  sqlite3_stmt *stmt2;
+
+  const char *sql2 = "SELECT id_pel, nom_pel, genero_pel, duracion_pel FROM pelicula";
+  int result = sqlite3_prepare_v2(db, sql2, -1, &stmt2, NULL);
+
+  if (result != SQLITE_OK)
+  {
+    printf("Error al preparar la consulta\n");
+    printf("%s\n", sqlite3_errmsg(db));
+  }
+
+  do
+  {
+    result = sqlite3_step(stmt2);
+
+    if (result == SQLITE_ROW)
+    {
+
+    p.id = sqlite3_column_int(stmt2, 0); 
+    p.nom_pel = malloc(sizeof(char) * (strlen(sqlite3_column_text(stmt2, 1))+1));
+    strcpy(p.nom_pel, (char *)sqlite3_column_text(stmt2, 1));
+
+    p.genero_pel = malloc(sizeof(char) * (strlen(sqlite3_column_text(stmt2, 2))+1));
+    strcpy(p.genero_pel, (char *)sqlite3_column_text(stmt2, 2));
+
+    p.duracion = malloc(sizeof(char) * (strlen(sqlite3_column_text(stmt2, 3))+1));
+    strcpy(p.duracion, (char *)sqlite3_column_text(stmt2, 3));
+    printf(" %d [Pelicula: %s] [Genero: %s] [Duracion: %s]\n", p.id, p.nom_pel, p.genero_pel, p.duracion);
+    }
+  } while (result == SQLITE_ROW);
+
+  result = sqlite3_finalize(stmt2);
+
+  if (result != SQLITE_OK)
+  {
+    printf("Error al cerrar la consulta\n");
+    printf("%s\n", sqlite3_errmsg(db));
+  }
+
+  sqlite3_close(db);
+
+  return p;
+}
+
+
+UsuarioDatos verListaUsuarios(sqlite3 *db)
+{
+  UsuarioDatos ud;
+
+  int rc5 = sqlite3_open("baseDeDatosCine.sqlite", &db);
+  sqlite3_stmt *stmt5;
+
+  const char *sql5 = "SELECT nombreUsuario, dni FROM usuario";
+  int result = sqlite3_prepare_v2(db, sql5, -1, &stmt5, NULL);
+
+  if (result != SQLITE_OK)
+  {
+    printf("Error al preparar la consulta\n");
+    printf("%s\n", sqlite3_errmsg(db));
+  }
+
+  do
+  {
+    result = sqlite3_step(stmt5);
+
+    if (result == SQLITE_ROW)
+    {
+ 
+    ud.nombreUsuario = malloc(sizeof(char) * (strlen(sqlite3_column_text(stmt5, 1))+1));
+    strcpy(ud.nombreUsuario, (char *)sqlite3_column_text(stmt5, 1));
+
+    ud.dni = malloc(sizeof(char) * (strlen(sqlite3_column_text(stmt5, 1))+1));
+    strcpy(ud.dni, (char *)sqlite3_column_text(stmt5, 1));
+    
+    printf("[Usuario: %s] [DNI: %s]\n", ud.nombreUsuario, ud.dni);
+    }
+  } while (result == SQLITE_ROW);
+
+  result = sqlite3_finalize(stmt5);
+
+  if (result != SQLITE_OK)
+  {
+    printf("Error al cerrar la consulta\n");
+    printf("%s\n", sqlite3_errmsg(db));
+  }
+
+  sqlite3_close(db);
+
+  return ud;
+}
+
+
 Pelicula obtenerPrecioPorId(int id, sqlite3 *db)
 {
 

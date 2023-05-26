@@ -5,6 +5,7 @@
     void agregarUsuario(char* username, char* password, char *dni, char *correo, char *tlf, sqlite3* db);
     Usuario leeUsuario(char* user, char* password, sqlite3* db);
     Usuario login(char *usuario, char *password, char *dni, char *correo, char *tlf, sqlite3* db); 
+    UsuarioDatos verListausuarios(sqlite3* db);
     UsuarioDatos usuarioDatos(char *nombreUsuario,  sqlite3* db);
     Pelicula verPeliculas(sqlite3* db);
     Pelicula obtenerPeliculaPorId(int id, sqlite3 * db);

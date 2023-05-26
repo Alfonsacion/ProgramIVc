@@ -10,7 +10,7 @@
 using namespace std;
 
 
-int main(void)
+int mainAdmin(void)
 {
     sqlite3 *db;
 	char *error;
@@ -35,12 +35,11 @@ int main(void)
 			cout<< endl << endl << "///////////Menu de Administrador///////////" << endl << endl;
 
 			cout<< "1. Visualizar tus datos" << endl << endl;
-			cout<< "2. Visualizar datos de un cliente" << endl << endl;
-			cout<< "3. Modificar un cliente" << endl << endl;
-            cout<< "4. Eliminar un cliente" << endl << endl;
-            cout<< "5. Anyadir pelicula" << endl << endl;
-            cout<< "6. Eliminar pelicula" << endl << endl;
-			cout<< "7. Cerrar sesion" << endl << endl;
+			cout<< "2. Anyadir cliente" << endl << endl;
+            cout<< "3. Eliminar cliente" << endl << endl;
+            cout<< "4. Anyadir pelicula" << endl << endl;
+            cout<< "5. Eliminar pelicula" << endl << endl;
+			cout<< "6. Cerrar sesion" << endl << endl;
 
 			cout<< "Seleccione la opcion que desee: " << endl << endl;
 			scanf("%1d", &opcion);
@@ -58,21 +57,20 @@ int main(void)
 				fflush(stdin);
 				break;
 
-
 			case 2:
-                cout<< endl << endl << "///////////Visualizacion de datos de los clientes///////////" << endl << endl;
+                cout<< endl << endl << "///////////Indique los datos del cliente que quiere anyadir///////////" << endl << endl;
 
-                //metodo para visualizar datos de clientes
+                //metodo para modificar clientes
 
-				cout<< endl << endl << "Presiona cualquier tecla y enter para volver al menu: ";
-                scanf("%1d", &opcion);
+                cout<< endl << endl << "Presiona cualquier tecla y enter para volver al menu: ";
+                scanf("%d", &opcion);
 				fflush(stdin);
 				break;
 
-			case 3:
-                cout<< endl << endl << "///////////¿Que cliente desea modificar?///////////" << endl << endl;
+            case 3:
+                cout<< endl << endl << "///////////¿Que cliente desea eliminar?///////////" << endl << endl;
 
-                //metodo para modificar o eliminar clientes y sus datos
+                //metodo para eliminar clientes
 
                 cout<< endl << endl << "Presiona cualquier tecla y enter para volver al menu: ";
                 scanf("%d", &opcion);
@@ -80,17 +78,7 @@ int main(void)
 				break;
 
             case 4:
-                cout<< endl << endl << "///////////¿Que cliente desea eliminar?///////////" << endl << endl;
-
-                //metodo para modificar o eliminar clientes y sus datos
-
-                cout<< endl << endl << "Presiona cualquier tecla y enter para volver al menu: ";
-                scanf("%d", &opcion);
-				fflush(stdin);
-				break;
-
-            case 5:
-                cout<< endl << endl << "///////////¿Que pelicula deseas anyadir?///////////" << endl << endl;
+                cout<< endl << endl << "///////////Indique los datos de la pelicula que quiere anyadir///////////" << endl << endl;
 
                 //metodo para añadir peliculas
 
@@ -99,7 +87,7 @@ int main(void)
 				fflush(stdin);
 				break;
 
-            case 6:
+            case 5:
                 cout<< endl << endl << "///////////¿Que pelicula deseas eliminar?///////////" << endl << endl;
 
                 //metodo para eliminar peliculas
@@ -109,7 +97,7 @@ int main(void)
 				fflush(stdin);
 				break;
 
-			case 7:
+			case 6:
 				cout<< endl << endl << "///////////Has cerrado sesion, hasta pronto!///////////" << endl << endl;
 				opcion = 9;
 				break;
