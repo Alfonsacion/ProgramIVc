@@ -2,6 +2,7 @@
 #include <iostream>
 #include <string>
 #include <string.h>
+#include "../db/connect/connect.h"
 #include "../../struct.h"
 using namespace std;
 
@@ -97,7 +98,29 @@ void Administrador::anyadirAdministrador(const char* nombre, const char * mail, 
         }
     }
 
-    void eliminarPelicula(){
+    void anyadirPelicula()
+    {
+        sqlite3* db;
+        // Pelicula p = anyadirNombrePelicula(db);
+    }
+
+    void eliminarPelicula()
+    {
+        sqlite3* db;
+        // Pelicula p = eliminarPeliculas(db);
+    }
+
+    void anyadirCliente()
+    {
+
+    }
+
+    void eliminarCliente()
+    {
+
+    }
+
+/*    void eliminarPelicula(){
         sqlite3* db;
         Pelicula p = verPeliculas(db);
         char** peliculas = new char*[5];
@@ -107,9 +130,7 @@ void Administrador::anyadirAdministrador(const char* nombre, const char * mail, 
         }
 
     }
-
-
-
+*/
 /*  
 FUNCIONES A METER EN ADMIN
         Administrador();

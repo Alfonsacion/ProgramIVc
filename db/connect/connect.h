@@ -6,12 +6,14 @@
     Usuario leeUsuario(char* user, char* password, sqlite3* db);
     Usuario login(char *usuario, char *password, char *dni, char *correo, char *tlf, sqlite3* db); 
     UsuarioDatos verListausuarios(sqlite3* db);
-    UsuarioDatos usuarioDatos(char *nombreUsuario,  sqlite3* db);
     Pelicula verPeliculas(sqlite3* db);
     Pelicula obtenerPeliculaPorId(int id, sqlite3 * db);
     Pelicula obtenerPrecioPorId(int id, sqlite3 *db);
     Horario obtenerHorarioPorId(int id, sqlite3 *db);
-    Horario verHorarios(char *nom_pel_horario, sqlite3* db);    
+    Horario verHorarios(char *nom_pel_horario, sqlite3* db);   
+    UsuarioDatos usuarioDatos(char *nombreUsuario,  sqlite3* db);
+    void anyadirNombrePelicula(char *nom_pel, sqlite3 *db);
+    void eliminarPeliculas(int id_pel, sqlite3* db);
     int tablaPelicula(sqlite3* db, char* error);
     int tablaHorario(sqlite3* db, char* error);
     int tablaFecha(sqlite3* db, char* error);

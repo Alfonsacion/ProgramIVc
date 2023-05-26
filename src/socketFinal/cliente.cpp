@@ -35,6 +35,7 @@ int __cdecl main(int argc, char **argv)
     string strContrasenya = "gym";
     string strBuf = "2";
     string strOpcionMenu;
+    string tecla;
 
     ////////////////// A RECIBIR ///////////////////////
 
@@ -221,6 +222,19 @@ int __cdecl main(int argc, char **argv)
     }
 
     printf("Opcion enviada desde cliente: %s\n", opcionMenu);
+
+    cin >> tecla;
+    const char *opcionVolver = tecla.c_str();
+    iResult = send(ConnectSocket, opcionVolver, strlen(opcionVolver), 0);
+    if (iResult == SOCKET_ERROR)
+    {
+        printf("send failed with error: %d\n", WSAGetLastError());
+        closesocket(ConnectSocket);
+        WSACleanup();
+        return 1;
+    }
+
+    printf("Opción volver envíada desde cliente");
 
     // iResult = recv(ConnectSocket, recvBuf, recvbuflen - 1, 0);
     // if (iResult == SOCKET_ERROR)

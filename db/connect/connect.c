@@ -281,7 +281,8 @@ while (usuarioValido == 0) {
       usuarioValido = 1;
       printf("Sesion iniciada\n");
     } else {
-      printf("Usuario o contraseña incorrectos\n");
+      printf("Usuario o contraseña incorrectos, inténtalo más tarde.\n");
+      exit(0);
 
     }
   }
@@ -502,53 +503,6 @@ Pelicula verPeliculas(sqlite3 *db)
 }
 
 
-UsuarioDatos verListaUsuarios(sqlite3 *db)
-{
-  UsuarioDatos ud;
-
-  int rc5 = sqlite3_open("baseDeDatosCine.sqlite", &db);
-  sqlite3_stmt *stmt5;
-
-  const char *sql5 = "SELECT nombreUsuario, dni FROM usuario";
-  int result = sqlite3_prepare_v2(db, sql5, -1, &stmt5, NULL);
-
-  if (result != SQLITE_OK)
-  {
-    printf("Error al preparar la consulta\n");
-    printf("%s\n", sqlite3_errmsg(db));
-  }
-
-  do
-  {
-    result = sqlite3_step(stmt5);
-
-    if (result == SQLITE_ROW)
-    {
- 
-    ud.nombreUsuario = malloc(sizeof(char) * (strlen(sqlite3_column_text(stmt5, 1))+1));
-    strcpy(ud.nombreUsuario, (char *)sqlite3_column_text(stmt5, 1));
-
-    ud.dni = malloc(sizeof(char) * (strlen(sqlite3_column_text(stmt5, 1))+1));
-    strcpy(ud.dni, (char *)sqlite3_column_text(stmt5, 1));
-    
-    printf("[Usuario: %s] [DNI: %s]\n", ud.nombreUsuario, ud.dni);
-    }
-  } while (result == SQLITE_ROW);
-
-  result = sqlite3_finalize(stmt5);
-
-  if (result != SQLITE_OK)
-  {
-    printf("Error al cerrar la consulta\n");
-    printf("%s\n", sqlite3_errmsg(db));
-  }
-
-  sqlite3_close(db);
-
-  return ud;
-}
-
-
 Pelicula obtenerPrecioPorId(int id, sqlite3 *db)
 {
 
@@ -691,9 +645,97 @@ Horario obtenerHorarioPorId(int id, sqlite3 *db)
   return h;
 }
 
-Pelicula devolver1(){
-  Pelicula p;
-      p.nom_pel = malloc(sizeof(char) * (strlen(sqlite3_column_text(stmt3, 3))+1));
-      strcpy(p.nom_pel, (char *)sqlite3_column_text(stmt3, 3));
+
+UsuarioDatos verListaUsuarios(sqlite3 *db)
+{
+  UsuarioDatos ud;
+
+  int rc5 = sqlite3_open("baseDeDatosCine.sqlite", &db);
+  sqlite3_stmt *stmt5;
+
+  const char *sql5 = "SELECT nombreUsuario, dni FROM usuario";
+  int result = sqlite3_prepare_v2(db, sql5, -1, &stmt5, NULL);
+
+  if (result != SQLITE_OK)
+  {
+    printf("Error al preparar la consulta\n");
+    printf("%s\n", sqlite3_errmsg(db));
+  }
+
+  do
+  {
+    result = sqlite3_step(stmt5);
+
+    if (result == SQLITE_ROW)
+    {
+ 
+    ud.nombreUsuario = malloc(sizeof(char) * (strlen(sqlite3_column_text(stmt5, 1))+1));
+    strcpy(ud.nombreUsuario, (char *)sqlite3_column_text(stmt5, 1));
+
+    ud.dni = malloc(sizeof(char) * (strlen(sqlite3_column_text(stmt5, 1))+1));
+    strcpy(ud.dni, (char *)sqlite3_column_text(stmt5, 1));
+    
+    printf("[Usuario: %s] [DNI: %s]\n", ud.nombreUsuario, ud.dni);
+    }
+  } while (result == SQLITE_ROW);
+
+  result = sqlite3_finalize(stmt5);
+
+  if (result != SQLITE_OK)
+  {
+    printf("Error al cerrar la consulta\n");
+    printf("%s\n", sqlite3_errmsg(db));
+  }
+
+  sqlite3_close(db);
+
+  return ud;
 }
 
+
+void anyadirNombrePelicula(char *nom_pel, sqlite3 *db)
+{
+  int result = sqlite3_open("baseDeDatosCine.sqlite", &db);
+  
+  //int id_pel;
+  //char genero_pel[100];
+  //char duracion_pel[100];
+
+  do {
+      printf("Ingrese el titulo de la pelicula (o 'v' y pulsar enter para salir): ");
+      fgets(nom_pel, sizeof(nom_pel), stdin);
+      nom_pel[strlen(nom_pel) - 1] = '\0';  // Eliminar el salto de línea al final
+
+      if (strcmp(nom_pel, "q") != 0) {
+          // Ejecuta una consulta SQL para insertar la película en la tabla
+          char insertQuery[100];
+          sprintf(insertQuery, "INSERT INTO pelicula (titulo) VALUES ('%s')", nom_pel);
+          result = sqlite3_exec(db, insertQuery, NULL, NULL, NULL);
+          if (result != SQLITE_OK) {
+            printf("Error al preparar la consulta\n");
+            printf("%s\n", sqlite3_errmsg(db));
+          }
+      }
+  } while (strcmp(nom_pel, "v") != 0);
+
+  sqlite3_close(db);
+}
+
+
+void eliminarPeliculas(int id_pel, sqlite3* db)
+{
+  int result = sqlite3_open("baseDeDatosCine.sqlite", &db);
+
+  printf("Indique, mediante el indice asignado, que pelicula desea eliminar: ");
+  scanf("%d", &id_pel);
+
+  // Ejecuta una consulta SQL para eliminar la película seleccionada de la tabla
+  char deleteQuery[100];
+  sprintf(deleteQuery, "DELETE FROM pelicula WHERE id = %d", id_pel);
+  result = sqlite3_exec(db, deleteQuery, NULL, NULL, NULL);
+  if (result != SQLITE_OK) {
+    printf("Error al preparar la consulta\n");
+    printf("%s\n", sqlite3_errmsg(db));
+  }
+
+}
