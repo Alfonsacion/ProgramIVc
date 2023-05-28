@@ -116,7 +116,7 @@ int __cdecl main(int argc, char **argv)
     bool mandar = true;
     while (mandar)
     {
-
+        cout << "Usuario: ";
         cin >> strBuf;
         const char *usuario = strBuf.c_str();
         if ((strcmp(usuario, "n") != 0))
@@ -132,6 +132,7 @@ int __cdecl main(int argc, char **argv)
 
             printf("Usuario enviado desde cliente: %s\n", usuario);
 
+            cout << "Contrasena: ";
             cin >> strBuf;
             const char *contraseyna = strBuf.c_str();
             iResult = send(ConnectSocket, contraseyna, strlen(contraseyna), 0);
