@@ -154,16 +154,6 @@ int __cdecl main(void)
     char HoraFin[MAX_PASSWORD_LENGTH];
 
     Usuario u;
-    // char *a = new char((strlen(nombreUsuario) + 1) * sizeof(char));
-    // a = strcpy(a, nombreUsuario);
-    // a[strlen(a)] = '\0';
-
-    std::cout << endl;
-    std::cout << "Bienvenido/a, ahora puedes iniciar sesión\n"
-              << endl;
-    std::cout << endl;
-
-    std::cout << "Introduce tu nombre de usuario, si no tienes escribe 'n': " << endl;
     bool mandar = true;
     while (mandar == true)
     {
@@ -181,7 +171,6 @@ int __cdecl main(void)
         if (strcmp(nombreUsuario, "n") == 0)
         {
 
-            std::cout << "Elige tu nombre de usuario: " << endl;
             iResult = recv(ClientSocket, nombreUsuario, sizeof(nombreUsuario), 0);
             if (iResult == SOCKET_ERROR)
             {
@@ -193,7 +182,6 @@ int __cdecl main(void)
             nombreUsuario[iResult] = '\0';
             printf("Usuario recibido desde cliente: %s\n", nombreUsuario);
 
-            std::cout << "Elige cual va ser tu contrasena: " << endl;
             iResult = recv(ClientSocket, contraseyna, sizeof(contraseyna), 0);
             if (iResult == SOCKET_ERROR)
             {
@@ -205,7 +193,6 @@ int __cdecl main(void)
             contraseyna[iResult] = '\0';
             printf("Contrasena recibida desde cliente: %s\n", contraseyna);
 
-            std::cout << "Ingresa tu dni: " << endl;
             iResult = recv(ClientSocket, dniUsuario, sizeof(dniUsuario), 0);
             if (iResult == SOCKET_ERROR)
             {
@@ -217,7 +204,6 @@ int __cdecl main(void)
             dniUsuario[iResult] = '\0';
             printf("Dni recibido desde cliente: %s\n", dniUsuario);
 
-            std::cout << "Ingresa tu correo: " << endl;
             iResult = recv(ClientSocket, correoUsuario, sizeof(correoUsuario), 0);
             if (iResult == SOCKET_ERROR)
             {
@@ -229,7 +215,6 @@ int __cdecl main(void)
             correoUsuario[iResult] = '\0';
             printf("Correo recibido desde cliente: %s\n", correoUsuario);
 
-            std::cout << "Ingresa tu numero de tlf: " << endl;
             iResult = recv(ClientSocket, tlf, sizeof(tlf), 0);
             if (iResult == SOCKET_ERROR)
             {
@@ -243,14 +228,12 @@ int __cdecl main(void)
 
             agregarUsuario(nombreUsuario, contraseyna, dniUsuario, correoUsuario, tlf, db);
             fprintf(f, "%s %s\n", nombreUsuario, contraseyna);
-            std::cout << "Usuario registrado, felicidades, ya puedes iniciar sesion con ese usuario" << endl;
             fclose(f);
 
             mandar = false;
         }
         else
         {
-            std::cout << "Ingresa tu contraseña: " << endl;
             iResult = recv(ClientSocket, contraseyna, sizeof(contraseyna), 0);
             if (iResult == SOCKET_ERROR)
             {
@@ -528,12 +511,12 @@ int __cdecl main(void)
     do
     {
 
-        std::cout << "\n\n///////////Menu Cineplex///////////\n\n";
-        std::cout << "1. Visualizar datos del usuario\n\n";
-        std::cout << "2. Efectuar una reserva \n\n";
-        std::cout << "3. Visualizar las peliculas disponibles \n\n";
-        std::cout << "4. Cerrar sesión\n\n";
-        std::cout << "Seleccione la opción que desee: \n";
+        // std::cout << "\n\n///////////Menu Cineplex///////////\n\n";
+        // std::cout << "1. Visualizar datos del usuario\n\n";
+        // std::cout << "2. Efectuar una reserva \n\n";
+        // std::cout << "3. Visualizar las peliculas disponibles \n\n";
+        // std::cout << "4. Cerrar sesión\n\n";
+        // std::cout << "Seleccione la opción que desee: \n";
 
         /////////////OPCION MENU/////////////
         iResult = recv(ClientSocket, recvBuf, sizeof(recvBuf), 0);
@@ -546,7 +529,7 @@ int __cdecl main(void)
         }
         recvBuf[iResult] = '\0';
 
-        std::cout << "Opcion recibida desde cliente" << recvBuf << std::endl;
+        std::cout << "Opcion recibida desde cliente" << std::endl;
 
         opcion = stoi(recvBuf);
 
@@ -557,30 +540,25 @@ int __cdecl main(void)
         case 1:
 
             ud = usuarioDatos(u.nombreUsuario, db);
-            char* mensaje = "Nombre:";
-            strcat(mensaje, ud.nombreUsuario);
-            //ASI CON TODO
-            const char* mensajeConst = mensaje;
+            char *datos;
+            strcpy(datos, "Nombre: ");
+            strcat(datos, ud.nombreUsuario);
+            strcat(datos, "\nDNI: ");
+            strcat(datos, ud.dni);
+            strcat(datos, "\nCorreo: ");
+            strcat(datos, ud.correo);
+            strcat(datos, "\nTelefono: ");
+            strcat(datos, ud.tlf);
 
-            // std::cout << "\n\nPresiona cualquier tecla y enter para volver al menú: ";
-            // std::cin.ignore();
-            // std::cin.get();
+            iSendResult = send(ClientSocket, datos, strlen(datos), 0);
+            if (iSendResult == SOCKET_ERROR)
+            {
+                printf("send failed with error: %d\n", WSAGetLastError());
+                closesocket(ClientSocket);
+                WSACleanup();
+                return 1;
+            }
 
-            // iResult = recv(ClientSocket, volverMenu, sizeof(volverMenu), 0);
-
-            // if (iResult == SOCKET_ERROR)
-            // {
-            //     printf("recv failed with error: %d\n", WSAGetLastError());
-            //     closesocket(ClientSocket);
-            //     WSACleanup();
-            //     return 1;
-            // }
-
-            // volverMenu[iResult] = '\0';
-
-            // std::cout << "Opcion volver recibida desde cliente" << volverMenu << std::endl;
-
-            // menu = 2;
             break;
 
         case 2:
@@ -618,7 +596,7 @@ int __cdecl main(void)
             }
 
             exportarDatos(numEntradasSeleccionadas, seleccionPelicula, arrayPeliculas);
-            //confirmacionDefinitiva(seleccionPelicula, arrayPeliculas, seleccionHorario, arrayHorarios, numEntradas, arrayAsientosElegidos, numEntradasSeleccionadas);
+            // confirmacionDefinitiva(seleccionPelicula, arrayPeliculas, seleccionHorario, arrayHorarios, numEntradas, arrayAsientosElegidos, numEntradasSeleccionadas);
 
             // std::cout << "\n\nPresiona cualquier tecla y enter para volver al menú: ";
             // iResult = recv(ClientSocket, recvBuf, recvbuflen, 0);
@@ -627,6 +605,33 @@ int __cdecl main(void)
         case 3:
 
             p = verPeliculas(db);
+            char* peliculas;
+            // for (int i = 0; i < 4; i++)
+            // {
+            //     strcpy(peliculas, "");
+            //     strcat(peliculas, "ID: ");
+            //     strcat(peliculas, std::to_string(p[i].id).c_str());
+            //     strcat(peliculas, "\n");
+            //     strcat(peliculas, "Nombre: ");
+            //     strcat(peliculas, p[i].nom_pel);
+            //     strcat(peliculas, "\n");
+            //     strcat(peliculas, "Genero: ");
+            //     strcat(peliculas, p[i].genero_pel);
+            //     strcat(peliculas, "\n");
+            //     strcat(peliculas, "Duracion: ");
+            //     strcat(peliculas, p[i].duracion);
+            //     strcat(peliculas, "\n\n");
+            // }
+
+            iSendResult = send(ClientSocket, peliculas, strlen(peliculas), 0);
+            if (iSendResult == SOCKET_ERROR)
+            {
+                printf("send failed with error: %d\n", WSAGetLastError());
+                closesocket(ClientSocket);
+                WSACleanup();
+                return 1;
+            }
+
             // std::cout << "\n\nPresiona cualquier tecla y enter para volver al menú: ";
             // iResult = recv(ClientSocket, recvBuf, recvbuflen, 0);
             break;
