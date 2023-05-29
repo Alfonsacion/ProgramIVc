@@ -603,9 +603,9 @@ int __cdecl main(void)
             break;
 
         case 3:
-
-            p = verPeliculas(db);
-            char* peliculas;
+            const char* mensajeEnviar;
+            mensajeEnviar = verPeliculas(db);
+            // char* peliculas;
             // for (int i = 0; i < 4; i++)
             // {
             //     strcpy(peliculas, "");
@@ -623,7 +623,7 @@ int __cdecl main(void)
             //     strcat(peliculas, "\n\n");
             // }
 
-            iSendResult = send(ClientSocket, peliculas, strlen(peliculas), 0);
+            iSendResult = send(ClientSocket, mensajeEnviar, strlen(mensajeEnviar), 0);
             if (iSendResult == SOCKET_ERROR)
             {
                 printf("send failed with error: %d\n", WSAGetLastError());
