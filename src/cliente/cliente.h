@@ -1,6 +1,5 @@
 #ifndef _CLIENTE_H_
 #define _CLIENTE_H_
-//#include "../persona/persona.h"
 #include "../../sqlite3.h"
 #include "../../struct.h"
 

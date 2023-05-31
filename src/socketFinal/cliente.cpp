@@ -26,11 +26,6 @@ extern "C"
 #include "../../struct.h"
 #include "../cliente/cliente.h"
 #include "../../db/connect/connect.h"
-
-    // #include "../../sqlite3.h"
-    // #include "../../struct.h"
-    // #include "../cliente/cliente.h"
-    // #include "../../db/connect/connect.h"
 }
 
 // Need to link with Ws2_32.lib, Mswsock.lib, and Advapi32.lib
@@ -49,7 +44,6 @@ int __cdecl main(int argc, char **argv)
                     *ptr = NULL,
                     hints;
 
-    ////////////////// A ENVIAR ///////////////////////
 
     string strUsuario = "Iker";
     string strContrasenya = "gym";
@@ -59,7 +53,6 @@ int __cdecl main(int argc, char **argv)
     string asiento;
     Usuario u;
 
-    ////////////////// A RECIBIR ///////////////////////
 
     char recvUsur[DEFAULT_BUFLEN];
     char recvContra[DEFAULT_BUFLEN];
@@ -101,7 +94,6 @@ int __cdecl main(int argc, char **argv)
     for (ptr = result; ptr != NULL; ptr = ptr->ai_next)
     {
 
-        // Create a SOCKET for connecting to server
         ConnectSocket = socket(ptr->ai_family, ptr->ai_socktype,
                                ptr->ai_protocol);
         if (ConnectSocket == INVALID_SOCKET)
@@ -111,7 +103,6 @@ int __cdecl main(int argc, char **argv)
             return 1;
         }
 
-        // Connect to server.
         iResult = connect(ConnectSocket, ptr->ai_addr, (int)ptr->ai_addrlen);
         if (iResult == SOCKET_ERROR)
         {
@@ -131,10 +122,7 @@ int __cdecl main(int argc, char **argv)
         return 1;
     }
 
-    // Send an initial buffer
 
-    /////////////////// ENVIOS ///////////////////////////////
-    ////////////USUARIO//////////////
     bool mandar = true;
     while (mandar)
     {
@@ -170,7 +158,6 @@ int __cdecl main(int argc, char **argv)
                 WSACleanup();
                 return 1;
             }
-            //          printf("Contrasena enviada desde cliente: %s\n", contraseyna);
             mandar = false;
         }
         else
@@ -185,7 +172,6 @@ int __cdecl main(int argc, char **argv)
                 return 1;
             }
 
-            //           printf("Usuario enviado desde cliente: %s\n", usuario);
             std::cout << "Elige tu contrasena: " << endl;
             cin >> strBuf;
             const char *contraseyna = strBuf.c_str();
@@ -197,7 +183,6 @@ int __cdecl main(int argc, char **argv)
                 WSACleanup();
                 return 1;
             }
-            //           printf("Contrasena enviada desde cliente: %s\n", contraseyna);
 
             cout << "Ingresa tu DNI: ";
             cin >> strBuf;
@@ -211,7 +196,6 @@ int __cdecl main(int argc, char **argv)
                 return 1;
             }
 
-            //          printf("DNI enviado desde cliente: %s\n", dni);
 
             cout << "Ingresa tu correo: ";
             cin >> strBuf;
@@ -224,7 +208,6 @@ int __cdecl main(int argc, char **argv)
                 WSACleanup();
                 return 1;
             }
-            //         printf("Correo enviado desde cliente: %s\n", correo);
 
             cout << "Ingresa tu telefono: ";
             cin >> strBuf;
@@ -239,7 +222,6 @@ int __cdecl main(int argc, char **argv)
             }
 
             std::cout << "Usuario registrado, felicidades, ya puedes iniciar sesion con ese usuario" << endl;
-            //          printf("telefono enviado desde cliente: %s\n", tlf);
         }
     }
 
@@ -286,7 +268,6 @@ int __cdecl main(int argc, char **argv)
             seleccionPelicula = pantallaCartelera(arrayPeliculas, numPeliculas, db);
             seleccionHorario = seleccionHorarios(seleccionPelicula, s.dia, arrayHorarios, arrayPeliculas);
             confirmacionTicket(seleccionPelicula, arrayPeliculas, arrayHorarios, seleccionHorario);
-            ///////////////NUEVO NUMENTRADAS
 
             cin >> numEntradas;
             const char *entradas = std::to_string(numEntradas).c_str();
@@ -302,7 +283,6 @@ int __cdecl main(int argc, char **argv)
             iResult = recv(ConnectSocket, recvBuf, recvbuflen, 0);
 
             numEntradas = stoi(recvBuf);
-            ///////////////NUEVO NUMENTRADAS
             arrayAsientosElegidos = new AsientoElegido[numEntradas];
 
             generarSalaA(arrayAsientosElegidos, numEntradasSeleccionadas, numEntradas);
@@ -310,15 +290,13 @@ int __cdecl main(int argc, char **argv)
             for (numEntradasSeleccionadas = 0; numEntradasSeleccionadas < numEntradas; numEntradasSeleccionadas++)
             {
 
-                //////////NUEVO ELEGIRASIENTO
                 cout << endl
                      << endl;
                 cout << "Introduce un asiento del esquema de la sala, indicando primero la fila y luego columna (ej: 1A): " << endl;
 
-
                 cin >> asiento;
                 const char *asientoAelegir = asiento.c_str();
-                cout << "primero: "<< asientoAelegir << endl;
+                cout << "primero: " << asientoAelegir << endl;
                 iResult = send(ConnectSocket, asientoAelegir, (int)strlen(asientoAelegir), 0);
                 if (iResult == SOCKET_ERROR)
                 {
@@ -335,19 +313,14 @@ int __cdecl main(int argc, char **argv)
                 cout << "El asiento es " << numeroAsiento << " con letra " << letraAsiento << endl;
 
                 elegirAsiento(arrayAsientosElegidos, numEntradasSeleccionadas, numeroAsiento, letraAsiento);
-                //////////NUEVO ELEGIRASIENTO
 
                 generarSalaA(arrayAsientosElegidos, numEntradasSeleccionadas, numEntradas);
                 numEntradasSeleccionadas = confirmacionAsiento(numEntradasSeleccionadas);
-                cin.ignore(10000,'\n');
-                
+                cin.ignore(10000, '\n');
             }
 
             exportarDatos(numEntradasSeleccionadas, seleccionPelicula, arrayPeliculas);
-            // confirmacionDefinitiva(seleccionPelicula, arrayPeliculas, seleccionHorario, arrayHorarios, numEntradas, arrayAsientosElegidos, numEntradasSeleccionadas);
 
-            // std::cout << "\n\nPresiona cualquier tecla y enter para volver al menú: ";
-            // iResult = recv(ClientSocket, recvBuf, recvbuflen, 0);
             break;
         }
 
@@ -373,117 +346,8 @@ int __cdecl main(int argc, char **argv)
 
     } while (opcion >= 1 && opcion < 4);
 
-    // printf("Opcion enviada desde cliente: %s\n", opcionMenu);
-
-    // iResult = recv(ConnectSocket, recvBuf, recvbuflen - 1, 0);
-    // if (iResult == SOCKET_ERROR)
-    // {
-    //     printf("recv failed with error: %d\n", WSAGetLastError());
-    //     closesocket(ConnectSocket);
-    //     WSACleanup();
-    //     return 1;
-    // }
-
-    // // Asegurarse de que la respuesta sea terminada con el carácter nulo
-    // recvBuf[iResult] = '\0';
-
-    // // Imprimir la respuesta recibida del servidor
-    // printf("Respuesta del servidor: %s\n", recvBuf);
-
-    // cin >> strOpcionMenu;
-    // const char *volver = strOpcionMenu.c_str();
-    // iResult = send(ConnectSocket, volver, strlen(volver), 0);
-    // if (iResult == SOCKET_ERROR)
-    // {
-    //     printf("send failed with error: %s\n", WSAGetLastError());
-    //     closesocket(ConnectSocket);
-    //     WSACleanup();
-    //     return 1;
-    // }
-
-    // printf("Boton para volver enviado desde cliente: %s\n", volver);
-
-    ////////////CONTRASENYA//////////////
-
-    /*cin >> strContrasenya;
-    const char *contrasenya = strContrasenya.c_str();
-    iResult = send( ConnectSocket, contrasenya, (int)strlen(contrasenya), 0 );
-    if (iResult == SOCKET_ERROR) {
-        printf("send failed with error: %s\n", WSAGetLastError());
-        closesocket(ConnectSocket);
-        WSACleanup();
-        return 1;
-    }
-
-    printf("Conrtasenya enviada desde cliente: %s\n", contrasenya);
-
-    ////////////OPCION MENU//////////////
-
-    cin >> strOpcionMenu;
-    const char *opcionMenu = strOpcionMenu.c_str();
-    iResult = send( ConnectSocket, opcionMenu, (int)strlen(opcionMenu), 0 );
-    if (iResult == SOCKET_ERROR) {
-        printf("send failed with error: %s\n", WSAGetLastError());
-        closesocket(ConnectSocket);
-        WSACleanup();
-        return 1;
-    }
-
-    printf("Opcion enviada desde cliente: %s\n", opcionMenu);
-
-    //printf("Message Sent: %s\n", iResult);
-
-
-    // shutdown the connection since no more data will be sent
-    iResult = shutdown(ConnectSocket, SD_SEND);
-    if (iResult == SOCKET_ERROR) {
-        printf("shutdown failed with error: %d\n", WSAGetLastError());
-        closesocket(ConnectSocket);
-        WSACleanup();
-        return 1;
-    }*/
-
-    // Receive until the peer closes the connection
-
-    /////////////////// RECIBOS ///////////////////////////////
-    ////////////USUARIO//////////////
-
-    /*printf("el tmanyo es: %i\n", (int)strlen(usuario));
-
-    iResult = recv(ConnectSocket, recvUsur, (int)strlen(usuario), 0);
-    if ( iResult > 0 ){
-        printf("Usuario de vuelta en cliente: %s\n", recvUsur); }
-    else if ( iResult == 0 )
-        printf("Connection closed\n");
-    else
-        printf("recv failed with error: %d\n", WSAGetLastError());*/
-
-    ////////////CONTRASENYA//////////////
-
-    /*iResult = recv(ConnectSocket, recvContra, (int)strlen(contrasenya), 0);
-    if ( iResult > 0 ){
-        printf("Contrasenya de vuelta en cliente: %s\n", recvContra); }
-    else if ( iResult == 0 )
-        printf("Connection closed\n");
-    else
-        printf("recv failed with error: %d\n", WSAGetLastError());
-
-    ////////////OPCION MENU//////////////
-
-    iResult = recv(ConnectSocket, recvOpMen, (int)strlen(opcionMenu), 0);
-    if ( iResult > 0 ){
-        printf("Opcion de vuelta en cliente: %s\n", recvOpMen); }
-    else if ( iResult == 0 )
-        printf("Connection closed\n");
-    else
-        printf("recv failed with error: %d\n", WSAGetLastError());*/
-
     // cleanup
     closesocket(ConnectSocket);
     WSACleanup();
     return 0;
 }
-
-// https://learn.microsoft.com/en-us/windows/win32/winsock/complete-server-code
-
-// c++ -o cliente cliente.cpp -lws2_32

@@ -22,24 +22,15 @@ extern "C"
 #include "../../struct.h"
 #include "../cliente/cliente.h"
 #include "../../db/connect/connect.h"
-
-    // #include "../../sqlite3.h"
-    // #include "../../struct.h"
-    // #include "../cliente/cliente.h"
-    // #include "../../db/connect/connect.h"
 }
 
-// Need to link with Ws2_32.lib
 #pragma comment(lib, "Ws2_32.lib")
-// #pragma comment (lib, "Mswsock.lib")
 
 #define DEFAULT_BUFLEN 512
 #define DEFAULT_PORT "1"
 
 int __cdecl main(void)
 {
-
-    //////////////////SOCKETS ESENCIAL//////////////////////
 
     WSADATA wsaData;
     int iResult;
@@ -57,7 +48,6 @@ int __cdecl main(void)
 
     int recvbuflen = DEFAULT_BUFLEN;
 
-    // Initialize Winsock
     iResult = WSAStartup(MAKEWORD(2, 2), &wsaData);
     if (iResult != 0)
     {
@@ -71,7 +61,6 @@ int __cdecl main(void)
     hints.ai_protocol = IPPROTO_TCP;
     hints.ai_flags = AI_PASSIVE;
 
-    // Resolve the server address and port
     iResult = getaddrinfo(NULL, DEFAULT_PORT, &hints, &result);
     if (iResult != 0)
     {
@@ -80,7 +69,6 @@ int __cdecl main(void)
         return 1;
     }
 
-    // Create a SOCKET for the server to listen for client connections.
     ListenSocket = socket(result->ai_family, result->ai_socktype, result->ai_protocol);
     if (ListenSocket == INVALID_SOCKET)
     {
@@ -90,7 +78,6 @@ int __cdecl main(void)
         return 1;
     }
 
-    // Setup the TCP listening socket
     iResult = bind(ListenSocket, result->ai_addr, (int)result->ai_addrlen);
     if (iResult == SOCKET_ERROR)
     {
@@ -112,7 +99,6 @@ int __cdecl main(void)
         return 1;
     }
 
-    // Accept a client socket
     ClientSocket = accept(ListenSocket, NULL, NULL);
     if (ClientSocket == INVALID_SOCKET)
     {
@@ -122,19 +108,15 @@ int __cdecl main(void)
         return 1;
     }
 
-    // No longer need server socket
     closesocket(ListenSocket);
 
-    ///////////////FINAL SOCKET ESENCIAL////////////////////////
+    std::cout << endl
+              << "Servidor preparado para cliente";
 
-    std::cout << "Servidor preparado para cliente";
-
-    ///////////////////CCCCCCCCCCCCCCC/////////////////////
     sqlite3 *db;
     char *error;
     FILE *f;
     f = fopen("DatosUsuarios.txt", "a");
-    ////////////////////////////////////////////////BASE DE DATOS//////////////////////////////////////////////////////
     int baseDedatos = openDB(db);
     int pelicula = tablaPelicula(db, error);
     int horario = tablaHorario(db, error);
@@ -253,7 +235,6 @@ int __cdecl main(void)
     u = login(nombreUsuario, contraseyna, dniUsuario, correoUsuario, tlf, db);
     fclose(f);
 
-    ///////////////////////////////////////
     int seleccionPelicula = 0;
     int seleccionHorario = 0;
     int numEntradas = 0;
@@ -261,7 +242,6 @@ int __cdecl main(void)
     int numPeliculas = 0;
     const char *arrayPeliculas[6];
     const char *arrayHorarios[4];
-    ///////////////////////////////////////
 
     AsientoElegido *arrayAsientosElegidos;
     Pelicula p;
@@ -270,242 +250,6 @@ int __cdecl main(void)
     Seleccion s;
     int menu = 1;
     char volverMenu[MAX_PASSWORD_LENGTH];
-
-    // memset(recvBuf, 0, sizeof(recvBuf));
-
-    // int opcion = 1;
-    // while (opcion < 5 && opcion > 0)
-    // {
-    // std::cout << "\n\n///////////Menu Cineplex///////////\n\n";
-    // std::cout << "1. Visualizar datos del usuario\n\n";
-    // std::cout << "2. Efectuar una reserva \n\n";
-    // std::cout << "3. Visualizar las peliculas disponibles \n\n";
-    // std::cout << "4. Cerrar sesión\n\n";
-    // std::cout << "Seleccione la opción que desee: \n";
-
-    // /////////////OPCION MENU/////////////
-    // iResult = recv(ClientSocket, recvBuf, sizeof(recvBuf), 0);
-    // if (iResult == SOCKET_ERROR)
-    // {
-    //     printf("recv failed with error: %d\n", WSAGetLastError());
-    //     closesocket(ClientSocket);
-    //     WSACleanup();
-    //     return 1;
-    // }
-    // recvBuf[iResult] = '\0';
-
-    // std::cout << "Opcion recibida desde cliente" << recvBuf << std::endl;
-
-    // opcion = stoi(recvBuf);
-
-    // switch (opcion)
-
-    // {
-
-    // case 1:
-
-    //     ud = usuarioDatos(u.nombreUsuario, db);
-
-    //     // std::cout << "\n\nPresiona cualquier tecla y enter para volver al menú: ";
-    //     // std::cin.ignore();
-    //     // std::cin.get();
-
-    //     // iResult = recv(ClientSocket, volverMenu, sizeof(volverMenu), 0);
-
-    //     // if (iResult == SOCKET_ERROR)
-    //     // {
-    //     //     printf("recv failed with error: %d\n", WSAGetLastError());
-    //     //     closesocket(ClientSocket);
-    //     //     WSACleanup();
-    //     //     return 1;
-    //     // }
-
-    //     // volverMenu[iResult] = '\0';
-
-    //     // std::cout << "Opcion volver recibida desde cliente" << volverMenu << std::endl;
-
-    //     // menu = 2;
-    //     break;
-
-    // case 2:
-    //     std::cout << "\n\n///////////Bienvenido al gestor de reservas///////////\n\n";
-
-    //     seleccionPelicula = pantallaCartelera(arrayPeliculas, numPeliculas, db);
-    //     seleccionHorario = seleccionHorarios(seleccionPelicula, s.dia, arrayHorarios, arrayPeliculas);
-    //     confirmacionTicket(seleccionPelicula, arrayPeliculas, arrayHorarios, seleccionHorario);
-    //     ///////////////NUEVO NUMENTRADAS
-    //     iResult = recv(ClientSocket, recvBuf, recvbuflen, 0);
-
-    //     numEntradas = stoi(recvBuf);
-    //     ///////////////NUEVO NUMENTRADAS
-    //     arrayAsientosElegidos = new AsientoElegido[numEntradas];
-
-    //     generarSalaA(arrayAsientosElegidos, numEntradasSeleccionadas, numEntradas);
-
-    //     for (numEntradasSeleccionadas = 0; numEntradasSeleccionadas < numEntradas; numEntradasSeleccionadas++)
-    //     {
-
-    //         //////////NUEVO ELEGIRASIENTO
-    //         cout << endl
-    //              << endl;
-    //         cout << "Introduce un asiento del esquema de la sala, indicando primero la fila y luego columna (ej: 1A): " << endl;
-
-    //         iResult = recv(ClientSocket, recvBuf, recvbuflen, 0);
-    //         int numeroAsiento = recvBuf[0] - '0';
-    //         char letraAsiento = recvBuf[1];
-
-    //         elegirAsiento(arrayAsientosElegidos, numEntradasSeleccionadas, numeroAsiento, letraAsiento);
-    //         //////////NUEVO ELEGIRASIENTO
-
-    //         generarSalaA(arrayAsientosElegidos, numEntradasSeleccionadas, numEntradas);
-    //         numEntradasSeleccionadas = confirmacionAsiento(numEntradasSeleccionadas);
-    //     }
-
-    //     exportarDatos(numEntradasSeleccionadas, seleccionPelicula, arrayPeliculas);
-    //     // confirmacionDefinitiva(seleccionPelicula, arrayPeliculas, seleccionHorario, arrayHorarios, numEntradas, arrayAsientosElegidos, numEntradasSeleccionadas);
-
-    //     std::cout << "\n\nPresiona cualquier tecla y enter para volver al menú: ";
-    //     iResult = recv(ClientSocket, recvBuf, recvbuflen, 0);
-    //     break;
-
-    // case 3:
-
-    //     p = verPeliculas(db);
-    //     std::cout << "\n\nPresiona cualquier tecla y enter para volver al menú: ";
-    //     iResult = recv(ClientSocket, recvBuf, recvbuflen, 0);
-    //     break;
-
-    // case 4:
-    //     std::cout << "\n\n///////////Has cerrado sesión, hasta pronto!///////////\n\n";
-
-    //     opcion = 6;
-    //     iResult = shutdown(ClientSocket, SD_SEND);
-    //     if (iResult == SOCKET_ERROR)
-    //     {
-    //         printf("shutdown failed with error: %d\n", WSAGetLastError());
-    //         closesocket(ClientSocket);
-    //         WSACleanup();
-    //         return 1;
-    //     }
-
-    //     // cleanup
-    //     closesocket(ClientSocket);
-    //     WSACleanup();
-    //     break;
-
-    // default:
-
-    //     std::cout << "\n\n///////////La opción seleccionada no es válida///////////\n\n";
-    //     fflush(stdin);
-    //     break;
-    // }
-    // }
-
-    /////////////////// RECIBOS ///////////////////////////////
-
-    // Receive until the peer shuts down the connection
-
-    /////////////USUARIO/////////////
-
-    // iResult = recv(ClientSocket, recvUsur, recvbuflen, 0);
-    // if (iResult > 0)
-    // {
-    //     printf("Mensaje recibido en servidor: %s\n", recvUsur);
-
-    //     // Echo the buffer back to the sender
-    //     iSendResult = send(ClientSocket, recvUsur, iResult, 0);
-    //     if (iSendResult == SOCKET_ERROR)
-    //     {
-    //         printf("send failed with error: %d\n", WSAGetLastError());
-    //         closesocket(ClientSocket);
-    //         WSACleanup();
-    //         return 1;
-    //     }
-    //     printf("Bytes sent: %s\n", recvUsur);
-    // }
-    // else if (iResult == 0)
-    //     printf("Connection closing...\n");
-    // else
-    // {
-    //     printf("recv failed with error: %d\n", WSAGetLastError());
-    //     closesocket(ClientSocket);
-    //     WSACleanup();
-    //     return 1;
-    // }
-
-    // /////////////CONTRA/////////////
-
-    // iResult = recv(ClientSocket, recvContra, recvbuflen, 0);
-    // if (iResult > 0)
-    // {
-    //     printf("Mensaje recibido en servidor: %s\n", recvContra);
-
-    //     // Echo the buffer back to the sender
-    //     iSendResult = send(ClientSocket, recvContra, iResult, 0);
-    //     if (iSendResult == SOCKET_ERROR)
-    //     {
-    //         printf("send failed with error: %d\n", WSAGetLastError());
-    //         closesocket(ClientSocket);
-    //         WSACleanup();
-    //         return 1;
-    //     }
-    //     printf("Bytes sent: %s\n", recvContra);
-    // }
-    // else if (iResult == 0)
-    //     printf("Connection closing...\n");
-    // else
-    // {
-    //     printf("recv failed with error: %d\n", WSAGetLastError());
-    //     closesocket(ClientSocket);
-    //     WSACleanup();
-    //     return 1;
-    // }
-
-    // /////////////OPCION MENU/////////////
-
-    // iResult = recv(ClientSocket, recvBuf, recvbuflen, 0);
-    // if (iResult >= 0)
-    // {
-    //     printf("Mensaje recibido en servidor: %s\n", recvBuf);
-
-    //     // Echo the buffer back to the sender
-    //     iSendResult = send(ClientSocket, recvBuf, iResult, 0);
-    //     if (iSendResult == SOCKET_ERROR)
-    //     {
-    //         printf("send failed with error: %d\n", WSAGetLastError());
-    //         closesocket(ClientSocket);
-    //         WSACleanup();
-    //         return 1;
-    //     }
-    //     printf("Bytes sent: %s\n", recvBuf);
-    // }
-
-    // else
-    // {
-    //     printf("recv failed with error: %d\n", WSAGetLastError());
-    //     closesocket(ClientSocket);
-    //     WSACleanup();
-    //     return 1;
-    // }
-
-    // // shutdown the connection since we're done
-
-    // iResult = shutdown(ClientSocket, SD_SEND);
-    // if (iResult == SOCKET_ERROR)
-    // {
-    //     printf("shutdown failed with error: %d\n", WSAGetLastError());
-    //     closesocket(ClientSocket);
-    //     WSACleanup();
-    //     return 1;
-    // }
-
-    // // cleanup
-    // closesocket(ClientSocket);
-    // WSACleanup();
-
-    //     return 0;
-    // }
-
     int opcion = 1;
 
     do
@@ -553,12 +297,7 @@ int __cdecl main(void)
             break;
 
         case 2:
-            // std::cout << "\n\n///////////Bienvenido al gestor de reservas///////////\n\n";
 
-            // seleccionPelicula = pantallaCartelera(arrayPeliculas, numPeliculas, db);
-            // seleccionHorario = seleccionHorarios(seleccionPelicula, s.dia, arrayHorarios, arrayPeliculas);
-            // confirmacionTicket(seleccionPelicula, arrayPeliculas, arrayHorarios, seleccionHorario);
-            ///////////////NUEVO NUMENTRADAS
             iResult = recv(ClientSocket, recvBuf, sizeof(recvBuf), 0);
 
             if (iResult == SOCKET_ERROR)
@@ -568,8 +307,6 @@ int __cdecl main(void)
                 WSACleanup();
                 return 1;
             }
-
-            
 
             recvBuf[iResult] = '\0';
 
@@ -588,8 +325,6 @@ int __cdecl main(void)
             bucleWhile = stoi(recvBuf);
             cout << "el bucle es " << bucleWhile << endl;
 
-
-
             iResult = recv(ClientSocket, recvBuf, sizeof(recvBuf), 0);
             if (iResult == SOCKET_ERROR)
             {
@@ -601,7 +336,7 @@ int __cdecl main(void)
             recvBuf[iResult] = '\0';
 
             std::cout << "Eleccion de asiento recibido desde cliente" << std::endl;
-            std::cout << "El asinto en servidor es " << recvBuf<< std::endl;
+            std::cout << "El asiento en servidor es " << recvBuf << std::endl;
 
             iSendResult = send(ClientSocket, recvBuf, strlen(recvBuf), 0);
             if (iSendResult == SOCKET_ERROR)
@@ -612,39 +347,6 @@ int __cdecl main(void)
                 return 1;
             }
 
-            
-             
-            
-
-            ///////////////NUEVO NUMENTRADAS
-            // arrayAsientosElegidos = new AsientoElegido[numEntradas];
-
-            // generarSalaA(arrayAsientosElegidos, numEntradasSeleccionadas, numEntradas);
-
-            // for (numEntradasSeleccionadas = 0; numEntradasSeleccionadas < numEntradas; numEntradasSeleccionadas++)
-            // {
-
-            //     //////////NUEVO ELEGIRASIENTO
-            //     cout << endl
-            //          << endl;
-            //     cout << "Introduce un asiento del esquema de la sala, indicando primero la fila y luego columna (ej: 1A): " << endl;
-
-            //     iResult = recv(ClientSocket, recvBuf, recvbuflen, 0);
-            //     int numeroAsiento = recvBuf[0] - '0';
-            //     char letraAsiento = recvBuf[1];
-
-            //     elegirAsiento(arrayAsientosElegidos, numEntradasSeleccionadas, numeroAsiento, letraAsiento);
-            //     //////////NUEVO ELEGIRASIENTO
-
-            //     generarSalaA(arrayAsientosElegidos, numEntradasSeleccionadas, numEntradas);
-            //     numEntradasSeleccionadas = confirmacionAsiento(numEntradasSeleccionadas);
-            // }
-
-            // exportarDatos(numEntradasSeleccionadas, seleccionPelicula, arrayPeliculas);
-            // confirmacionDefinitiva(seleccionPelicula, arrayPeliculas, seleccionHorario, arrayHorarios, numEntradas, arrayAsientosElegidos, numEntradasSeleccionadas);
-
-            // std::cout << "\n\nPresiona cualquier tecla y enter para volver al menú: ";
-            // iResult = recv(ClientSocket, recvBuf, recvbuflen, 0);
             break;
 
         case 3:
@@ -663,7 +365,6 @@ int __cdecl main(void)
             break;
 
         case 4:
-            std::cout << "\n\n///////////Has cerrado sesión, hasta pronto!///////////\n\n";
 
             opcion = 6;
             iResult = shutdown(ClientSocket, SD_SEND);

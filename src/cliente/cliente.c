@@ -6,139 +6,146 @@
 #include "../../db/connect/connect.h"
 #include "../../sqlite3.h"
 
+void generarSalaA(AsientoElegido *arrayAsientosElegidos, int numEntradasSeleccionadas, int numEntradas)
+{
 
-void generarSalaA(AsientoElegido *arrayAsientosElegidos, int numEntradasSeleccionadas, int numEntradas){
+    printf("\n");
+    printf("Seleccione un asiento escribiendo su numero y letra: \n");
+    printf("Tenga en cuenta que los asientos marcados con 'X' no estan disponibles. \n ");
+    printf("\n");
 
-    	printf("\n");
-        printf("Seleccione un asiento escribiendo su numero y letra: \n");
-    	printf("Tenga en cuenta que los asientos marcados con 'X' no estan disponibles. \n ");
-        printf("\n");
+    int numFilas = 5;
+    int numAsientosXFila = 8;
 
-        int numFilas = 5; 
-        int numAsientosXFila = 8;
+    char **salaA;
+    salaA = (char **)malloc(sizeof(char *) * numFilas);
 
-        char **salaA;
-        salaA = (char**)malloc(sizeof(char*)*numFilas);
+    int i;
+    int i2;
+    int doble = 0;
 
-        int i;
-        int i2;
-        int doble =0;
+    for (i = 0; i < numFilas; i++)
+    {
+        salaA[i] = (char *)malloc(numAsientosXFila * (sizeof(char) * 3));
+        *salaA[i] = i + 49;
+        printf("%c     ", *salaA[i]);
 
-        for (i=0; i<numFilas; i++) {
-            salaA[i] = (char*)malloc(numAsientosXFila * (sizeof(char)*3));
-            *salaA[i] = i + 49;
-            printf("%c     ", *salaA[i]);
+        for (i2 = 0; i2 < numAsientosXFila; i2++)
+        {
 
-            for (i2=0; i2<numAsientosXFila; i2++){
+            for (int i3 = 0; i3 < numEntradasSeleccionadas + 1; i3++)
+            {
 
-               for (int i3 = 0; i3 < numEntradasSeleccionadas+1; i3++){
-
-                    if (i2 == (int) arrayAsientosElegidos[i3].letraAsientoElegido -65){
-                    if (i == arrayAsientosElegidos[i3].filaElegida -1){
-                    salaA[i][i2] = 88;
-                    printf("  [ %c ]  ", salaA[i][i2]);
-                    doble = 1;
-                    break;
-
-                    }else{
-                            salaA[i][i2] = 45;
-                            doble = 0;
+                if (i2 == (int)arrayAsientosElegidos[i3].letraAsientoElegido - 65)
+                {
+                    if (i == arrayAsientosElegidos[i3].filaElegida - 1)
+                    {
+                        salaA[i][i2] = 88;
+                        printf("  [ %c ]  ", salaA[i][i2]);
+                        doble = 1;
+                        break;
                     }
-
-                }else{            
+                    else
+                    {
                         salaA[i][i2] = 45;
                         doble = 0;
                     }
-             }
-
-             if(doble == 0){
-
-              printf("  [ %c ]  ", salaA[i][i2]);
-
-             }
-
-        }
-                printf("\n");
-
-        }
-        
-        printf("       ");
-        for (i2=0; i2<numAsientosXFila; i2++){
-                printf("   %c     ", i2 + 65 );
-
-                if (i2 == 3){
-
+                }
+                else
+                {
+                    salaA[i][i2] = 45;
+                    doble = 0;
                 }
             }
 
-        //Alonso - falta liberar los mallocs al final y los valores del asiento elegido (creo)
+            if (doble == 0)
+            {
 
+                printf("  [ %c ]  ", salaA[i][i2]);
+            }
+        }
+        printf("\n");
+    }
 
+    printf("       ");
+    for (i2 = 0; i2 < numAsientosXFila; i2++)
+    {
+        printf("   %c     ", i2 + 65);
 
+        if (i2 == 3)
+        {
+        }
+    }
 
+    // Alonso - falta liberar los mallocs al final y los valores del asiento elegido (creo)
 }
 
-void elegirAsiento(AsientoElegido *arrayAsientosElegidos, int numEntradasSeleccionadas, int numeroAsiento, char letraAsiento  ){
+void elegirAsiento(AsientoElegido *arrayAsientosElegidos, int numEntradasSeleccionadas, int numeroAsiento, char letraAsiento)
+{
 
-    int asientoValido =0;
+    int asientoValido = 0;
 
-    while(asientoValido == 0){
+    while (asientoValido == 0)
+    {
 
-            /*printf("\n");
+        /*printf("\n");
+        printf("\n");
+        printf("Introduce un asiento del esquema de la sala: \n");
+
+        scanf("%1d %1c", &arrayAsientosElegidos[numEntradasSeleccionadas].filaElegida, &arrayAsientosElegidos[numEntradasSeleccionadas].letraAsientoElegido);*/
+
+        arrayAsientosElegidos[numEntradasSeleccionadas].filaElegida = numeroAsiento;
+        arrayAsientosElegidos[numEntradasSeleccionadas].letraAsientoElegido = letraAsiento;
+
+        int arrLen = sizeof arrayAsientosElegidos / sizeof arrayAsientosElegidos[0];
+        int presenteEnArray = 0;
+
+        for (int i = 0; i < numEntradasSeleccionadas; i++)
+        {
+            if (arrayAsientosElegidos[i].filaElegida == arrayAsientosElegidos[numEntradasSeleccionadas].filaElegida)
+            {
+                if (arrayAsientosElegidos[i].letraAsientoElegido == arrayAsientosElegidos[numEntradasSeleccionadas].letraAsientoElegido)
+                {
+                    presenteEnArray = 1;
+                    break;
+                }
+            }
+        }
+
+        if (arrayAsientosElegidos[numEntradasSeleccionadas].filaElegida <= 5 && arrayAsientosElegidos[numEntradasSeleccionadas].filaElegida >= 1 && arrayAsientosElegidos[numEntradasSeleccionadas].letraAsientoElegido <= 72 && arrayAsientosElegidos[numEntradasSeleccionadas].letraAsientoElegido >= 65)
+        {
+            if (presenteEnArray == 0)
+            {
+                fflush(stdin);
+                printf("\n");
+                asientoValido = 1;
+
+                // printf("Has elegido el asiento: %d%c \n", arrayAsientosElegidos[0].filaElegida, arrayAsientosElegidos[0].letraAsientoElegido);
+            }
+            else
+            {
+                fflush(stdin);
+                printf("\n");
+                printf("\n");
+                printf("////////////////// Ese asiento ya esta elegido! Por favor selecione uno disponible del esquema de la sala. //////////////////");
+                printf("\n");
+                printf("\n");
+            }
+        }
+        else
+        {
+            fflush(stdin);
             printf("\n");
-            printf("Introduce un asiento del esquema de la sala: \n");
-
-            scanf("%1d %1c", &arrayAsientosElegidos[numEntradasSeleccionadas].filaElegida, &arrayAsientosElegidos[numEntradasSeleccionadas].letraAsientoElegido);*/
-
-            arrayAsientosElegidos[numEntradasSeleccionadas].filaElegida = numeroAsiento;
-            arrayAsientosElegidos[numEntradasSeleccionadas].letraAsientoElegido = letraAsiento;
-
-                    int arrLen = sizeof arrayAsientosElegidos / sizeof arrayAsientosElegidos[0];
-                    int presenteEnArray = 0; 
-
-                    for (int i = 0; i < numEntradasSeleccionadas; i++) {
-                        if (arrayAsientosElegidos[i].filaElegida == arrayAsientosElegidos[numEntradasSeleccionadas].filaElegida) { 
-                                                    if (arrayAsientosElegidos[i].letraAsientoElegido == arrayAsientosElegidos[numEntradasSeleccionadas].letraAsientoElegido) { 
-                            presenteEnArray = 1; 
-                            break;
-                             }
-                        }
-                    }
-
-                 if (arrayAsientosElegidos[numEntradasSeleccionadas].filaElegida <= 5 && arrayAsientosElegidos[numEntradasSeleccionadas].filaElegida >= 1 && arrayAsientosElegidos[numEntradasSeleccionadas].letraAsientoElegido <= 72 && arrayAsientosElegidos[numEntradasSeleccionadas].letraAsientoElegido >= 65 ){
-                                    if (presenteEnArray ==0){ 
-                    fflush(stdin);
-                    printf("\n");
-                    asientoValido=1;
-
-                    //printf("Has elegido el asiento: %d%c \n", arrayAsientosElegidos[0].filaElegida, arrayAsientosElegidos[0].letraAsientoElegido);
-
-                }else{
-                    fflush(stdin);
-                    printf("\n");
-                    printf("\n");
-                    printf("////////////////// Ese asiento ya esta elegido! Por favor selecione uno disponible del esquema de la sala. //////////////////");
-                    printf("\n");
-                    printf("\n");
-
-                                       
-
-                 }
-                }else{
-                    fflush(stdin);
-                    printf("\n");
-                    printf("\n");
-                    printf("////////////////// Ese asiento no existe! Por favor selecione una fila y letra visible del esquema de la sala. //////////////////");
-                    printf("\n");
-                    printf("\n"); 
-
-                    } 
-                    
-                
-         }
+            printf("\n");
+            printf("////////////////// Ese asiento no existe! Por favor selecione una fila y letra visible del esquema de la sala. //////////////////");
+            printf("\n");
+            printf("\n");
+        }
+    }
 }
 
-int confirmacionAsiento(int numEntradasSeleccionadas){
+int confirmacionAsiento(int numEntradasSeleccionadas)
+{
 
     char confirmacion;
 
@@ -148,101 +155,106 @@ int confirmacionAsiento(int numEntradasSeleccionadas){
     printf("Compruebe el nuevo esquema, es el asiento elegido correcto? (S-> Si, N-> No)\n");
     printf("////////////////////////////////////////////////////////////////////////////");
     printf("\n");
-    printf("\n");    
+    printf("\n");
 
     scanf("%c", &confirmacion);
 
-    if (confirmacion == 'S'){
-    printf("\n");
-    printf("\n");
-      printf("Genial, has elegido tu entrada %d.", numEntradasSeleccionadas+1);
-          printf("\n");
+    if (confirmacion == 'S')
+    {
+        printf("\n");
+        printf("\n");
+        printf("Genial, has elegido tu entrada %d.", numEntradasSeleccionadas + 1);
+        printf("\n");
+    }
+    else
+    {
+        printf("\n");
+        printf("\n");
+        printf("Tu seleccion ha sido borrada, vuelve a elegir el asiento.");
+        printf("\n");
 
-    }else{
-    printf("\n");
-    printf("\n");
-      printf("Tu seleccion ha sido borrada, vuelve a elegir el asiento.");
-          printf("\n");
-
-      numEntradasSeleccionadas = numEntradasSeleccionadas-1;
+        numEntradasSeleccionadas = numEntradasSeleccionadas - 1;
     }
 
     return numEntradasSeleccionadas;
-
 }
 
-
-int pantallaCartelera(const char **arrayPeliculas, int numPeliculas, sqlite3 *db){
+int pantallaCartelera(const char **arrayPeliculas, int numPeliculas, sqlite3 *db)
+{
 
     int seleccion;
     int cambiarDias = 1;
     int diaActual = 0;
     // Seleccion s;
 
+    while (cambiarDias == 1)
+    {
 
-    while (cambiarDias == 1){
+        char arrDias[7][10] = {"Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"};
 
-    char arrDias[7][10] = {"Lunes", "Martes", "Miercoles", "Jueves", "Viernes", "Sabado", "Domingo"};
+        printf("\n");
+        printf("\n");
+        printf("/////////// Estas visualizando las peliculas para el %s ///////////////////", arrDias[diaActual]);
+        printf("\n");
+        printf("\n");
+        printf("Para visualizar el siguiente dia, escriba 8 y presione Enter");
+        printf("\n");
+        printf("\n");
+        printf("Para visualizar el dia anterior, escriba 9 y presione Enter");
+        printf("\n");
+        printf("\n");
+        printf("Para elegir una pelicula, escriba su numero y presione Enter");
+        printf("\n");
+        printf("\n");
 
+        Pelicula p = verPeliculasCliente(db);
 
-    printf("\n");
-    printf("\n");
-    printf("/////////// Estas visualizando las peliculas para el %s ///////////////////", arrDias[diaActual]);
-    printf("\n");
-    printf("\n");
-    printf("Para visualizar el siguiente dia, escriba 8 y presione Enter");
-    printf("\n");
-    printf("\n");
-    printf("Para visualizar el dia anterior, escriba 9 y presione Enter");
-    printf("\n");
-    printf("\n");    
-    printf("Para elegir una pelicula, escriba su numero y presione Enter");
-    printf("\n");
-    printf("\n");  
+        printf("\n");
+        printf("\n");
 
-    Pelicula p = verPeliculasCliente(db);
+        printf("Escriba aqui su seleccion mediante el numero correspondiente: ");
+        scanf("%1d", &seleccion);
 
-    printf("\n");
-    printf("\n");
-    
-    
-    printf("Escriba aqui su seleccion mediante el numero correspondiente: "); 
-    scanf("%1d", &seleccion);
-
-    if (seleccion == 8){
-        if (diaActual == 0){
-            diaActual =6;
-        }else
+        if (seleccion == 8)
         {
-            --diaActual;
+            if (diaActual == 0)
+            {
+                diaActual = 6;
+            }
+            else
+            {
+                --diaActual;
+            }
         }
-        
-
-    }else if (seleccion == 9){
-         if (diaActual == 6){
-            diaActual =0;
-        }else
+        else if (seleccion == 9)
         {
-            ++diaActual;
+            if (diaActual == 6)
+            {
+                diaActual = 0;
+            }
+            else
+            {
+                ++diaActual;
+            }
         }
-
-    }else{
-        cambiarDias = 0;
+        else
+        {
+            cambiarDias = 0;
+        }
     }
-        }
-    
+
     return seleccion;
 }
 
+int seleccionHorarios(int seleccionPelicula, char *dia, const char **arrayHorarios, const char **arrayPeliculas)
+{
 
-int seleccionHorarios(int seleccionPelicula, char* dia, const char **arrayHorarios, const char **arrayPeliculas){
-    
     int seleccionHorario;
     int numHorarios = 4;
     Pelicula p;
     Horario h;
     sqlite3 *db;
-    
+
     printf("\n");
     printf("\n");
     printf("///////////Seleccione un horario///////////");
@@ -261,55 +273,38 @@ int seleccionHorarios(int seleccionPelicula, char* dia, const char **arrayHorari
     printf("\n\nEscriba 'v' y presione Enter para volver a la cartelera de peliculas.\n\n");
 
     return seleccionHorario;
-}   
+}
 
-void confirmacionTicket(int seleccionPelicula, const char **arrayPeliculas, const char **arrayHorarios, int seleccionHorario){    
+void confirmacionTicket(int seleccionPelicula, const char **arrayPeliculas, const char **arrayHorarios, int seleccionHorario)
+{
 
     int numEntradas;
     Horario h;
     Pelicula p;
-    sqlite3* db;
-    
-     p = obtenerPeliculaPorId(seleccionPelicula, db);
-     h = obtenerHorarioPorId(seleccionHorario, db);
+    sqlite3 *db;
+
+    p = obtenerPeliculaPorId(seleccionPelicula, db);
+    h = obtenerHorarioPorId(seleccionHorario, db);
     printf("\n \n ///////////Confirmacion de tickets///////////");
-     printf("\n \n Usted ha seleccionado: %s", p.nom_pel);
-     printf("\n \n Usted ha seleccionado el horario:  %s", h.HoraInicio);
+    printf("\n \n Usted ha seleccionado: %s", p.nom_pel);
+    printf("\n \n Usted ha seleccionado el horario:  %s", h.HoraInicio);
     // p = obtenerPrecioPorId(seleccionPelicula, db);
     printf("\n\n El precio de la entrada para esta pelicula es de %d euros", p.precio);
     printf("\n\n Indique el número de entradas que desea comprar: ");
-     }
+}
 
-    /*scanf("%1d", &numEntradas);
-    printf("\n\n Has seleccionado reservar %d entradas.", numEntradas);
-    int preciototal = p.precio*numEntradas;
-    printf("Precio total : %d", preciototal);
-    printf("\n\n Escriba 'v' y presione Enter para volver a la selección del horario");
-    free(p.nom_pel);
-    free(p.genero_pel);
-    free(p.duracion);
-    free(h.HoraInicio);
-    free(h.HoraFin);
-    free(h.nom_pel_horario);
 
-    return numEntradas;
+void confirmacionDefinitiva(int seleccionPelicula, const char **arrayPeliculas, int seleccionHorario, const char **arrayHorarios, int numEntradas, AsientoElegido **arrayAsientosElegidos, int numEntradasSeleccionadas)
+{
 
-}*/
-
-void confirmacionDefinitiva(int seleccionPelicula, const char **arrayPeliculas, int seleccionHorario, const char **arrayHorarios, int numEntradas, AsientoElegido **arrayAsientosElegidos, int numEntradasSeleccionadas){
-    
     printf("\n\n ///////////Confirmacion de tickets///////////");
     printf("\n\n Has seleccionado: \n\n La pelicula: %s", arrayPeliculas[seleccionPelicula]);
     printf("\n El horario: %s", arrayHorarios[seleccionHorario]);
     printf("\n Numero de entradas: %s", numEntradas);
-    //printf("\n Los asientos seleccionados: %1d %1c", arrayAsientosElegidos[numEntradasSeleccionadas].filaElegida, arrayAsientosElegidos[numEntradasSeleccionadas].letraAsientoElegido);
-    
-    
-
 }
 
-
-void exportarDatos(int numEntradasSeleccionadas, int seleccionPelicula, const char **arrayPeliculas){
+void exportarDatos(int numEntradasSeleccionadas, int seleccionPelicula, const char **arrayPeliculas)
+{
 
     FILE *historial;
 
@@ -317,8 +312,7 @@ void exportarDatos(int numEntradasSeleccionadas, int seleccionPelicula, const ch
     time_t t = time(NULL);
     struct tm tm = *localtime(&t);
 
-        printf("\n\n Preparando \n\n");
-
+    printf("\n\n Preparando \n\n");
 
     historial = fopen("../historial/historialCompras.txt", "a");
 
@@ -326,28 +320,24 @@ void exportarDatos(int numEntradasSeleccionadas, int seleccionPelicula, const ch
 
     fclose(historial);
 
-        printf("\n\n Listo \n\n");
-
-
-
+    printf("\n\n Listo \n\n");
 }
 
-void datosUsuario (char usuario[100], char dni[100], char correo[100], char telefono[100]){
-        printf("\n\n///////////Esta visualizando sus datos///////////\n\n");
-        printf("Usuario: %s", usuario);
-        printf("\n\nDNI: %s", dni);
-        printf("\n\nCorreo: %s", correo);
-        printf("\n\nTelefono de contacto: %s", telefono);
+void datosUsuario(char usuario[100], char dni[100], char correo[100], char telefono[100])
+{
+    printf("\n\n///////////Esta visualizando sus datos///////////\n\n");
+    printf("Usuario: %s", usuario);
+    printf("\n\nDNI: %s", dni);
+    printf("\n\nCorreo: %s", correo);
+    printf("\n\nTelefono de contacto: %s", telefono);
 }
 
-void datosPeliculas(const char **arrayPeliculas, int numPeliculas){
-        printf("\n\n///////////Esta visualizando todas las peliculas disponibles actualmente///////////\n\n");
-        for (int i = 1; i <= numPeliculas; i++) {
+void datosPeliculas(const char **arrayPeliculas, int numPeliculas)
+{
+    printf("\n\n///////////Esta visualizando todas las peliculas disponibles actualmente///////////\n\n");
+    for (int i = 1; i <= numPeliculas; i++)
+    {
 
-            printf("%d %s \n", i, arrayPeliculas[i]);
-        }
-
-
-
+        printf("%d %s \n", i, arrayPeliculas[i]);
+    }
 }
-
