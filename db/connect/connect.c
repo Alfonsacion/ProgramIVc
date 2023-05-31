@@ -207,7 +207,7 @@ void agregarUsuario(char *username, char *password, char *dni, char *correo, cha
   sqlite3_close(db);
 }
 
-void eliminarUsuario(const char* nombreUsuario, sqlite3* db)
+void eliminarUsuario(char* username, sqlite3* db)
 {
     int rc6 = sqlite3_open("baseDeDatosCine.sqlite", &db);
     sqlite3_stmt* stmt6;
@@ -221,7 +221,7 @@ void eliminarUsuario(const char* nombreUsuario, sqlite3* db)
         printf("%s\n", sqlite3_errmsg(db));
     }
 
-    result = sqlite3_bind_text(stmt6, 1, nombreUsuario, strlen(nombreUsuario), SQLITE_STATIC);
+    result = sqlite3_bind_text(stmt6, 1, username, strlen(username), SQLITE_STATIC);
 
     if (result != SQLITE_OK)
     {

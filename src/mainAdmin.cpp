@@ -69,6 +69,8 @@ int mainAdmin(void)
 				cout<<"Dime el correo del usuario que quieres anyadir: "<<endl; cin>>correo;
 				cout<<"Dime el tlfn del usuario que quieres anyadir: "<<endl; cin>>tlf;
 
+				agregarUsuario(nomUsuario, contrasenya, dni, correo, tlf, db);
+				
 
                 cout<< endl << endl << "Presiona cualquier tecla y enter para volver al menu: ";
                 scanf("%d", &opcion);
@@ -76,9 +78,12 @@ int mainAdmin(void)
 				break;
 
             case 3:
-				
+				char* nomUsuario;
                 cout<< endl << endl << "///////////¿Que cliente desea eliminar?///////////" << endl << endl;
+				cout<<"Dime el nombre del usuario que quieres eliminar: "<<endl; cin>>nomUsuario;
 				
+				//ELIMINAR USUARIO eliminarUsuario(nomUsuario, db);
+			
 
                 cout<< endl << endl << "Presiona cualquier tecla y enter para volver al menu: ";
                 scanf("%d", &opcion);
