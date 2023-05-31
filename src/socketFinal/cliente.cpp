@@ -11,9 +11,6 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <iostream>
-#include <limits>
-#include <ios>
-
 #include "../../struct.h"
 #include <string.h>
 
@@ -319,7 +316,6 @@ int __cdecl main(int argc, char **argv)
                 cout << "Introduce un asiento del esquema de la sala, indicando primero la fila y luego columna (ej: 1A): " << endl;
 
 
-                
                 cin >> asiento;
                 const char *asientoAelegir = asiento.c_str();
                 cout << "primero: "<< asientoAelegir << endl;
@@ -343,7 +339,8 @@ int __cdecl main(int argc, char **argv)
 
                 generarSalaA(arrayAsientosElegidos, numEntradasSeleccionadas, numEntradas);
                 numEntradasSeleccionadas = confirmacionAsiento(numEntradasSeleccionadas);
-                cin.ignore(numeric_limits<streamsize>::max(), '\n');
+                cin.ignore(10000,'\n');
+                
             }
 
             exportarDatos(numEntradasSeleccionadas, seleccionPelicula, arrayPeliculas);
