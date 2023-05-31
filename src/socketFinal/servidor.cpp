@@ -246,7 +246,6 @@ int __cdecl main(void)
 
             printf("Contrasena recibida desde cliente: %s\n", contraseyna);
             mandar = false;
-            // u = login(nombreUsuario, contraseyna, dniUsuario, correoUsuario, tlf, db);
         }
     }
     mandar = false;
@@ -510,15 +509,6 @@ int __cdecl main(void)
 
     do
     {
-
-        // std::cout << "\n\n///////////Menu Cineplex///////////\n\n";
-        // std::cout << "1. Visualizar datos del usuario\n\n";
-        // std::cout << "2. Efectuar una reserva \n\n";
-        // std::cout << "3. Visualizar las peliculas disponibles \n\n";
-        // std::cout << "4. Cerrar sesión\n\n";
-        // std::cout << "Seleccione la opción que desee: \n";
-
-        /////////////OPCION MENU/////////////
         iResult = recv(ClientSocket, recvBuf, sizeof(recvBuf), 0);
         if (iResult == SOCKET_ERROR)
         {
@@ -562,40 +552,82 @@ int __cdecl main(void)
             break;
 
         case 2:
-            std::cout << "\n\n///////////Bienvenido al gestor de reservas///////////\n\n";
+            // std::cout << "\n\n///////////Bienvenido al gestor de reservas///////////\n\n";
 
-            seleccionPelicula = pantallaCartelera(arrayPeliculas, numPeliculas, db);
-            seleccionHorario = seleccionHorarios(seleccionPelicula, s.dia, arrayHorarios, arrayPeliculas);
-            confirmacionTicket(seleccionPelicula, arrayPeliculas, arrayHorarios, seleccionHorario);
+            // seleccionPelicula = pantallaCartelera(arrayPeliculas, numPeliculas, db);
+            // seleccionHorario = seleccionHorarios(seleccionPelicula, s.dia, arrayHorarios, arrayPeliculas);
+            // confirmacionTicket(seleccionPelicula, arrayPeliculas, arrayHorarios, seleccionHorario);
             ///////////////NUEVO NUMENTRADAS
-            iResult = recv(ClientSocket, recvBuf, recvbuflen, 0);
-
-            numEntradas = stoi(recvBuf);
-            ///////////////NUEVO NUMENTRADAS
-            arrayAsientosElegidos = new AsientoElegido[numEntradas];
-
-            generarSalaA(arrayAsientosElegidos, numEntradasSeleccionadas, numEntradas);
-
-            for (numEntradasSeleccionadas = 0; numEntradasSeleccionadas < numEntradas; numEntradasSeleccionadas++)
+            iResult = recv(ClientSocket, recvBuf, sizeof(recvBuf), 0);
+            if (iResult == SOCKET_ERROR)
             {
+                printf("recv failed with error: %d\n", WSAGetLastError());
+                closesocket(ClientSocket);
+                WSACleanup();
+                return 1;
+            }
+            recvBuf[iResult] = '\0';
 
-                //////////NUEVO ELEGIRASIENTO
-                cout << endl
-                     << endl;
-                cout << "Introduce un asiento del esquema de la sala, indicando primero la fila y luego columna (ej: 1A): " << endl;
+            std::cout << "Numero de entradas recibida desde cliente" << std::endl;
 
-                iResult = recv(ClientSocket, recvBuf, recvbuflen, 0);
-                int numeroAsiento = recvBuf[0] - '0';
-                char letraAsiento = recvBuf[1];
-
-                elegirAsiento(arrayAsientosElegidos, numEntradasSeleccionadas, numeroAsiento, letraAsiento);
-                //////////NUEVO ELEGIRASIENTO
-
-                generarSalaA(arrayAsientosElegidos, numEntradasSeleccionadas, numEntradas);
-                numEntradasSeleccionadas = confirmacionAsiento(numEntradasSeleccionadas);
+            iSendResult = send(ClientSocket, recvBuf, strlen(recvBuf), 0);
+            if (iSendResult == SOCKET_ERROR)
+            {
+                printf("send failed with error: %d\n", WSAGetLastError());
+                closesocket(ClientSocket);
+                WSACleanup();
+                return 1;
             }
 
-            exportarDatos(numEntradasSeleccionadas, seleccionPelicula, arrayPeliculas);
+          //  memset(recvBuf, 0, sizeof(recvBuf));
+
+            iResult = recv(ClientSocket, recvBuf, sizeof(recvBuf), 0);
+            if (iResult == SOCKET_ERROR)
+            {
+                printf("recv failed with error: %d\n", WSAGetLastError());
+                closesocket(ClientSocket);
+                WSACleanup();
+                return 1;
+            }
+            recvBuf[iResult] = '\0';
+
+            std::cout << "Eleccion de asiento recibido desde cliente" << std::endl;
+            std::cout << "El asinto en servidor es " << recvBuf<< std::endl;
+
+            iSendResult = send(ClientSocket, recvBuf, strlen(recvBuf), 0);
+            if (iSendResult == SOCKET_ERROR)
+            {
+                printf("send failed with error: %d\n", WSAGetLastError());
+                closesocket(ClientSocket);
+                WSACleanup();
+                return 1;
+            }
+
+            ///////////////NUEVO NUMENTRADAS
+            // arrayAsientosElegidos = new AsientoElegido[numEntradas];
+
+            // generarSalaA(arrayAsientosElegidos, numEntradasSeleccionadas, numEntradas);
+
+            // for (numEntradasSeleccionadas = 0; numEntradasSeleccionadas < numEntradas; numEntradasSeleccionadas++)
+            // {
+
+            //     //////////NUEVO ELEGIRASIENTO
+            //     cout << endl
+            //          << endl;
+            //     cout << "Introduce un asiento del esquema de la sala, indicando primero la fila y luego columna (ej: 1A): " << endl;
+
+            //     iResult = recv(ClientSocket, recvBuf, recvbuflen, 0);
+            //     int numeroAsiento = recvBuf[0] - '0';
+            //     char letraAsiento = recvBuf[1];
+
+            //     elegirAsiento(arrayAsientosElegidos, numEntradasSeleccionadas, numeroAsiento, letraAsiento);
+            //     //////////NUEVO ELEGIRASIENTO
+
+            //     generarSalaA(arrayAsientosElegidos, numEntradasSeleccionadas, numEntradas);
+            //     numEntradasSeleccionadas = confirmacionAsiento(numEntradasSeleccionadas);
+            // }
+
+            // exportarDatos(numEntradasSeleccionadas, seleccionPelicula, arrayPeliculas);
             // confirmacionDefinitiva(seleccionPelicula, arrayPeliculas, seleccionHorario, arrayHorarios, numEntradas, arrayAsientosElegidos, numEntradasSeleccionadas);
 
             // std::cout << "\n\nPresiona cualquier tecla y enter para volver al menú: ";
@@ -603,25 +635,8 @@ int __cdecl main(void)
             break;
 
         case 3:
-            const char* mensajeEnviar;
+            const char *mensajeEnviar;
             mensajeEnviar = verPeliculas(db);
-            // char* peliculas;
-            // for (int i = 0; i < 4; i++)
-            // {
-            //     strcpy(peliculas, "");
-            //     strcat(peliculas, "ID: ");
-            //     strcat(peliculas, std::to_string(p[i].id).c_str());
-            //     strcat(peliculas, "\n");
-            //     strcat(peliculas, "Nombre: ");
-            //     strcat(peliculas, p[i].nom_pel);
-            //     strcat(peliculas, "\n");
-            //     strcat(peliculas, "Genero: ");
-            //     strcat(peliculas, p[i].genero_pel);
-            //     strcat(peliculas, "\n");
-            //     strcat(peliculas, "Duracion: ");
-            //     strcat(peliculas, p[i].duracion);
-            //     strcat(peliculas, "\n\n");
-            // }
 
             iSendResult = send(ClientSocket, mensajeEnviar, strlen(mensajeEnviar), 0);
             if (iSendResult == SOCKET_ERROR)
@@ -632,8 +647,6 @@ int __cdecl main(void)
                 return 1;
             }
 
-            // std::cout << "\n\nPresiona cualquier tecla y enter para volver al menú: ";
-            // iResult = recv(ClientSocket, recvBuf, recvbuflen, 0);
             break;
 
         case 4:
@@ -674,7 +687,7 @@ int __cdecl main(void)
 
 // g++ -o main.exe servidor.cpp ../cliente/cliente.o ../../db/connect/connect.o ../../sqlite3.o -lws2_32
 
-// g++ -o main.exe servidor.cpp ../cliente/cliente.o ../../db/connect/connect.o ../../sqlite3.o -lws2_32
+// g++ -o cliente.exe cliente.cpp ../cliente/cliente.o ../../db/connect/connect.o ../../sqlite3.o -lws2_32
 
 // gcc -c -o ../../db/connect/connect.o ../../db/connect/connect.c
 

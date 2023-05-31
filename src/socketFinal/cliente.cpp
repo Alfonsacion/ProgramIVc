@@ -11,7 +11,27 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <iostream>
+#include "../../struct.h"
+#include <string.h>
+
 using namespace std;
+
+extern "C"
+{
+
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include "../../sqlite3.h"
+#include "../../struct.h"
+#include "../cliente/cliente.h"
+#include "../../db/connect/connect.h"
+
+    // #include "../../sqlite3.h"
+    // #include "../../struct.h"
+    // #include "../cliente/cliente.h"
+    // #include "../../db/connect/connect.h"
+}
 
 // Need to link with Ws2_32.lib, Mswsock.lib, and Advapi32.lib
 #pragma comment(lib, "Ws2_32.lib")
@@ -36,6 +56,8 @@ int __cdecl main(int argc, char **argv)
     string strBuf = "2";
     string strOpcionMenu;
     string tecla;
+    string asiento;
+    Usuario u;
 
     ////////////////// A RECIBIR ///////////////////////
 
@@ -244,9 +266,92 @@ int __cdecl main(int argc, char **argv)
             return 1;
         }
 
+        if (opcion == 2)
+        {
+
+            std::cout << "\n\n///////////Bienvenido al gestor de reservas///////////\n\n";
+
+            int seleccionPelicula = 0;
+            int seleccionHorario = 0;
+            int numEntradas = 0;
+            int numEntradasSeleccionadas = 0;
+            int numPeliculas = 0;
+            const char *arrayPeliculas[6];
+            const char *arrayHorarios[4];
+            AsientoElegido *arrayAsientosElegidos;
+            Seleccion s;
+            sqlite3 *db;
+            int asientos = 0;
+
+            seleccionPelicula = pantallaCartelera(arrayPeliculas, numPeliculas, db);
+            seleccionHorario = seleccionHorarios(seleccionPelicula, s.dia, arrayHorarios, arrayPeliculas);
+            confirmacionTicket(seleccionPelicula, arrayPeliculas, arrayHorarios, seleccionHorario);
+            ///////////////NUEVO NUMENTRADAS
+
+            cin >> numEntradas;
+            const char *entradas = std::to_string(numEntradas).c_str();
+            iResult = send(ConnectSocket, entradas, (int)strlen(entradas), 0);
+            if (iResult == SOCKET_ERROR)
+            {
+                printf("send failed with error: %s\n", WSAGetLastError());
+                closesocket(ConnectSocket);
+                WSACleanup();
+                return 1;
+            }
+
+            iResult = recv(ConnectSocket, recvBuf, recvbuflen, 0);
+
+            numEntradas = stoi(recvBuf);
+            ///////////////NUEVO NUMENTRADAS
+            arrayAsientosElegidos = new AsientoElegido[numEntradas];
+
+            generarSalaA(arrayAsientosElegidos, numEntradasSeleccionadas, numEntradas);
+
+            for (numEntradasSeleccionadas = 0; numEntradasSeleccionadas < numEntradas; numEntradasSeleccionadas++)
+            {
+
+                //////////NUEVO ELEGIRASIENTO
+                cout << endl
+                     << endl;
+                cout << "Introduce un asiento del esquema de la sala, indicando primero la fila y luego columna (ej: 1A): " << endl;
+
+
+                
+                cin >> asiento;
+                const char *asientoAelegir = asiento.c_str();
+                cout << "primero: "<< asientoAelegir << endl;
+                iResult = send(ConnectSocket, asientoAelegir, (int)strlen(asientoAelegir), 0);
+                if (iResult == SOCKET_ERROR)
+                {
+                    printf("send failed with error: %s\n", WSAGetLastError());
+                    closesocket(ConnectSocket);
+                    WSACleanup();
+                    return 1;
+                }
+
+                iResult = recv(ConnectSocket, recvBuf, recvbuflen, 0);
+                int numeroAsiento = recvBuf[0] - '0';
+                char letraAsiento = recvBuf[1];
+
+                cout << "El asiento es " << numeroAsiento << " con letra " << letraAsiento << endl;
+                cin >> asientos;
+
+                elegirAsiento(arrayAsientosElegidos, numEntradasSeleccionadas, numeroAsiento, letraAsiento);
+                //////////NUEVO ELEGIRASIENTO
+
+                generarSalaA(arrayAsientosElegidos, numEntradasSeleccionadas, numEntradas);
+                numEntradasSeleccionadas = confirmacionAsiento(numEntradasSeleccionadas);
+            }
+
+            exportarDatos(numEntradasSeleccionadas, seleccionPelicula, arrayPeliculas);
+            // confirmacionDefinitiva(seleccionPelicula, arrayPeliculas, seleccionHorario, arrayHorarios, numEntradas, arrayAsientosElegidos, numEntradasSeleccionadas);
+
+            // std::cout << "\n\nPresiona cualquier tecla y enter para volver al menú: ";
+            // iResult = recv(ClientSocket, recvBuf, recvbuflen, 0);
+            break;
+        }
+
     std:
-        cout << endl
-             << "///////////Esta visualizando sus datos///////////" << endl;
 
         iResult = recv(ConnectSocket, recvBuf, sizeof(recvBuf), 0);
 
@@ -260,7 +365,13 @@ int __cdecl main(int argc, char **argv)
         recvBuf[iResult] = '\0';
         printf(recvBuf);
 
-    } while (opcion >= 1 && opcion <= 4);
+        if (opcion == 4)
+        {
+            std::cout << "\n\n///////////Has cerrado sesión, hasta pronto!///////////\n\n";
+            closesocket(ConnectSocket);
+        }
+
+    } while (opcion >= 1 && opcion < 4);
 
     // printf("Opcion enviada desde cliente: %s\n", opcionMenu);
 

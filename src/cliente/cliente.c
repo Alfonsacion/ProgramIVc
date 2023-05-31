@@ -200,7 +200,7 @@ int pantallaCartelera(const char **arrayPeliculas, int numPeliculas, sqlite3 *db
     printf("\n");
     printf("\n");  
 
-    Pelicula p = verPeliculas(db);
+    Pelicula p = verPeliculasCliente(db);
 
     printf("\n");
     printf("\n");

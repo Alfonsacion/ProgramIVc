@@ -347,126 +347,56 @@ UsuarioDatos usuarioDatos(char *nombreUsuario, sqlite3 *db)
   return ud;
 }
 
-// Pelicula verPeliculas(sqlite3 *db)
-// {
-//   Pelicula p;
+Pelicula verPeliculasCliente(sqlite3 *db)
+{
+  Pelicula p;
 
-//   int rc2 = sqlite3_open("baseDeDatosCine.sqlite", &db);
-//   sqlite3_stmt *stmt2;
+  int rc2 = sqlite3_open("baseDeDatosCine.sqlite", &db);
+  sqlite3_stmt *stmt2;
 
-//   const char *sql2 = "SELECT id_pel, nom_pel, genero_pel, duracion_pel FROM pelicula";
-//   int result = sqlite3_prepare_v2(db, sql2, -1, &stmt2, NULL);
+  const char *sql2 = "SELECT id_pel, nom_pel, genero_pel, duracion_pel FROM pelicula";
+  int result = sqlite3_prepare_v2(db, sql2, -1, &stmt2, NULL);
 
-//   if (result != SQLITE_OK)
-//   {
-//     printf("Error al preparar la consulta\n");
-//     printf("%s\n", sqlite3_errmsg(db));
-//   }
+  if (result != SQLITE_OK)
+  {
+    printf("Error al preparar la consulta\n");
+    printf("%s\n", sqlite3_errmsg(db));
+  }
 
-//   do
-//   {
-//     result = sqlite3_step(stmt2);
+  do
+  {
+    result = sqlite3_step(stmt2);
 
-//     if (result == SQLITE_ROW)
-//     {
+    if (result == SQLITE_ROW)
+    {
 
-//     p.id = sqlite3_column_int(stmt2, 0);
-//     p.nom_pel = malloc(sizeof(char) * (strlen(sqlite3_column_text(stmt2, 1))+1));
-//     strcpy(p.nom_pel, (char *)sqlite3_column_text(stmt2, 1));
+    p.id = sqlite3_column_int(stmt2, 0);
+    p.nom_pel = malloc(sizeof(char) * (strlen(sqlite3_column_text(stmt2, 1))+1));
+    strcpy(p.nom_pel, (char *)sqlite3_column_text(stmt2, 1));
 
-//     p.genero_pel = malloc(sizeof(char) * (strlen(sqlite3_column_text(stmt2, 2))+1));
-//     strcpy(p.genero_pel, (char *)sqlite3_column_text(stmt2, 2));
+    p.genero_pel = malloc(sizeof(char) * (strlen(sqlite3_column_text(stmt2, 2))+1));
+    strcpy(p.genero_pel, (char *)sqlite3_column_text(stmt2, 2));
 
-//     p.duracion = malloc(sizeof(char) * (strlen(sqlite3_column_text(stmt2, 3))+1));
-//     strcpy(p.duracion, (char *)sqlite3_column_text(stmt2, 3));
-//     printf(" %d [Pelicula: %s] [Genero: %s] [Duracion: %s]\n", p.id, p.nom_pel, p.genero_pel, p.duracion);
-//     }
-//   } while (result == SQLITE_ROW);
+    p.duracion = malloc(sizeof(char) * (strlen(sqlite3_column_text(stmt2, 3))+1));
+    strcpy(p.duracion, (char *)sqlite3_column_text(stmt2, 3));
+    printf(" %d [Pelicula: %s] [Genero: %s] [Duracion: %s]\n", p.id, p.nom_pel, p.genero_pel, p.duracion);
+    }
+  } while (result == SQLITE_ROW);
 
-//   result = sqlite3_finalize(stmt2);
+  result = sqlite3_finalize(stmt2);
 
-//   if (result != SQLITE_OK)
-//   {
-//     printf("Error al cerrar la consulta\n");
-//     printf("%s\n", sqlite3_errmsg(db));
-//   }
+  if (result != SQLITE_OK)
+  {
+    printf("Error al cerrar la consulta\n");
+    printf("%s\n", sqlite3_errmsg(db));
+  }
 
-//   sqlite3_close(db);
+  sqlite3_close(db);
 
-//   return p;
-// }
+  return p;
+}
 
 //////SUGERENCIA ANE///////////
-
-// char *verPeliculas(sqlite3 *db)
-// {
-//   char *mensajeEnviar = "CARTELERA: \n";
-//   Pelicula p;
-
-//   int rc2 = sqlite3_open("baseDeDatosCine.sqlite", &db);
-//   sqlite3_stmt *stmt2;
-
-//   const char *sql2 = "SELECT id_pel, nom_pel, genero_pel, duracion_pel FROM pelicula";
-//   int result = sqlite3_prepare_v2(db, sql2, -1, &stmt2, NULL);
-
-//   if (result != SQLITE_OK)
-//   {
-//     printf("Error al preparar la consulta\n");
-//     printf("%s\n", sqlite3_errmsg(db));
-//   }
-
-//   do
-//   {
-//     result = sqlite3_step(stmt2);
-
-//     if (result == SQLITE_ROW)
-//     {
-
-//       p.id = sqlite3_column_int(stmt2, 0);
-//       p.nom_pel = malloc(sizeof(char) * (strlen(sqlite3_column_text(stmt2, 1)) + 1));
-//       strcpy(p.nom_pel, (char *)sqlite3_column_text(stmt2, 1));
-
-//       p.genero_pel = malloc(sizeof(char) * (strlen(sqlite3_column_text(stmt2, 2)) + 1));
-//       strcpy(p.genero_pel, (char *)sqlite3_column_text(stmt2, 2));
-
-//       p.duracion = malloc(sizeof(char) * (strlen(sqlite3_column_text(stmt2, 3)) + 1));
-//       strcpy(p.duracion, (char *)sqlite3_column_text(stmt2, 3));
-
-
-//       strcpy(mensajeEnviar, "");
-//       strcat(mensajeEnviar, "ID: ");
-//       char* idEnChar;
-//       sprintf(idEnChar, "%d", p.id);
-//       strcat(mensajeEnviar, idEnChar);
-//       strcat(mensajeEnviar, "\n");
-//       strcat(mensajeEnviar, "Nombre: ");
-//       strcat(mensajeEnviar, p.nom_pel);
-//       strcat(mensajeEnviar, "\n");
-//       strcat(mensajeEnviar, "Genero: ");
-//       strcat(mensajeEnviar, p.genero_pel);
-//       strcat(mensajeEnviar, "\n");
-//       strcat(mensajeEnviar, "Duracion: ");
-//       strcat(mensajeEnviar, p.duracion);
-//       strcat(mensajeEnviar, "\n\n");
-
-//       // printf(" %d [Pelicula: %s] [Genero: %s] [Duracion: %s]\n", p.id, p.nom_pel, p.genero_pel, p.duracion);
-//     }
-//   } while (result == SQLITE_ROW);
-
-//   result = sqlite3_finalize(stmt2);
-
-//   if (result != SQLITE_OK)
-//   {
-//     printf("Error al cerrar la consulta\n");
-//     printf("%s\n", sqlite3_errmsg(db));
-//   }
-
-//   sqlite3_close(db);
-
-//   return strdup(mensajeEnviar);
-// }
-
-
 
 char *verPeliculas(sqlite3 *db)
 {
@@ -831,6 +761,11 @@ UsuarioDatos verListaUsuarios(sqlite3 *db)
   sqlite3_close(db);
 
   return ud;
+}
+
+void anyadirCliente(char* nom, sqlite3* db)
+{
+  int result = sqlite3_open("baseDeDatosCine.sqlite", &db);
 }
 
 void anyadirNombrePelicula(char *nom_pel, sqlite3 *db)
