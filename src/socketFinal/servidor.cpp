@@ -140,6 +140,7 @@ int __cdecl main(void)
     int horario = tablaHorario(db, error);
     int fecha = tablaFecha(db, error);
     int usuarioTest = tablaUsuario(db, error);
+    int entradasBucle;
 
     char nombreUsuario[MAX_PASSWORD_LENGTH];
     char contraseyna[MAX_PASSWORD_LENGTH];
@@ -569,6 +570,7 @@ int __cdecl main(void)
             recvBuf[iResult] = '\0';
 
             std::cout << "Numero de entradas recibida desde cliente" << std::endl;
+            entradasBucle = stoi(recvBuf);
 
             iSendResult = send(ClientSocket, recvBuf, strlen(recvBuf), 0);
             if (iSendResult == SOCKET_ERROR)
@@ -581,6 +583,7 @@ int __cdecl main(void)
 
           //  memset(recvBuf, 0, sizeof(recvBuf));
 
+            while (entradasBucle > 0){
             iResult = recv(ClientSocket, recvBuf, sizeof(recvBuf), 0);
             if (iResult == SOCKET_ERROR)
             {
@@ -602,7 +605,8 @@ int __cdecl main(void)
                 WSACleanup();
                 return 1;
             }
-
+            entradasBucle -=1;
+            }
             ///////////////NUEVO NUMENTRADAS
             // arrayAsientosElegidos = new AsientoElegido[numEntradas];
 
@@ -683,13 +687,13 @@ int __cdecl main(void)
 
 // https://stackoverflow.com/questions/5430688/compiling-c-and-c-files-together-using-gcc
 
-// g++ -o main.exe servidor.cpp cliente.o connect.o sqlite3.o -lws2_32
+/* g++ -o main.exe servidor.cpp cliente.o connect.o sqlite3.o -lws2_32
 
-// g++ -o main.exe servidor.cpp ../cliente/cliente.o ../../db/connect/connect.o ../../sqlite3.o -lws2_32
+  g++ -o main.exe servidor.cpp ../cliente/cliente.o ../../db/connect/connect.o ../../sqlite3.o -lws2_32
 
-// g++ -o cliente.exe cliente.cpp ../cliente/cliente.o ../../db/connect/connect.o ../../sqlite3.o -lws2_32
+  g++ -o cliente.exe cliente.cpp ../cliente/cliente.o ../../db/connect/connect.o ../../sqlite3.o -lws2_32
 
-// gcc -c -o ../../db/connect/connect.o ../../db/connect/connect.c
+  gcc -c -o ../../db/connect/connect.o ../../db/connect/connect.c */
 
 // gcc -c -o ../cliente/cliente.o ../cliente/cliente.c
 

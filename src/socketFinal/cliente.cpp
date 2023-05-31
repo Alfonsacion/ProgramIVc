@@ -11,6 +11,9 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <iostream>
+#include <limits>
+#include <ios>
+
 #include "../../struct.h"
 #include <string.h>
 
@@ -334,13 +337,13 @@ int __cdecl main(int argc, char **argv)
                 char letraAsiento = recvBuf[1];
 
                 cout << "El asiento es " << numeroAsiento << " con letra " << letraAsiento << endl;
-                cin >> asientos;
 
                 elegirAsiento(arrayAsientosElegidos, numEntradasSeleccionadas, numeroAsiento, letraAsiento);
                 //////////NUEVO ELEGIRASIENTO
 
                 generarSalaA(arrayAsientosElegidos, numEntradasSeleccionadas, numEntradas);
                 numEntradasSeleccionadas = confirmacionAsiento(numEntradasSeleccionadas);
+                cin.ignore(numeric_limits<streamsize>::max(), '\n');
             }
 
             exportarDatos(numEntradasSeleccionadas, seleccionPelicula, arrayPeliculas);
