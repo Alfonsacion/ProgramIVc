@@ -82,8 +82,7 @@ int mainAdmin(void)
                 cout<< endl << endl << "///////////¿Que cliente desea eliminar?///////////" << endl << endl;
 				cout<<"Dime el nombre del usuario que quieres eliminar: "<<endl; cin>>nomUsuario;
 				
-				//ELIMINAR USUARIO eliminarUsuario(nomUsuario, db);
-			
+				eliminarUsuario(nomUsuario, db);
 
                 cout<< endl << endl << "Presiona cualquier tecla y enter para volver al menu: ";
                 scanf("%d", &opcion);
