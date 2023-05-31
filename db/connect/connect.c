@@ -768,6 +768,8 @@ void anyadirCliente(char* nom, sqlite3* db)
   int result = sqlite3_open("baseDeDatosCine.sqlite", &db);
 }
 
+
+
 void anyadirNombrePelicula(char *nom_pel, sqlite3 *db)
 {
   int result = sqlite3_open("baseDeDatosCine.sqlite", &db);

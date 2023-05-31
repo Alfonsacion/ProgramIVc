@@ -101,13 +101,13 @@ void Administrador::anyadirAdministrador(const char* nombre, const char * mail, 
     void anyadirPelicula()
     {
         sqlite3* db;
-        // Pelicula p = anyadirNombrePelicula(db);
+        Pelicula p = anyadirNombrePelicula(db);
     }
 
     void eliminarPelicula()
     {
         sqlite3* db;
-        // Pelicula p = eliminarPeliculas(db);
+        Pelicula p = eliminarPeliculas(db);
     }
 
     void anyadirCliente()
