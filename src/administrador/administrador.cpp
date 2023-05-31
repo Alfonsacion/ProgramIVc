@@ -8,12 +8,17 @@ using namespace std;
 
 int totalPersonas = Persona::getNumPersonas();
 
+Administrador::Administrador(): Persona()
+{
+    this->sueldo = 0;
+}
+
 Administrador::Administrador(const char * nombre, const char * mail, const char * tlfn, const char * dni, unsigned int sueldo): Persona(nombre, mail, tlfn, dni)
 {
     this->sueldo = sueldo;
 }
 
-Administrador::Administrador(const Administrador &a): Persona(Persona::getNombre(), a.getMail(), a.getTlfn(), a.getDni())
+Administrador::Administrador(const Administrador &a): Persona(a.getNombre(), a.getMail(), a.getTlfn(), a.getDni())
 {
     this->sueldo = a.sueldo;
 }
@@ -26,9 +31,19 @@ Administrador::~Administrador()
     delete[] usuarios;
 }
 
+unsigned int Administrador::getSueldo() const
+{
+    return this->sueldo;
+}
+
+void Administrador::setSueldo(int sueldo)
+{
+    this->sueldo = sueldo;
+}
+
 void Administrador::usuarioDatos()
 {
-    Persona::usuarioDatos();
+    cout << "NOMBRE: " << getNombre() << endl;
     cout<< "Mail: " << getMail() << endl; //Esto va en persona.h
     cout<< "DNI: " << getDni() << endl;
     cout<< "Telefono: " << getTlfn() << endl;
@@ -98,27 +113,6 @@ void Administrador::anyadirAdministrador(const char* nombre, const char * mail, 
         }
     }
 
-    void anyadirPelicula()
-    {
-        sqlite3* db;
-        Pelicula p = anyadirNombrePelicula(db);
-    }
-
-    void eliminarPelicula()
-    {
-        sqlite3* db;
-        Pelicula p = eliminarPeliculas(db);
-    }
-
-    void anyadirCliente()
-    {
-
-    }
-
-    void eliminarCliente()
-    {
-
-    }
 
 /*    void eliminarPelicula(){
         sqlite3* db;

@@ -16,6 +16,8 @@ class Administrador: public Persona
         Administrador(const Administrador &a);
         virtual ~Administrador();
 
+        unsigned int Administrador::getSueldo() const;
+        void Administrador::setSueldo(int sueldo);
 
         virtual void usuarioDatos();
         void consultarDatosClientes();

@@ -37,9 +37,7 @@ int mainAdmin(void)
 			cout<< "1. Visualizar tus datos" << endl << endl;
 			cout<< "2. Anyadir cliente" << endl << endl;
             cout<< "3. Eliminar cliente" << endl << endl;
-            cout<< "4. Anyadir pelicula" << endl << endl;
-            cout<< "5. Eliminar pelicula" << endl << endl;
-			cout<< "6. Cerrar sesion" << endl << endl;
+			cout<< "4. Cerrar sesion" << endl << endl;
 
 			cout<< "Seleccione la opcion que desee: " << endl << endl;
 			scanf("%1d", &opcion);
@@ -60,7 +58,17 @@ int mainAdmin(void)
 			case 2:
                 cout<< endl << endl << "///////////Indique los datos del cliente que quiere anyadir///////////" << endl << endl;
 
-                //metodo para modificar clientes
+				char* nomUsuario;
+				char* contrasenya;
+				char* dni;
+				char* correo;
+				char* tlf;
+				cout<<"Dime el nombre de usuario que quieres anyadir: "<<endl; cin>>nomUsuario;
+				cout<<"Dime la contrasenya del usuario que quieres anyadir: "<<endl; cin>>contrasenya;
+				cout<<"Dime el dni del usuario que quieres anyadir: "<<endl; cin>> dni;
+				cout<<"Dime el correo del usuario que quieres anyadir: "<<endl; cin>>correo;
+				cout<<"Dime el tlfn del usuario que quieres anyadir: "<<endl; cin>>tlf;
+
 
                 cout<< endl << endl << "Presiona cualquier tecla y enter para volver al menu: ";
                 scanf("%d", &opcion);
@@ -68,38 +76,18 @@ int mainAdmin(void)
 				break;
 
             case 3:
+				
                 cout<< endl << endl << "///////////¿Que cliente desea eliminar?///////////" << endl << endl;
-
-                //metodo para eliminar clientes
-
-                cout<< endl << endl << "Presiona cualquier tecla y enter para volver al menu: ";
-                scanf("%d", &opcion);
-				fflush(stdin);
-				break;
-
-            case 4:
-                cout<< endl << endl << "///////////Indique los datos de la pelicula que quiere anyadir///////////" << endl << endl;
-
-                //metodo para añadir peliculas
+				
 
                 cout<< endl << endl << "Presiona cualquier tecla y enter para volver al menu: ";
                 scanf("%d", &opcion);
 				fflush(stdin);
 				break;
 
-            case 5:
-                cout<< endl << endl << "///////////¿Que pelicula deseas eliminar?///////////" << endl << endl;
-
-                //metodo para eliminar peliculas
-
-                cout<< endl << endl << "Presiona cualquier tecla y enter para volver al menu: ";
-                scanf("%d", &opcion);
-				fflush(stdin);
-				break;
-
-			case 6:
+			case 4:
 				cout<< endl << endl << "///////////Has cerrado sesion, hasta pronto!///////////" << endl << endl;
-				opcion = 9;
+				opcion = 6;
 				break;
 				
 			default:

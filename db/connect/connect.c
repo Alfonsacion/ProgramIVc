@@ -124,6 +124,7 @@ int tablaUsuario(sqlite3 *db, char *error)
 
 void agregarUsuario(char *username, char *password, char *dni, char *correo, char *tlf, sqlite3 *db)
 {
+  
 
   FILE *f;
   f = fopen("DatosUsuarios.txt", "a");
@@ -205,6 +206,49 @@ void agregarUsuario(char *username, char *password, char *dni, char *correo, cha
   fclose(f);
   sqlite3_close(db);
 }
+
+void eliminarUsuario(const char* nombreUsuario, sqlite3* db)
+{
+    int rc6 = sqlite3_open("baseDeDatosCine.sqlite", &db);
+    sqlite3_stmt* stmt6;
+
+    const char* sql6 = "DELETE FROM usuario WHERE nombreUsuario = ?";
+    int result = sqlite3_prepare_v2(db, sql6, -1, &stmt6, NULL);
+
+    if (result != SQLITE_OK)
+    {
+        printf("Error al preparar la consulta: %s\n", sqlite3_errmsg(db));
+        printf("%s\n", sqlite3_errmsg(db));
+    }
+
+    result = sqlite3_bind_text(stmt6, 1, nombreUsuario, strlen(nombreUsuario), SQLITE_STATIC);
+
+    if (result != SQLITE_OK)
+    {
+        printf("Error en binding de parametros: %s\n", sqlite3_errmsg(db));
+        printf("%s\n", sqlite3_errmsg(db));
+    }
+
+    result = sqlite3_step(stmt6);
+    if (result != SQLITE_DONE)
+    {
+        printf("Error al eliminar el usuario\n");
+        printf("%s\n", sqlite3_errmsg(db));
+    }
+
+    result = sqlite3_finalize(stmt6);
+    if (result != SQLITE_OK)
+    {
+        printf("Error al cerrar la consulta: %s\n", sqlite3_errmsg(db));
+        printf("%s\n", sqlite3_errmsg(db));
+    }
+
+    sqlite3_close(db);
+    printf("Usuario eliminado correctamente\n");
+}
+
+
+
 
 Usuario leeUsuario(char *user, char *password, sqlite3 *db)
 {

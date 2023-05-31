@@ -7,6 +7,9 @@ using namespace std;
 
 int Persona::numPersonas = 0;
 
+Persona::Persona()
+{
+}
 
 Persona::Persona(const char * nombre, const char * mail, const char * tlfn, const char * dni) 
 {
@@ -77,13 +80,31 @@ char * Persona::getTlfn() const
     return (char*) this->tlfn;
 }
 
-void Persona::usuarioDatos()
-{
-    cout << "NOMBRE: " << this->nombre << endl;
-}
-
-
 int Persona::getNumPersonas()
 {
     return numPersonas;
+}
+
+void Persona::setNombre(char * nombre)
+{
+    this->nombre = nombre;
+}
+
+void Persona::setMail(char * mail)
+{
+    this->mail = mail;
+}
+
+void Persona::setTlfn(char * tlfn){
+    this->tlfn = tlfn;
+}
+
+void Persona::setContrasenya(char * contrasenya)
+{
+    this->contrasenya = contrasenya;
+}
+
+void Persona::setDni(char * dni)
+{
+    this->dni = dni;
 }

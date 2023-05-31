@@ -22,8 +22,14 @@ public:
     char * getMail() const;
     char * getTlfn() const;
     char * getDni() const;
-    virtual void usuarioDatos(); //=visuaslizarDatos
+    virtual void usuarioDatos() = 0;
     static int getNumPersonas();
+
+    void setNombre(char * nombre);
+    void setMail(char * mail);
+    void setTlfn(char * tlfn);
+    void setContrasenya(char * contrasenya);
+    void setDni(char * dni);
 };
 
 
